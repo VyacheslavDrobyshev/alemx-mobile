@@ -24,35 +24,15 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+import Icon from './src/components/Icon';
+import FilledButton from './src/components/FilledButton';
+import OutlinedButton from './src/components/OutlinedButton';
+import TextButton from './src/components/TextButton';
+import SquareButton from './src/components/SquareButton';
+import CirqleButton from './src/components/CirqleButton';
+import BaseCheckbox from './src/components/BaseCheckbox';
+import COLORS from './src/styles/colors';
+import BaseTextInput from './src/components/BaseTextInput';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -73,38 +53,62 @@ function App(): React.JSX.Element {
   const safePadding = '5%';
 
   return (
-    <View style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
+    <View style={{ flex: 1, paddingTop: 100, paddingHorizontal: 20, backgroundColor: COLORS.base1 }}>
+      <FilledButton
+        // disabled
+        title='Test'
+        leftIcon='lock'
+        rightIcon='lock'
+        onPress={() => null}
       />
-      <ScrollView
-        style={backgroundStyle}>
-        <View style={{paddingRight: safePadding}}>
-          <Header/>
-        </View>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-            paddingHorizontal: safePadding,
-            paddingBottom: safePadding,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
+
+      <OutlinedButton
+        // disabled
+        title='Test'
+        leftIcon='lock'
+        rightIcon='lock'
+        onPress={() => null}
+      />
+
+      <TextButton
+        // disabled
+        title='Test'
+        leftIcon='lock'
+        rightIcon='lock'
+        onPress={() => null}
+      />
+
+      <SquareButton
+        // disabled
+        // outline
+        icon='lock'
+        onPress={() => null}
+      />
+
+      <CirqleButton
+        // disabled
+        icon='lock'
+        onPress={() => null}
+      />
+
+      <BaseCheckbox
+        // disabled
+        // error
+        isChecked={false}
+        onPress={() => null}
+      />
+
+      <BaseTextInput
+        // disabled
+        // error="asdad"
+        value="asasdasdsasadd"
+        label='Label'
+        caption='Caption'
+        placeholder="Placeholder"
+        leftIcon='lock'
+        rightIcon='lock'
+        onChangeText={() => {}}
+      />
     </View>
   );
 }
