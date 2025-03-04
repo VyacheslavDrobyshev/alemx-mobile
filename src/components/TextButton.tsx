@@ -1,13 +1,13 @@
 import React, { FC, useState } from 'react';
 
-import { Pressable, StyleProp, StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import Icon, { IconType } from './Icon';
 
 import LoadingIcon from '../assets/icons/loading.svg';
 
-import TYPOGRAPHY from '../styles/typography';
 import COLORS from '../styles/colors';
+import TYPOGRAPHY from '../styles/typography';
 import scale from '../styles/scale';
 
 type Props = {
@@ -16,19 +16,8 @@ type Props = {
     loading?: boolean;
     pressedOpacity?: number;
     leftIcon?: IconType;
-    leftIconColor?: string;
-    leftIconDisabledColor?: string;
-    leftIconContainerStyles?: StyleProp<ViewStyle>;
     rightIcon?: IconType;
-    rightIconColor?: string;
-    rightIconDisabledColor?: string;
-    rightIconContainerStyles?: StyleProp<ViewStyle>;
     title?: string;
-    titleStyles?: StyleProp<TextStyle>;
-    titlePressedStyles?: StyleProp<TextStyle>;
-    titleDisabledStyles?: StyleProp<TextStyle>;
-    containerStyles?: StyleProp<ViewStyle>;
-    containerDisabledStyles?: StyleProp<ViewStyle>;
     onPress: () => void;
 };
 
@@ -39,19 +28,8 @@ const TextButton: FC<Props> = (props) => {
         loading,
         pressedOpacity = 1,
         leftIcon,
-        leftIconColor,
-        leftIconDisabledColor,
-        leftIconContainerStyles,
         rightIcon,
-        rightIconColor,
-        rightIconDisabledColor,
-        rightIconContainerStyles,
         title,
-        titleStyles,
-        titlePressedStyles,
-        titleDisabledStyles,
-        containerStyles,
-        containerDisabledStyles,
         onPress,
     } = props;
 
@@ -64,12 +42,10 @@ const TextButton: FC<Props> = (props) => {
             disabled={disabled}
             style={({ pressed }) => [
                 styles.container,
-                containerStyles,
-                disabled && containerDisabledStyles,
+                disabled && styles.containerDisabled,
                 {
                     opacity: pressed ? pressedOpacity : 1,
                     borderRadius: pressed ? 0 : scale(8),
-                    backgroundColor: disabled ? COLORS.base2 : 'transparent',
                 },
             ]}
             onPress={onPress}
@@ -78,17 +54,13 @@ const TextButton: FC<Props> = (props) => {
         >
             {
                 leftIcon && (
-                    <View style={[styles.leftIconContainer, leftIconContainerStyles]}>
+                    <View style={styles.leftIconContainer}>
                         <Icon
                             name={leftIcon}
-                            width={scale(24)}
-                            height={scale(24)}
                             fill={
                                 isPressed
                                 ? COLORS.main6
-                                : disabled
-                                ? leftIconDisabledColor || COLORS.main9
-                                : leftIconColor
+                                : disabled && COLORS.main9
                             }
                         />
                     </View>
@@ -100,9 +72,8 @@ const TextButton: FC<Props> = (props) => {
                     <Text
                         style={[
                             styles.title,
-                            titleStyles,
-                            isPressed && [styles.titlePressed, titlePressedStyles],
-                            disabled && [styles.titleDisabled, titleDisabledStyles],
+                            isPressed && styles.titlePressed,
+                            disabled && styles.titleDisabled,
                         ]}
                     >
                         {title}
@@ -113,7 +84,7 @@ const TextButton: FC<Props> = (props) => {
             {
                 (rightIcon || loading)
                 && (
-                    <View style={[styles.rightIconContainer, rightIconContainerStyles]}>
+                    <View style={styles.rightIconContainer}>
                         {
                             loading && (
                                 <LoadingIcon
@@ -127,14 +98,10 @@ const TextButton: FC<Props> = (props) => {
                             rightIcon && !loading && (
                                 <Icon
                                     name={rightIcon}
-                                    width={scale(24)}
-                                    height={scale(24)}
                                     fill={
                                         isPressed
                                         ? COLORS.main6
-                                        : disabled
-                                        ? rightIconDisabledColor || COLORS.main9
-                                        : rightIconColor
+                                        : disabled && COLORS.main9
                                     }
                                 />
                             )
@@ -159,6 +126,9 @@ const createStyles = (size: 'big' | 'medium' | 'small' | 'xsmall') => {
                         justifyContent: 'center',
                         paddingHorizontal: scale(24),
                     },
+                    containerDisabled: {
+                        backgroundColor: COLORS.base2,
+                    },
                     leftIconContainer: {
                         marginRight: scale(8),
                         zIndex: 2,
@@ -169,7 +139,7 @@ const createStyles = (size: 'big' | 'medium' | 'small' | 'xsmall') => {
                     },
                     title: {
                         color: COLORS.main1,
-                        ...TYPOGRAPHY.f16_Body_Medium_CAPS,
+                        ...TYPOGRAPHY.f16_Body,
                         zIndex: 2,
                     },
                     titlePressed: {
@@ -202,6 +172,9 @@ const createStyles = (size: 'big' | 'medium' | 'small' | 'xsmall') => {
                         justifyContent: 'center',
                         paddingHorizontal: scale(24),
                     },
+                    containerDisabled: {
+                        backgroundColor: COLORS.base2,
+                    },
                     leftIconContainer: {
                         marginRight: scale(8),
                         zIndex: 2,
@@ -212,7 +185,7 @@ const createStyles = (size: 'big' | 'medium' | 'small' | 'xsmall') => {
                     },
                     title: {
                         color: COLORS.main1,
-                        ...TYPOGRAPHY.f16_Body_Medium_CAPS,
+                        ...TYPOGRAPHY.f16_Body,
                         zIndex: 2,
                     },
                     titlePressed: {
@@ -245,6 +218,9 @@ const createStyles = (size: 'big' | 'medium' | 'small' | 'xsmall') => {
                         justifyContent: 'center',
                         paddingHorizontal: scale(24),
                     },
+                    containerDisabled: {
+                        backgroundColor: COLORS.base2,
+                    },
                     leftIconContainer: {
                         marginRight: scale(8),
                         zIndex: 2,
@@ -255,7 +231,7 @@ const createStyles = (size: 'big' | 'medium' | 'small' | 'xsmall') => {
                     },
                     title: {
                         color: COLORS.main1,
-                        ...TYPOGRAPHY.f16_Body_Medium_CAPS,
+                        ...TYPOGRAPHY.f16_Body,
                         zIndex: 2,
                     },
                     titlePressed: {
@@ -288,6 +264,9 @@ const createStyles = (size: 'big' | 'medium' | 'small' | 'xsmall') => {
                         justifyContent: 'center',
                         paddingHorizontal: scale(24),
                     },
+                    containerDisabled: {
+                        backgroundColor: COLORS.base2,
+                    },
                     leftIconContainer: {
                         marginRight: scale(8),
                         zIndex: 2,
@@ -298,7 +277,7 @@ const createStyles = (size: 'big' | 'medium' | 'small' | 'xsmall') => {
                     },
                     title: {
                         color: COLORS.main1,
-                        ...TYPOGRAPHY.f16_Body_Medium_CAPS,
+                        ...TYPOGRAPHY.f16_Body,
                         zIndex: 2,
                     },
                     titlePressed: {

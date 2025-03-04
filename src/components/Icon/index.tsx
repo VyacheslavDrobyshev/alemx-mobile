@@ -1,9 +1,13 @@
 import React, { FC } from 'react';
 
 import LockIcon from './LockIcon';
+import MinusIcon from './MinusIcon';
+import PlusIcon from './PlusIcon';
 
 const icons = {
     lock: LockIcon,
+    minus: MinusIcon,
+    plus: PlusIcon,
 };
 
 export type IconType = keyof typeof icons;

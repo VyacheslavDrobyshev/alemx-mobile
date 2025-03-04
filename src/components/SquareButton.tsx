@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 
-import { Pressable, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 
 import Icon, { IconType } from './Icon';
 
@@ -16,11 +16,6 @@ type Props = {
     loading?: boolean;
     pressedOpacity?: number;
     icon: IconType;
-    iconColor?: string;
-    iconDisabledColor?: string;
-    containerStyles?: StyleProp<ViewStyle>;
-    containerDisabledStyles?: StyleProp<ViewStyle>;
-    shadowStyles?: StyleProp<ViewStyle>;
     onPress: () => void;
 };
 
@@ -32,11 +27,6 @@ const SquareButton: FC<Props> = (props) => {
         loading,
         pressedOpacity = 1,
         icon,
-        iconColor,
-        iconDisabledColor,
-        containerStyles,
-        containerDisabledStyles,
-        shadowStyles,
         onPress,
     } = props;
 
@@ -49,8 +39,7 @@ const SquareButton: FC<Props> = (props) => {
             disabled={disabled}
             style={({ pressed }) => [
                 styles.container,
-                containerStyles,
-                disabled && [styles.containerDisabled, containerDisabledStyles],
+                disabled && styles.containerDisabled,
                 { opacity: pressed ? pressedOpacity : 1 },
             ]}
             onPress={onPress}
@@ -68,27 +57,12 @@ const SquareButton: FC<Props> = (props) => {
                 : (
                     <Icon
                         name={icon}
-                        width={scale(24)}
-                        height={scale(24)}
-                        fill={
-                            disabled
-                            ? iconDisabledColor || COLORS.main9
-                            : iconColor
-                        }
+                        fill={disabled && COLORS.main9}
                     />
                 )
             }
 
-            {
-                isPressed && (
-                    <View
-                        style={[
-                            styles.shadow,
-                            shadowStyles,
-                        ]}
-                    />
-                )
-            }
+            {isPressed && <View style={styles.shadow} />}
         </Pressable>
     );
 };

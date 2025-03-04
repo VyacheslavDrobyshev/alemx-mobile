@@ -8,6 +8,7 @@
 import React from 'react';
 import type {PropsWithChildren} from 'react';
 import {
+  SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -33,6 +34,13 @@ import CirqleButton from './src/components/CirqleButton';
 import BaseCheckbox from './src/components/BaseCheckbox';
 import COLORS from './src/styles/colors';
 import BaseTextInput from './src/components/BaseTextInput';
+import BaseToggle from './src/components/BaseToggle';
+import Avatar from './src/components/Avatar';
+import CodeTextInput from './src/components/CodeTextInput';
+import Badge from './src/components/Badge';
+import NumberInput from './src/components/NumberInput';
+import CustomScrollView from './src/components/CustomScrollView';
+import RangeSlider from './src/components/RangeSlider';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -53,52 +61,52 @@ function App(): React.JSX.Element {
   const safePadding = '5%';
 
   return (
-    <View style={{ flex: 1, paddingTop: 100, paddingHorizontal: 20, backgroundColor: COLORS.base1 }}>
-      <FilledButton
+    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.base1 }}>
+      {/* <FilledButton
         // disabled
         title='Test'
         leftIcon='lock'
         rightIcon='lock'
         onPress={() => null}
-      />
+      /> */}
 
-      <OutlinedButton
+      {/* <OutlinedButton
         // disabled
         title='Test'
         leftIcon='lock'
         rightIcon='lock'
         onPress={() => null}
-      />
+      /> */}
 
-      <TextButton
+      {/* <TextButton
         // disabled
         title='Test'
         leftIcon='lock'
         rightIcon='lock'
         onPress={() => null}
-      />
+      /> */}
 
-      <SquareButton
+      {/* <SquareButton
         // disabled
         // outline
         icon='lock'
         onPress={() => null}
-      />
+      /> */}
 
-      <CirqleButton
+      {/* <CirqleButton
         // disabled
         icon='lock'
         onPress={() => null}
-      />
+      /> */}
 
-      <BaseCheckbox
+      {/* <BaseCheckbox
         // disabled
         // error
-        isChecked={false}
+        isChecked={true}
         onPress={() => null}
-      />
+      /> */}
 
-      <BaseTextInput
+      {/* <BaseTextInput
         // disabled
         // error="asdad"
         value="asasdasdsasadd"
@@ -108,8 +116,46 @@ function App(): React.JSX.Element {
         leftIcon='lock'
         rightIcon='lock'
         onChangeText={() => {}}
+      /> */}
+
+      {/* <BaseToggle
+        // disabled
+        isEnabled={false}
+        label='Label'
+        onPress={() => null}
+      /> */}
+
+      {/* <Avatar
+        source={{ uri: 'https://easydrawingguides.com/wp-content/uploads/2021/05/Aang-Step-10.png' }}
+        isActive={true}
+      /> */}
+
+      {/* <CodeTextInput
+        // disabled
+        // error
+        value="1"
+        onChangeText={() => {}}
+      /> */}
+
+      {/* <Badge placeholder="Placeholder" color="red" /> */}
+
+      {/* <NumberInput
+        // disabled
+        // error='Error text'
+        value={1}
+        setValue={() => null}
+        label="Label"
+        caption='Caption'
+      /> */}
+
+      {/* <CustomScrollView>
+        <View style={{ height: 2_000 }} />
+      </CustomScrollView> */}
+
+      <RangeSlider
+        // setValue={() => {}}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 

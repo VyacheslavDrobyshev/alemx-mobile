@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 
-import { Pressable, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 
 import CheckMarkIcon from '../assets/icons/check-mark.svg';
 
@@ -12,12 +12,6 @@ type Props = {
     disabled?: boolean;
     error?: boolean;
     pressedOpacity?: number;
-    containerStyles?: StyleProp<ViewStyle>;
-    containerCheckedStyles?: StyleProp<ViewStyle>;
-    containerPressedStyles?: StyleProp<ViewStyle>;
-    containerDisabledStyles?: StyleProp<ViewStyle>;
-    containerErrorStyles?: StyleProp<ViewStyle>;
-    shadowStyles?: StyleProp<ViewStyle>;
     onPress: () => void;
 };
 
@@ -27,16 +21,10 @@ const BaseCheckbox: FC<Props> = (props) => {
         disabled,
         error,
         pressedOpacity = 1,
-        containerStyles,
-        containerCheckedStyles,
-        containerPressedStyles,
-        containerDisabledStyles,
-        containerErrorStyles,
-        shadowStyles,
         onPress,
     } = props;
 
-    const styles = createStyles(isChecked);
+    const styles = createStyles();
 
     const [isPressed, setIsPressed] = useState<boolean>(false);
 
@@ -45,11 +33,14 @@ const BaseCheckbox: FC<Props> = (props) => {
             disabled={disabled}
             style={({ pressed }) => [
                 styles.container,
-                containerStyles,
-                isChecked && [styles.containerChecked, containerCheckedStyles],
-                isPressed && [styles.containerPressed, containerPressedStyles],
-                disabled && [styles.containerDisabled, containerDisabledStyles],
-                error && [styles.containerError, containerErrorStyles],
+                isPressed && styles.containerPressed,
+                disabled && styles.containerDisabled,
+                error && styles.containerError,
+                isChecked && [
+                    styles.containerChecked,
+                    disabled && styles.containerCheckedDisabled,
+                    error && styles.containerCheckedError,
+                ],
                 { opacity: pressed ? pressedOpacity : 1 },
             ]}
             onPress={onPress}
@@ -57,22 +48,12 @@ const BaseCheckbox: FC<Props> = (props) => {
             onPressOut={() => setIsPressed(false)}
         >
             {isChecked && <CheckMarkIcon width={scale(16)} height={scale(16)} />}
-
-            {
-                isPressed && (
-                    <View
-                        style={[
-                            styles.shadow,
-                            shadowStyles,
-                        ]}
-                    />
-                )
-            }
+            {isPressed && <View style={styles.shadow} />}
         </Pressable>
     );
 };
 
-const createStyles = (isChecked: boolean) => {
+const createStyles = () => {
     return (
         StyleSheet.create({
             container: {
@@ -85,20 +66,24 @@ const createStyles = (isChecked: boolean) => {
                 borderRadius: scale(2),
                 borderColor: COLORS.main9,
             },
-            containerChecked: {
-                borderWidth: 0,
-                backgroundColor: COLORS.main4,
-            },
             containerPressed: {
                 borderColor: COLORS.main4,
             },
             containerDisabled: {
                 borderColor: COLORS.main8,
-                backgroundColor: isChecked ? COLORS.main8 : 'transparent'
             },
             containerError: {
                 borderColor: COLORS.main5,
-                backgroundColor: isChecked ? COLORS.main5 : 'transparent',
+            },
+            containerChecked: {
+                borderColor: 'transparent',
+                backgroundColor: COLORS.main4,
+            },
+            containerCheckedDisabled: {
+                backgroundColor: COLORS.main8,
+            },
+            containerCheckedError: {
+                backgroundColor: COLORS.main5,
             },
             shadow: {
                 position: 'absolute',

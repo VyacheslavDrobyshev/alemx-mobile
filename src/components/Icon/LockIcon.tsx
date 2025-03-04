@@ -2,6 +2,8 @@ import React, { FC, memo } from 'react';
 
 import Svg, { Path, Circle } from 'react-native-svg';
 
+import scale from '../../styles/scale';
+
 type Props = {
     width?: number;
     height?: number;
@@ -18,8 +20,8 @@ const SvgComponent: FC<Props> = (props) => {
     return (
         <Svg
             viewBox='0 0 24 24 '
-            width={width || 24}
-            height={height || 24}
+            width={width || scale(24)}
+            height={height || scale(24)}
             fill="none"
         >
             <Path

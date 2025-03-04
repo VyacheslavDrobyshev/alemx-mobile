@@ -1,13 +1,13 @@
 import React, { FC, useState } from 'react';
 
-import { Pressable, StyleProp, StyleSheet, TextStyle, View, ViewStyle, Text, TextInput } from 'react-native';
+import { Pressable, StyleSheet, View, Text, TextInput } from 'react-native';
 
 import Icon, { IconType } from './Icon';
 
-import COLORS from '../styles/colors';
-import scale from '../styles/scale';
-import TYPOGRAPHY from '../styles/typography';
 import SPACING from '../styles/spacing';
+import COLORS from '../styles/colors';
+import TYPOGRAPHY from '../styles/typography';
+import scale from '../styles/scale';
 
 type Props = {
     size?: 'medium' | 'small' | 'xsmall';
@@ -16,20 +16,9 @@ type Props = {
     value: string;
     placeholder?: string;
     label?: string;
-    labelStyles?: StyleProp<TextStyle>;
     caption?: string;
-    captionStyles?: StyleProp<TextStyle>;
     leftIcon?: IconType;
-    leftIconColor?: string;
-    leftIconDisabledColor?: string;
     rightIcon?: IconType;
-    rightIconColor?: string;
-    rightIconDisabledColor?: string;
-    rightIconContainerStyles?: StyleProp<ViewStyle>;
-    inputContainerStyles?: StyleProp<ViewStyle>;
-    containerStyles?: StyleProp<ViewStyle>;
-    containerDisabledStyles?: StyleProp<ViewStyle>;
-    containerErrorStyles?: StyleProp<ViewStyle>;
     onChangeText: (text: string) => void;
 };
 
@@ -41,19 +30,9 @@ const BaseTextInput: FC<Props> = (props) => {
         value,
         placeholder,
         label,
-        labelStyles,
         caption,
-        captionStyles,
         leftIcon,
-        leftIconColor,
-        leftIconDisabledColor,
         rightIcon,
-        rightIconColor,
-        rightIconDisabledColor,
-        rightIconContainerStyles,
-        inputContainerStyles,
-        containerStyles,
-        containerDisabledStyles,
         onChangeText,
     } = props;
 
@@ -62,23 +41,12 @@ const BaseTextInput: FC<Props> = (props) => {
     const [isFocused, setIsFocused] = useState<boolean>(false);
 
     return (
-        <View
-            style={[
-                styles.container,
-                containerStyles,
-                disabled && containerDisabledStyles,
-            ]}
-        >
-            {
-                label && (
-                    <Text style={[styles.label, labelStyles]}>{label}</Text>
-                )
-            }
+        <View style={styles.container}>
+            {label && <Text style={styles.label}>{label}</Text>}
 
             <View
                 style={[
                     styles.inputContainer,
-                    inputContainerStyles,
                     isFocused && styles.inputContainerFocused,
                     error && styles.inputContainerError,
                     disabled && styles.inputContainerDisabled,
@@ -89,13 +57,7 @@ const BaseTextInput: FC<Props> = (props) => {
                         <View style={styles.leftIconContainer}>
                             <Icon
                                 name={leftIcon}
-                                width={scale(24)}
-                                height={scale(24)}
-                                fill={
-                                    disabled
-                                    ? leftIconDisabledColor || COLORS.main9
-                                    : leftIconColor || COLORS.main3
-                                }
+                                fill={disabled ? COLORS.main9 : COLORS.main3}
                             />
                         </View>
                     )
@@ -119,13 +81,7 @@ const BaseTextInput: FC<Props> = (props) => {
                         >
                             <Icon
                                 name={rightIcon}
-                                width={scale(24)}
-                                height={scale(24)}
-                                fill={
-                                    disabled
-                                    ? rightIconDisabledColor || COLORS.main9
-                                    : rightIconColor || COLORS.main3
-                                }
+                                fill={disabled ? COLORS.main9 : COLORS.main3}
                             />
                         </Pressable>
                     )
@@ -136,7 +92,7 @@ const BaseTextInput: FC<Props> = (props) => {
                 error && !disabled
                 ? <Text style={styles.errorText}>{error}</Text>
                 : caption
-                ? <Text style={[styles.caption, captionStyles]}>{caption}</Text>
+                ? <Text style={styles.caption}>{caption}</Text>
                 : null
             }
         </View>
@@ -154,7 +110,7 @@ const createStyles = (size: 'medium' | 'small' | 'xsmall') => {
                     label: {
                         marginBottom: SPACING.sm,
                         color: COLORS.main2,
-                        ...TYPOGRAPHY.f11_Body_Regular,
+                        ...TYPOGRAPHY.f11_Body,
                     },
                     leftIconContainer: {
                         marginRight: SPACING.sm,
@@ -180,8 +136,10 @@ const createStyles = (size: 'medium' | 'small' | 'xsmall') => {
                         borderColor: COLORS.main5,
                     },
                     input: {
+                        paddingVertical: 0,
+                        paddingHorizontal: 0,
                         color: COLORS.main1,
-                        ...TYPOGRAPHY.f9_Body_Large,
+                        ...TYPOGRAPHY.f9_Body,
                     },
                     rightIconContainer: {
                         marginLeft: SPACING.sm,
@@ -189,12 +147,12 @@ const createStyles = (size: 'medium' | 'small' | 'xsmall') => {
                     caption: {
                         marginTop: SPACING.sm,
                         color: COLORS.main2,
-                        ...TYPOGRAPHY.f13_Body_Small_Regular,
+                        ...TYPOGRAPHY.f13_Body,
                     },
                     errorText: {
                         marginTop: SPACING.sm,
                         color: COLORS.main5,
-                        ...TYPOGRAPHY.f13_Body_Small_Regular,
+                        ...TYPOGRAPHY.f13_Body,
                     },
                 })
             );
@@ -207,7 +165,7 @@ const createStyles = (size: 'medium' | 'small' | 'xsmall') => {
                     label: {
                         marginBottom: SPACING.sm,
                         color: COLORS.main2,
-                        ...TYPOGRAPHY.f11_Body_Regular,
+                        ...TYPOGRAPHY.f11_Body,
                     },
                     leftIconContainer: {
                         marginRight: SPACING.sm,
@@ -233,8 +191,10 @@ const createStyles = (size: 'medium' | 'small' | 'xsmall') => {
                         borderColor: COLORS.main5,
                     },
                     input: {
+                        paddingVertical: 0,
+                        paddingHorizontal: 0,
                         color: COLORS.main1,
-                        ...TYPOGRAPHY.f9_Body_Large,
+                        ...TYPOGRAPHY.f9_Body,
                     },
                     rightIconContainer: {
                         marginLeft: SPACING.sm,
@@ -242,12 +202,12 @@ const createStyles = (size: 'medium' | 'small' | 'xsmall') => {
                     caption: {
                         marginTop: SPACING.sm,
                         color: COLORS.main2,
-                        ...TYPOGRAPHY.f13_Body_Small_Regular,
+                        ...TYPOGRAPHY.f13_Body,
                     },
                     errorText: {
                         marginTop: SPACING.sm,
                         color: COLORS.main5,
-                        ...TYPOGRAPHY.f13_Body_Small_Regular,
+                        ...TYPOGRAPHY.f13_Body,
                     },
                 })
             );
@@ -260,7 +220,7 @@ const createStyles = (size: 'medium' | 'small' | 'xsmall') => {
                     label: {
                         marginBottom: SPACING.sm,
                         color: COLORS.main2,
-                        ...TYPOGRAPHY.f11_Body_Regular,
+                        ...TYPOGRAPHY.f11_Body,
                     },
                     leftIconContainer: {
                         marginRight: SPACING.sm,
@@ -286,8 +246,10 @@ const createStyles = (size: 'medium' | 'small' | 'xsmall') => {
                         borderColor: COLORS.main5,
                     },
                     input: {
+                        paddingVertical: 0,
+                        paddingHorizontal: 0,
                         color: COLORS.main1,
-                        ...TYPOGRAPHY.f9_Body_Large,
+                        ...TYPOGRAPHY.f9_Body,
                     },
                     rightIconContainer: {
                         marginLeft: SPACING.sm,
@@ -295,12 +257,12 @@ const createStyles = (size: 'medium' | 'small' | 'xsmall') => {
                     caption: {
                         marginTop: SPACING.sm,
                         color: COLORS.main2,
-                        ...TYPOGRAPHY.f13_Body_Small_Regular,
+                        ...TYPOGRAPHY.f13_Body,
                     },
                     errorText: {
                         marginTop: SPACING.sm,
                         color: COLORS.main5,
-                        ...TYPOGRAPHY.f13_Body_Small_Regular,
+                        ...TYPOGRAPHY.f13_Body,
                     },
                 })
             );
