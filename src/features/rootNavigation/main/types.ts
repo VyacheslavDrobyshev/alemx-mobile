@@ -4,6 +4,11 @@ import { MainRoute } from './constants';
 
 export type MainParamList = {
   [MainRoute.Wallet]: undefined;
+  [MainRoute.Deposit]: undefined;
+  [MainRoute.DepositDetails]: undefined;
+  [MainRoute.Withdraw]: undefined;
+  [MainRoute.WithdrawDetails]: undefined;
+  [MainRoute.History]: undefined;
 };
 
 export type MainNavigationProp<

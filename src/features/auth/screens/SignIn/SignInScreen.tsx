@@ -53,7 +53,7 @@ export const SignInScreen: FC = () => {
   });
 
   return (
-    <AppScreen>
+    <AppScreen withHeader={false}>
       <AppView gap={20} flex={1} justifyContent={'center'}>
         <AppInput
           {...fields.email}
@@ -77,7 +77,7 @@ export const SignInScreen: FC = () => {
           </AppText>
           <AppText
             onPress={signUpNavigateHandler}
-            color={colors.inputActiveColor}
+            color={colors.buttonPrimary}
             textStyle={'medium_12_18'}>
             Create a new one
           </AppText>
@@ -86,7 +86,7 @@ export const SignInScreen: FC = () => {
       <AppButton
         isLoading={isLoading}
         disabled={!formik.isValid}
-        title={'Login'}
+        title={'LOGIN'}
         onPress={formik.submitForm}
       />
     </AppScreen>

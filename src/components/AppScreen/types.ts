@@ -5,4 +5,6 @@ export type AppScreenProps = {
   children: ElementChildrenType;
   backgroundColor?: AppColorValue;
   noScroll?: boolean;
+  withHeader?: boolean;
+  title?: string;
 };

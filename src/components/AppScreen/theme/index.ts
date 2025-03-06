@@ -8,5 +8,8 @@ export const getScreenTheme = (colors: AppColorScheme): AppScreenTheme => {
       paddingHorizontal: 15,
       backgroundColor: colors.primary,
     },
+    contentContainerStyle: {
+      flexGrow: 1,
+    },
   };
 };

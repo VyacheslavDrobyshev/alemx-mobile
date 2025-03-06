@@ -16,7 +16,7 @@ export const getButtonTheme = (colors: AppColorScheme): AppButtonTheme => {
     disabled: {
       container: {
         ...container,
-        backgroundColor: colors.buttonDisabled,
+        backgroundColor: colors.primaryLightColor,
       },
       text: { color: colors.buttonDisabledText },
     },

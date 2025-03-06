@@ -4,6 +4,12 @@ import CrossEye from './icons/CrossEye';
 import Cross from './icons/Cross';
 import User from './icons/User';
 import Lock from './icons/Lock';
+import ArrowLeft from './icons/ArrowLeft';
+import ArrowDown from './icons/ArrowDown';
+import List from './icons/List';
+import Money from './icons/Money';
+import ExternalLink from './icons/ExternalLink';
+import Switch from './icons/Switch';
 
 export const appIcons = {
   Message,
@@ -12,4 +18,10 @@ export const appIcons = {
   Cross,
   User,
   Lock,
+  ArrowLeft,
+  ArrowDown,
+  List,
+  Money,
+  ExternalLink,
+  Switch,
 } as const;

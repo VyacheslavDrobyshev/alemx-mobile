@@ -7,4 +7,7 @@ export type ScreenTheme = {
 
 export type AppScreenTheme = {
   default: ScreenTheme;
+  contentContainerStyle: {
+    flexGrow: number;
+  };
 };
