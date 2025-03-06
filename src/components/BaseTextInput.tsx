@@ -266,7 +266,7 @@ const createStyles = (size: 'medium' | 'small' | 'xsmall') => {
                     },
                 })
             );
-    };
+    }
 };
 
 export default BaseTextInput;

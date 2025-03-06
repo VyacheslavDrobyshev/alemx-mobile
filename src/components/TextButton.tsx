@@ -80,7 +80,7 @@ const TextButton: FC<Props> = (props) => {
                     </Text>
                 )
             }
-            
+
             {
                 (rightIcon || loading)
                 && (
@@ -299,7 +299,7 @@ const createStyles = (size: 'big' | 'medium' | 'small' | 'xsmall') => {
                     },
                 })
             );
-    };
+    }
 };
 
 export default TextButton;

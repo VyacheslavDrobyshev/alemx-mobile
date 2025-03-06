@@ -73,7 +73,7 @@ const FilledButton: FC<Props> = (props) => {
                     </Text>
                 )
             }
-            
+
             {
                 (rightIcon || loading)
                 && (
@@ -98,7 +98,7 @@ const FilledButton: FC<Props> = (props) => {
                     </View>
                 )
             }
-            
+
             {isPressed && <View style={styles.shadow} />}
         </Pressable>
     );
@@ -286,7 +286,7 @@ const createStyles = (size: 'big' | 'medium' | 'small' | 'xsmall') => {
                     },
                 })
             );
-    };
+    }
 };
 
 export default FilledButton;

@@ -19,12 +19,12 @@ const SvgComponent: FC<Props> = (props) => {
 
     return (
         <Svg
-            viewBox='0 0 24 24 '
+            viewBox="0 0 24 24 "
             width={width || scale(24)}
             height={height || scale(24)}
             fill="none"
         >
-            <Path stroke={fill || "#8C8D95"} strokeLinecap="round" d="M18 12H6" />
+            <Path stroke={fill || '#8C8D95'} strokeLinecap="round" d="M18 12H6" />
         </Svg>
     );
 };

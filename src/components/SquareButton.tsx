@@ -45,7 +45,7 @@ const SquareButton: FC<Props> = (props) => {
             onPress={onPress}
             onPressIn={() => setIsPressed(true)}
             onPressOut={() => setIsPressed(false)}
-        > 
+        >
             {
                 loading
                 ? (
@@ -162,7 +162,7 @@ const createStyles = (outline: boolean, size: 'medium' | 'small' | 'xsmall') => 
                     },
                 })
             );
-    };
+    }
 };
 
 export default SquareButton;

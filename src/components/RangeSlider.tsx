@@ -17,7 +17,7 @@ const RangeSlider: FC<Props> = (props) => {
         maxValue = 100,
         step = 1,
         // setValue,
-    } = props
+    } = props;
 
     const [value, setValue] = useState(minValue);
 
@@ -32,9 +32,9 @@ const RangeSlider: FC<Props> = (props) => {
                 step={step}
                 value={value}
                 onValueChange={setValue}
-                minimumTrackTintColor='#1E90FF'
-                maximumTrackTintColor='#D3D3D3'
-                thumbTintColor='#1E90FF'
+                minimumTrackTintColor="#1E90FF"
+                maximumTrackTintColor="#D3D3D3"
+                thumbTintColor="#1E90FF"
             />
 
             <View style={styles.rangeLabels}>

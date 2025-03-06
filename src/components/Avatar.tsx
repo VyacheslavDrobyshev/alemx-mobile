@@ -180,7 +180,7 @@ const createStyles = (size: 'big' | 'medium' | 'small' | 'xsmall') => {
                     },
                 })
             );
-    };
+    }
 };
 
 export default Avatar;

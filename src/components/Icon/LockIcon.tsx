@@ -19,7 +19,7 @@ const SvgComponent: FC<Props> = (props) => {
 
     return (
         <Svg
-            viewBox='0 0 24 24 '
+            viewBox="0 0 24 24 "
             width={width || scale(24)}
             height={height || scale(24)}
             fill="none"

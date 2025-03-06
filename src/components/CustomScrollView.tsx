@@ -28,7 +28,7 @@ const CustomScrollView: FC<Props> = (props) => {
 
         if (!indicatorVisible) {
             setIndicatorVisible(true);
-        };
+        }
 
         let newIndicatorHeight = scale(60);
 
@@ -37,7 +37,7 @@ const CustomScrollView: FC<Props> = (props) => {
             newIndicatorHeight = Math.max(newIndicatorHeight, scale(40));
         } else {
             newIndicatorHeight = containerHeight;
-        };
+        }
 
         setIndicatorHeight(newIndicatorHeight);
 
@@ -49,11 +49,11 @@ const CustomScrollView: FC<Props> = (props) => {
             const newIndicatorPosition = scrollPercentage * maxIndicatorMove;
 
             setIndicatorPosition(newIndicatorPosition);
-        };
+        }
 
         if (scrollTimeoutRef.current) {
             clearTimeout(scrollTimeoutRef.current);
-        };
+        }
 
         scrollTimeoutRef.current = setTimeout(() => {
             setIndicatorVisible(false);
@@ -83,7 +83,7 @@ const CustomScrollView: FC<Props> = (props) => {
                 {children}
             </ScrollView>
 
-        
+
             {
                 indicatorVisible && (
                     <View style={styles.scrollIndicatorContainer}>

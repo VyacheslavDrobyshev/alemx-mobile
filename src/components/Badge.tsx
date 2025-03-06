@@ -29,7 +29,7 @@ const Badge: FC<Props> = (props) => {
                         ? COLORS.main12
                         : color === 'red'
                         ? COLORS.main5
-                        : COLORS.main7
+                        : COLORS.main7,
                 },
             ]}
         >

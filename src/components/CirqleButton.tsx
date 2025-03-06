@@ -43,7 +43,7 @@ const CirqleButton: FC<Props> = (props) => {
             onPress={onPress}
             onPressIn={() => setIsPressed(true)}
             onPressOut={() => setIsPressed(false)}
-        > 
+        >
             {
                 loading
                 ? (
@@ -151,7 +151,7 @@ const createStyles = (size: 'medium' | 'small' | 'xsmall') => {
                     },
                 })
             );
-    };
+    }
 };
 
 export default CirqleButton;
