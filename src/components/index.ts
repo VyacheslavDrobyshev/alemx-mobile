@@ -6,3 +6,4 @@ export * from './AppScrollView/AppScrollView';
 export * from './AppInput/AppInput';
 export * from './AppErrorText/AppErrorText';
 export * from './AppIcon/AppIcon';
+export * from './AppModal';

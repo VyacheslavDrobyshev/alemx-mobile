@@ -1,13 +1,29 @@
-import { AppIcon, AppText, AppView } from '@app/components';
+import { AppIcon, AppText, AppView, useAppBottomDrawer } from '@app/components';
 import { AccountValue } from '@app/features/wallet/screens/Wallet/components/AccountValue/AccountValue.tsx';
 import { useSelector } from 'react-redux';
 import { selectUserWallets } from '@app/features/wallet/screens/Wallet/redux/selectors.ts';
 import { CryptoCurrencyList } from '@app/features/wallet/screens/Wallet/components/CryptoCurrencyList/CryptoCurrencyList.tsx';
 import { useAppTheme } from '@app/theme';
+import { useCallback } from 'react';
 
 export const DigitalAssetsTab = () => {
   const wallets = useSelector(selectUserWallets) ?? [];
   const { colors } = useAppTheme();
+
+  const { openBottomDrawer } = useAppBottomDrawer();
+
+  const onOpenSettings = useCallback(() => {
+    openBottomDrawer({
+      body: (
+        <AppView backgroundColor={colors.primaryLightColor} height={100}>
+          <AppText>dbfsdhkbfsdjfh</AppText>
+        </AppView>
+      ),
+      closeOnBackdropPress: true,
+      withCloseButton: true,
+    });
+  }, [colors.primaryLightColor, openBottomDrawer]);
+
   return (
     <AppView flex={1}>
       <AccountValue />
@@ -19,7 +35,11 @@ export const DigitalAssetsTab = () => {
         <AppText textStyle={'regular_12_18'} color={colors.inputLabelColor}>
           Cryptocurrencies
         </AppText>
-        <AppIcon name={'Settings'} color={colors.inputLabelColor} />
+        <AppIcon
+          onPress={onOpenSettings}
+          name={'Settings'}
+          color={colors.inputLabelColor}
+        />
       </AppView>
       <CryptoCurrencyList wallets={wallets} />
     </AppView>

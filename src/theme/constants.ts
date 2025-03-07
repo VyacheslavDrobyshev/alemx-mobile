@@ -5,6 +5,9 @@ import { getScreenTheme } from '@app/components/AppScreen/theme';
 import { getButtonTheme } from '../components/AppButton/theme';
 import { getTypographyTheme } from '../components/AppText/theme';
 import { getCryptoCurrencyListTheme } from '@app/features/wallet/screens/Wallet/components/CryptoCurrencyList/theme';
+import { getModalContainerTheme } from '@app/components/AppModal/components/AppModalContainer/theme';
+import { getDialogTheme } from '@app/components/AppModal/components/AppDialog/theme';
+import { getDrawerTheme } from '@app/components/AppModal/components/AppBottomDrawer/theme';
 
 export const coreTheme = {
   colors: (colors: AppColorScheme) => colors,
@@ -13,4 +16,7 @@ export const coreTheme = {
   input: getInputTheme,
   screen: getScreenTheme,
   cryptoCurrencyList: getCryptoCurrencyListTheme,
+  modalContainer: getModalContainerTheme,
+  dialog: getDialogTheme,
+  drawer: getDrawerTheme,
 } as const;

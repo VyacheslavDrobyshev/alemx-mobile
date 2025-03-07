@@ -22,6 +22,7 @@ export const lightThemeColors = {
 
   transparent: 'transparent',
   placeholder: '#B1B1B1',
+  modalOverlay: '#000000cc',
 } as const;
 
 export const darkThemeColors = {
@@ -48,4 +49,5 @@ export const darkThemeColors = {
 
   transparent: 'transparent',
   placeholder: '#B1B1B1',
+  modalOverlay: '#000000cc',
 } as const;
