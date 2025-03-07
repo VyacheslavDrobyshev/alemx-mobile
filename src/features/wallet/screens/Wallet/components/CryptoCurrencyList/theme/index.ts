@@ -8,6 +8,7 @@ export const getCryptoCurrencyListTheme = (
   return {
     contentContainerStyle: {
       paddingBottom: 30,
+      flexGrow: 1,
     },
     itemContainer: {
       borderWidth: 1,

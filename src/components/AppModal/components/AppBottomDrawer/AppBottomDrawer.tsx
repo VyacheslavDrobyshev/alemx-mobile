@@ -1,4 +1,6 @@
 import React, { FC } from 'react';
+import { BlurView } from '@react-native-community/blur';
+
 import { StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { noop } from 'lodash';
 import { AppView } from '@app/components/AppView/AppView';
@@ -10,7 +12,6 @@ import { AppBottomDrawerHeader } from '@app/components';
 export const AppBottomDrawer: FC<AppBottomDrawerProps> = props => {
   const {
     theme,
-    top,
     bottom,
     onClose,
     body,
@@ -19,17 +20,16 @@ export const AppBottomDrawer: FC<AppBottomDrawerProps> = props => {
     title,
     withCloseButton,
     closeOnBackdropPress = true,
-    safeTop,
     subTitle,
   } = useAppBottomDrawerComponent(props);
 
   return (
     <AppView flex={1} justifyContent="flex-end">
       <TouchableWithoutFeedback onPress={closeOnBackdropPress ? onClose : noop}>
-        <AppView
+        <BlurView
           style={StyleSheet.absoluteFill}
-          backgroundColor={theme.modalContainer.backdropColor}
-          minHeight={safeTop ? top : undefined}
+          blurType="dark"
+          blurAmount={5}
         />
       </TouchableWithoutFeedback>
       <AppView

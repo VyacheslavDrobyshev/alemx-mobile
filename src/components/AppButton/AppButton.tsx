@@ -36,9 +36,8 @@ export const AppButton: FC<AppButtonProps> = React.memo(props => {
       {leftIcon && (
         <AppIcon
           name={leftIcon}
-          height={iconHeight}
           marginRight={iconMargin}
-          stroke={textProps.color}
+          color={textProps.color}
         />
       )}
       {!!title && (

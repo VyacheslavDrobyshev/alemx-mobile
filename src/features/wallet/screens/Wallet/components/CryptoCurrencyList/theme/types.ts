@@ -3,6 +3,7 @@ import { AppColorValue } from '@app/theme/types';
 export type AppScreenTheme = {
   contentContainerStyle: {
     paddingBottom: number;
+    flexGrow: number;
   };
   itemContainer: {
     borderWidth: number;

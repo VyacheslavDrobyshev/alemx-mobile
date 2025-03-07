@@ -1,13 +1,10 @@
 import { AppIcon, AppText, AppView, useAppBottomDrawer } from '@app/components';
 import { AccountValue } from '@app/features/wallet/screens/Wallet/components/AccountValue/AccountValue.tsx';
-import { useSelector } from 'react-redux';
-import { selectUserWallets } from '@app/features/wallet/screens/Wallet/redux/selectors.ts';
 import { CryptoCurrencyList } from '@app/features/wallet/screens/Wallet/components/CryptoCurrencyList/CryptoCurrencyList.tsx';
 import { useAppTheme } from '@app/theme';
 import { useCallback } from 'react';
 
 export const DigitalAssetsTab = () => {
-  const wallets = useSelector(selectUserWallets) ?? [];
   const { colors } = useAppTheme();
 
   const { openBottomDrawer } = useAppBottomDrawer();
@@ -41,7 +38,7 @@ export const DigitalAssetsTab = () => {
           color={colors.inputLabelColor}
         />
       </AppView>
-      <CryptoCurrencyList wallets={wallets} />
+      <CryptoCurrencyList />
     </AppView>
   );
 };

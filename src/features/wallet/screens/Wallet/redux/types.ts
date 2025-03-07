@@ -20,16 +20,18 @@ export type AppUserWalletsDto = {
   };
 };
 
+export type AssetBalance = {
+  assetId: string;
+  balance: number;
+  assetName: string;
+  assetSymbol: string;
+  balanceUsd: number;
+};
+
 export type AppUserUnifiedBalanceDto = {
   totalBalanceUsd: number;
-  balancesByAssets: {
-    [key: string]: {
-      assetId: string;
-      balance: number;
-      assetName: string;
-      assetSymbol: string;
-      balanceUsd: number;
-    };
+  balancesByAsset: {
+    [key: string]: AssetBalance;
   };
 };
 
