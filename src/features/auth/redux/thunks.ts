@@ -17,7 +17,7 @@ export const loginThunk = createAsyncThunk<
 >('auth/loginThunk', async (params, { rejectWithValue }) => {
   try {
     const response = await loginApi(params);
-    await storage.setItem('accessToken', response.accessToken);
+    await storage.setItem('accessToken', response.accessToken ?? '');
     return response;
   } catch (e) {
     const error = e as AxiosError<AppLoginError>;
@@ -34,7 +34,7 @@ export const registerThunk = createAsyncThunk<
 >('auth/registerThunk', async (params, { rejectWithValue }) => {
   try {
     const response = await registerApi(params);
-    await storage.setItem('accessToken', response.accessToken);
+    await storage.setItem('accessToken', response.accessToken ?? '');
     console.log(response);
     return response;
   } catch (e) {

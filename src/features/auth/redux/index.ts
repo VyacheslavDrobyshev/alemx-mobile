@@ -5,6 +5,7 @@ import { loginThunk, logoutThunk, registerThunk } from './thunks';
 import storage from 'react-native-encrypted-storage';
 
 const initialPersistState: AppAuthState = {
+  type: null,
   accessToken: null,
   isLoading: false,
 };

@@ -6,5 +6,6 @@ export type AppScreenProps = {
   backgroundColor?: AppColorValue;
   noScroll?: boolean;
   withHeader?: boolean;
+  withBottomTabs?: boolean;
   title?: string;
 };

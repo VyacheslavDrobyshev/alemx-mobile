@@ -12,6 +12,7 @@ export const AppScreen: FC<AppScreenProps> = ({
   backgroundColor,
   noScroll = false,
   withHeader = true,
+  withBottomTabs = false,
   title = '',
 }) => {
   const { top, bottom } = useSafeAreaInsets();
@@ -35,6 +36,7 @@ export const AppScreen: FC<AppScreenProps> = ({
             </KeyboardAwareScrollView>
           )}
         </AppView>
+        {withBottomTabs && <AppView height={50} />}
       </AppView>
     </>
   );

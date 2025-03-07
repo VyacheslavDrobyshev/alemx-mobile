@@ -1,12 +1,11 @@
-export type AppAuthState = {
+export type AppLoginDto = {
   accessToken: string | null;
-  isLoading: boolean;
+  type: string | null;
 };
 
-export type AppLoginDto = {
-  accessToken: string;
-  type: string;
-};
+export type AppAuthState = {
+  isLoading: boolean;
+} & AppLoginDto;
 
 export type AppLoginParams = {
   email: string;
