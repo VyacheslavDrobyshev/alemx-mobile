@@ -35,7 +35,6 @@ export const registerThunk = createAsyncThunk<
   try {
     const response = await registerApi(params);
     await storage.setItem('accessToken', response.accessToken ?? '');
-    console.log(response);
     return response;
   } catch (e) {
     const error = e as AxiosError<AppLoginError>;

@@ -11,6 +11,7 @@ import Money from './icons/Money';
 import ExternalLink from './icons/ExternalLink';
 import Switch from './icons/Switch';
 import Settings from './icons/Settings';
+import Check from './icons/Check';
 
 export const appIcons = {
   Message,
@@ -26,4 +27,5 @@ export const appIcons = {
   ExternalLink,
   Switch,
   Settings,
+  Check,
 } as const;

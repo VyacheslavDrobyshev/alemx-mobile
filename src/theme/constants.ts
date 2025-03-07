@@ -8,6 +8,7 @@ import { getCryptoCurrencyListTheme } from '@app/features/wallet/screens/Wallet/
 import { getModalContainerTheme } from '@app/components/AppModal/components/AppModalContainer/theme';
 import { getDialogTheme } from '@app/components/AppModal/components/AppDialog/theme';
 import { getDrawerTheme } from '@app/components/AppModal/components/AppBottomDrawer/theme';
+import { getCheckBoxTheme } from '@app/components/AppCheckBox/theme.ts';
 
 export const coreTheme = {
   colors: (colors: AppColorScheme) => colors,
@@ -19,4 +20,5 @@ export const coreTheme = {
   modalContainer: getModalContainerTheme,
   dialog: getDialogTheme,
   drawer: getDrawerTheme,
+  checkBox: getCheckBoxTheme,
 } as const;

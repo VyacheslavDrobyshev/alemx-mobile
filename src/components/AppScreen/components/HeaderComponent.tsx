@@ -5,6 +5,7 @@ import { useAppDispatch } from '@app/redux';
 import { FC, useCallback } from 'react';
 import { logoutThunk } from '@app/features/auth/redux/thunks.ts';
 import { AppScreenProps } from '@app/components/AppScreen/components/types.ts';
+import storage from 'react-native-encrypted-storage';
 
 export const HeaderComponent: FC<AppScreenProps> = ({ title }) => {
   const { canGoBack, goBack } = useNavigation();
@@ -37,6 +38,9 @@ export const HeaderComponent: FC<AppScreenProps> = ({ title }) => {
       </AppTouchable>
       <AppText onPress={onLogout} textStyle={'regular_16_20'}>
         Logout
+      </AppText>
+      <AppText onPress={storage.clear} textStyle={'regular_16_20'}>
+        Clear storage
       </AppText>
     </AppView>
   );

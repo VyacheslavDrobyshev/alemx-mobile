@@ -1,3 +1,10 @@
+import { WalletSettingsId } from '@app/features/wallet/screens/Wallet/constants.ts';
+
+export type PaginationParams = {
+  limit: number;
+  cursor: number;
+};
+
 export type AppUserWalletsDto = {
   id: number;
   address: string;
@@ -35,17 +42,39 @@ export type AppUserUnifiedBalanceDto = {
   };
 };
 
-export type AppAssetsDto = {
-  id: string;
+export type AssetsData = {
+  id: number;
   name: string;
-  type: string;
-  contractAddress: string;
-  nativeAsset: string;
+  symbol: string;
+  networkId: number;
+  externalId: string;
   decimals: null;
+  isEssential: boolean;
+  contractAddress: string;
+  image: string;
+  network: {
+    id: number;
+    name: string;
+    nativeAssetSymbol: string;
+    isEvmCompatible: boolean;
+    isTest: boolean;
+  };
+};
+
+export type AppAssetsDto = {
+  data: AssetsData[];
+};
+
+export type WalletSettings = {
+  id: WalletSettingsId;
+  title: string;
+  subTitle: string;
+  isChecked: boolean;
 };
 
 export type AppUserWalletsState = {
   wallets: AppUserWalletsDto[] | null;
   unifiedBalance: AppUserUnifiedBalanceDto | null;
-  assets: AppAssetsDto[] | null;
+  assets: AssetsData[];
+  walletSettings: WalletSettings[];
 };

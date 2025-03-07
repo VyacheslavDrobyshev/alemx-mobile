@@ -3,23 +3,20 @@ import { AccountValue } from '@app/features/wallet/screens/Wallet/components/Acc
 import { CryptoCurrencyList } from '@app/features/wallet/screens/Wallet/components/CryptoCurrencyList/CryptoCurrencyList.tsx';
 import { useAppTheme } from '@app/theme';
 import { useCallback } from 'react';
+import { SettingsModalContent } from '@app/features/wallet/screens/Wallet/components/SettingsModalContent/SettingsModalContent.tsx';
 
 export const DigitalAssetsTab = () => {
   const { colors } = useAppTheme();
-
   const { openBottomDrawer } = useAppBottomDrawer();
 
   const onOpenSettings = useCallback(() => {
     openBottomDrawer({
-      body: (
-        <AppView backgroundColor={colors.primaryLightColor} height={100}>
-          <AppText>dbfsdhkbfsdjfh</AppText>
-        </AppView>
-      ),
+      body: <SettingsModalContent />,
       closeOnBackdropPress: true,
       withCloseButton: true,
+      title: 'Wallet settings',
     });
-  }, [colors.primaryLightColor, openBottomDrawer]);
+  }, [openBottomDrawer]);
 
   return (
     <AppView flex={1}>

@@ -3,6 +3,7 @@ import {
   AppAssetsDto,
   AppUserUnifiedBalanceDto,
   AppUserWalletsDto,
+  PaginationParams,
 } from '@app/features/wallet/screens/Wallet/redux/types.ts';
 
 export const getUserWalletsApi = async () => {
@@ -17,7 +18,7 @@ export const getUserUnifiedBalanceApi = async () => {
   return response.data;
 };
 
-export const getAssetsApi = async () => {
-  const response = await axios.get<AppAssetsDto[]>('/assets');
-  return response.data;
+export const getAssetsApi = async (params: PaginationParams) => {
+  const response = await axios.get<AppAssetsDto>('/assets', { params });
+  return response.data.data;
 };

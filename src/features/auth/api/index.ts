@@ -12,7 +12,6 @@ export const loginApi = async (params: AppLoginParams) => {
 };
 
 export const registerApi = async (params: AppRegisterParams) => {
-  console.log(params, 'start');
   const response = await axios.post<AppRegisterDto>(
     'auth/register-user/',
     params,

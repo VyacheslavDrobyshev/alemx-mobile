@@ -7,9 +7,10 @@ import {
   getUserWalletsApi,
 } from '@app/features/wallet/screens/Wallet/api';
 import {
-  AppAssetsDto,
   AppUserUnifiedBalanceDto,
   AppUserWalletsDto,
+  AssetsData,
+  PaginationParams,
 } from '@app/features/wallet/screens/Wallet/redux/types.ts';
 
 export const getUserWalletsThunk = createAsyncThunk<
@@ -28,12 +29,12 @@ export const getUserWalletsThunk = createAsyncThunk<
 });
 
 export const getAssetsThunk = createAsyncThunk<
-  AppAssetsDto[],
-  void,
+  AssetsData[],
+  PaginationParams,
   { rejectValue: string }
->('auth/getAssetsThunk', async (_, { rejectWithValue }) => {
+>('auth/getAssetsThunk', async (params, { rejectWithValue }) => {
   try {
-    return await getAssetsApi();
+    return await getAssetsApi(params);
   } catch (e) {
     const error = e as AxiosError<AppLoginError>;
     return rejectWithValue(

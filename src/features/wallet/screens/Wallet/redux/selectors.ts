@@ -5,3 +5,8 @@ export const selectUserWallets = ({ wallets }: CoreReduxState) =>
 
 export const selectUnifiedBalance = ({ wallets }: CoreReduxState) =>
   wallets.unifiedBalance;
+
+export const selectAssets = ({ wallets }: CoreReduxState) => wallets.assets;
+
+export const selectWalletSettings = ({ wallets }: CoreReduxState) =>
+  wallets.walletSettings;
