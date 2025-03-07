@@ -18,10 +18,10 @@ export const HeaderComponent: FC<AppScreenProps> = ({ title }) => {
 
   return (
     <AppView
-      height={90}
+      height={50}
       width={'100%'}
       flexDirection={'row'}
-      alignItems={'flex-end'}
+      alignItems={'center'}
       justifyContent={'space-between'}
       paddingHorizontal={20}
       backgroundColor={colors.primary}>

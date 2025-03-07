@@ -19,21 +19,22 @@ export const AppScreen: FC<AppScreenProps> = ({
 
   return (
     <>
-      {withHeader && <HeaderComponent title={title} />}
       <AppView
         flex={1}
         backgroundColor={backgroundColor ?? screen.default.backgroundColor}
-        paddingHorizontal={screen.default.paddingHorizontal}
-        paddingBottom={bottom}
-        paddingTop={withHeader ? 10 : top}>
-        {noScroll ? (
-          children
-        ) : (
-          <KeyboardAwareScrollView
-            contentContainerStyle={screen.contentContainerStyle}>
-            {children}
-          </KeyboardAwareScrollView>
-        )}
+        paddingBottom={bottom || 50}
+        paddingTop={top}>
+        {withHeader && <HeaderComponent title={title} />}
+        <AppView flex={1} paddingHorizontal={screen.default.paddingHorizontal}>
+          {noScroll ? (
+            children
+          ) : (
+            <KeyboardAwareScrollView
+              contentContainerStyle={screen.contentContainerStyle}>
+              {children}
+            </KeyboardAwareScrollView>
+          )}
+        </AppView>
       </AppView>
     </>
   );
