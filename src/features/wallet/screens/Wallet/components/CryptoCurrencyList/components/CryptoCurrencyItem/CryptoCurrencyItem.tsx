@@ -1,19 +1,15 @@
 import { AppText, AppTouchable, AppView } from '@app/components';
 import { useAppTheme } from '@app/theme';
-import { AssetBalance } from '@app/features/wallet/screens/Wallet/redux/types.ts';
-import { useSelector } from 'react-redux';
-import { selectUnifiedBalance } from '@app/features/wallet/screens/Wallet/redux/selectors.ts';
-import { formatNumber } from '@app/utils/number.ts';
+import { AssetsData } from '@app/features/wallet/screens/Wallet/redux/types.ts';
 
-export const CryptoCurrencyItem = ({ item }: { item: AssetBalance }) => {
+// import { formatNumber } from '@app/utils/number.ts';
+import { Image } from 'react-native';
+
+export const CryptoCurrencyItem = ({ item }: { item: AssetsData }) => {
   const {
     colors,
     cryptoCurrencyList: { secondaryTextColor, itemContainer, icon },
   } = useAppTheme();
-
-  const unifiedBalance = useSelector(selectUnifiedBalance);
-
-  console.log(unifiedBalance?.balancesByAsset);
 
   return (
     <AppTouchable
@@ -26,24 +22,39 @@ export const CryptoCurrencyItem = ({ item }: { item: AssetBalance }) => {
       alignItems={'center'}
       paddingHorizontal={itemContainer.paddingHorizontal}
       backgroundColor={colors.primaryLightColor}>
-      <AppView
-        height={icon.height}
-        width={icon.width}
-        borderRadius={icon.borderRadius}
-        backgroundColor={colors.white}
-        marginRight={icon.marginRight}
-      />
+      {item.image ? (
+        <Image
+          src={item.image}
+          height={icon.height}
+          width={icon.width}
+          style={{ marginRight: icon.marginRight }}
+        />
+      ) : (
+        <AppView
+          alignItems={'center'}
+          justifyContent={'center'}
+          height={icon.height}
+          width={icon.width}
+          borderRadius={icon.borderRadius}
+          backgroundColor={colors.buttonPrimary}
+          marginRight={icon.marginRight}>
+          <AppText textStyle={'semi_bold_12_18'}>
+            {item.symbol.slice(0, 2)}
+          </AppText>
+        </AppView>
+      )}
+
       <AppView flex={1}>
         <AppView flexDirection={'row'} justifyContent={'space-between'}>
-          <AppText textStyle={'medium_14_20'}>{item.assetSymbol}</AppText>
+          <AppText textStyle={'medium_14_20'}>{item.symbol}</AppText>
           <AppText textStyle={'medium_14_20'}>
-            {formatNumber(item.balance)}
+            {/*{formatNumber(item.balance)}*/}
           </AppText>
         </AppView>
         <AppView flexDirection={'row'} justifyContent={'space-between'}>
-          <AppText textStyle={'regular_12_18'}>{item.assetName}</AppText>
+          <AppText textStyle={'regular_12_18'}>{item.name}</AppText>
           <AppText textStyle={'regular_12_18'} color={secondaryTextColor.color}>
-            {formatNumber(item.balanceUsd, 'currency')}
+            {/*{formatNumber(item.balanceUsd, 'currency')}*/}
           </AppText>
         </AppView>
       </AppView>

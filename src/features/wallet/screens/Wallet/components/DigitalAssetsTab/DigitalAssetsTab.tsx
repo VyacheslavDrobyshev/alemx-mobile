@@ -3,7 +3,7 @@ import { AccountValue } from '@app/features/wallet/screens/Wallet/components/Acc
 import { CryptoCurrencyList } from '@app/features/wallet/screens/Wallet/components/CryptoCurrencyList/CryptoCurrencyList.tsx';
 import { useAppTheme } from '@app/theme';
 import { useCallback } from 'react';
-import { SettingsModalContent } from '@app/features/wallet/screens/Wallet/components/SettingsModalContent/SettingsModalContent.tsx';
+import { SettingsModalContent } from '@app/features/wallet/modals/SettingsModalContent/SettingsModalContent.tsx';
 
 export const DigitalAssetsTab = () => {
   const { colors } = useAppTheme();
@@ -13,7 +13,6 @@ export const DigitalAssetsTab = () => {
     openBottomDrawer({
       body: <SettingsModalContent />,
       closeOnBackdropPress: true,
-      withCloseButton: true,
       title: 'Wallet settings',
     });
   }, [openBottomDrawer]);

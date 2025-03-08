@@ -12,6 +12,9 @@ import ExternalLink from './icons/ExternalLink';
 import Switch from './icons/Switch';
 import Settings from './icons/Settings';
 import Check from './icons/Check';
+import Dollar from './icons/Dollar';
+import ChevronRight from './icons/ChevronRight';
+import Transfer from './icons/Transfer';
 
 export const appIcons = {
   Message,
@@ -28,4 +31,7 @@ export const appIcons = {
   Switch,
   Settings,
   Check,
+  Dollar,
+  ChevronRight,
+  Transfer,
 } as const;
