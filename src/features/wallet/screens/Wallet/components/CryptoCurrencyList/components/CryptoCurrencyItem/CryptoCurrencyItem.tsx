@@ -5,7 +5,13 @@ import { AssetsData } from '@app/features/wallet/screens/Wallet/redux/types.ts';
 // import { formatNumber } from '@app/utils/number.ts';
 import { Image } from 'react-native';
 
-export const CryptoCurrencyItem = ({ item }: { item: AssetsData }) => {
+export const CryptoCurrencyItem = ({
+  item,
+  onPress,
+}: {
+  item: AssetsData;
+  onPress?: (item: AssetsData) => void;
+}) => {
   const {
     colors,
     cryptoCurrencyList: { secondaryTextColor, itemContainer, icon },
@@ -13,6 +19,7 @@ export const CryptoCurrencyItem = ({ item }: { item: AssetsData }) => {
 
   return (
     <AppTouchable
+      onPress={() => onPress?.(item)}
       borderWidth={itemContainer.borderWidth}
       borderColor={itemContainer.borderColor}
       borderRadius={itemContainer.borderRadius}

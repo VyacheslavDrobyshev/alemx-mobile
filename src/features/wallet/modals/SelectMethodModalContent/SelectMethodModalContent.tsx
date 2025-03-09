@@ -64,7 +64,7 @@ export const SelectMethodModalContent: FC<SelectMethodModalContentProps> = ({
     <>
       <AppView marginBottom={30} gap={10} justifyContent={'space-between'}>
         {items.map(item => (
-          <ModalItem {...item} />
+          <ModalItem key={item.title} {...item} />
         ))}
       </AppView>
     </>

@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistedStore, store } from '@app/redux/store.ts';
 import { AppModalProvider } from '@app/components';
+import { AppToastProvider } from '@app/components/AppToast/AppToast.tsx';
 
 function App(): React.JSX.Element {
   return (
@@ -13,9 +14,11 @@ function App(): React.JSX.Element {
       <StatusBar barStyle="dark-content" />
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistedStore}>
-          <AppModalProvider>
-            <RootNavigator />
-          </AppModalProvider>
+          <AppToastProvider>
+            <AppModalProvider>
+              <RootNavigator />
+            </AppModalProvider>
+          </AppToastProvider>
         </PersistGate>
       </Provider>
     </SafeAreaProvider>

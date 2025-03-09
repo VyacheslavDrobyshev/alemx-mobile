@@ -21,7 +21,9 @@ import {
 import { paginationLimit } from '@app/features/wallet/screens/Wallet/constants.ts';
 // import { WalletSettingsId } from '@app/features/wallet/screens/Wallet/constants.ts';
 
-export const CryptoCurrencyList: FC = ({}) => {
+export const CryptoCurrencyList: FC<{
+  onPress?: (item: AssetsData) => void;
+}> = ({ onPress }) => {
   const {
     cryptoCurrencyList: { contentContainerStyle },
   } = useAppTheme();
@@ -59,9 +61,12 @@ export const CryptoCurrencyList: FC = ({}) => {
   //   );
   // }, [unifiedBalance?.balancesByAsset, walletSettings]);
 
-  const renderItem = useCallback<ListRenderItem<AssetsData>>(({ item }) => {
-    return <CryptoCurrencyItem item={item} />;
-  }, []);
+  const renderItem = useCallback<ListRenderItem<AssetsData>>(
+    ({ item }) => {
+      return <CryptoCurrencyItem onPress={onPress} item={item} />;
+    },
+    [onPress],
+  );
 
   return (
     <AppView flex={1}>

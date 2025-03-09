@@ -15,6 +15,8 @@ import Check from './icons/Check';
 import Dollar from './icons/Dollar';
 import ChevronRight from './icons/ChevronRight';
 import Transfer from './icons/Transfer';
+import Warning from './icons/Warning';
+import Copy from './icons/Copy';
 
 export const appIcons = {
   Message,
@@ -34,4 +36,6 @@ export const appIcons = {
   Dollar,
   ChevronRight,
   Transfer,
+  Warning,
+  Copy,
 } as const;

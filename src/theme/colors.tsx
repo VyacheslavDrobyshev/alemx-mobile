@@ -20,6 +20,9 @@ export const lightThemeColors = {
   buttonDisabledText: '#303240',
   buttonPrimaryText: '#ffffff',
 
+  successToastIcon: '#00AB6D',
+  errorToastIcon: '#9A2337',
+
   transparent: 'transparent',
   placeholder: '#B1B1B1',
   modalOverlay: '#000000cc',
@@ -46,6 +49,9 @@ export const darkThemeColors = {
   buttonDisabled: '#F3F3F3',
   buttonDisabledText: '#C4C4C4',
   buttonPrimaryText: '#ffffff',
+
+  successToastIcon: '#00AB6D',
+  errorToastIcon: '#9A2337',
 
   transparent: 'transparent',
   placeholder: '#B1B1B1',
