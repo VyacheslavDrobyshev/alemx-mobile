@@ -2,7 +2,6 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { AppAuthState } from './types';
 import { loginThunk, logoutThunk, registerThunk } from './thunks';
-import storage from 'react-native-encrypted-storage';
 
 const initialPersistState: AppAuthState = {
   type: null,
@@ -37,7 +36,6 @@ const slice = createSlice({
     });
     builder.addCase(logoutThunk.fulfilled, state => {
       state.accessToken = null;
-      storage.removeItem('accessToken');
     });
   },
 });

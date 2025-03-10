@@ -1,6 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { loginApi, registerApi } from '@app/features/auth/api';
-import storage from 'react-native-encrypted-storage';
 import {
   AppLoginDto,
   AppLoginError,
@@ -9,6 +8,7 @@ import {
   AppRegisterParams,
 } from '@app/features/auth/redux/types.ts';
 import { AxiosError } from 'axios';
+import { ejectAuthInterceptor } from '@app/api/interceptor.ts';
 
 export const loginThunk = createAsyncThunk<
   AppLoginDto,
@@ -16,9 +16,7 @@ export const loginThunk = createAsyncThunk<
   { rejectValue: string }
 >('auth/loginThunk', async (params, { rejectWithValue }) => {
   try {
-    const response = await loginApi(params);
-    await storage.setItem('accessToken', response.accessToken ?? '');
-    return response;
+    return await loginApi(params);
   } catch (e) {
     const error = e as AxiosError<AppLoginError>;
     return rejectWithValue(
@@ -33,9 +31,7 @@ export const registerThunk = createAsyncThunk<
   { rejectValue: string }
 >('auth/registerThunk', async (params, { rejectWithValue }) => {
   try {
-    const response = await registerApi(params);
-    await storage.setItem('accessToken', response.accessToken ?? '');
-    return response;
+    return await registerApi(params);
   } catch (e) {
     const error = e as AxiosError<AppLoginError>;
     return rejectWithValue(
@@ -44,13 +40,6 @@ export const registerThunk = createAsyncThunk<
   }
 });
 
-export const logoutThunk = createAsyncThunk(
-  'auth/logoutThunk',
-  async (_, { rejectWithValue }) => {
-    try {
-      await storage.removeItem('accessToken');
-    } catch (e) {
-      return rejectWithValue(String(e));
-    }
-  },
-);
+export const logoutThunk = createAsyncThunk('auth/logoutThunk', async () => {
+  ejectAuthInterceptor();
+});
