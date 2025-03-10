@@ -23,7 +23,8 @@ import { paginationLimit } from '@app/features/wallet/screens/Wallet/constants.t
 
 export const CryptoCurrencyList: FC<{
   onPress?: (item: AssetsData) => void;
-}> = ({ onPress }) => {
+  search?: string;
+}> = ({ onPress, search }) => {
   const {
     cryptoCurrencyList: { contentContainerStyle },
   } = useAppTheme();
@@ -35,19 +36,31 @@ export const CryptoCurrencyList: FC<{
   const cursor = useRef(1);
 
   useEffect(() => {
+    cursor.current = 1;
+  }, [search]);
+
+  useEffect(() => {
     dispatch(getUserWalletsThunk());
     dispatch(getUnifiedBalanceThunk());
     dispatch(
-      getAssetsThunk({ limit: paginationLimit, cursor: cursor.current }),
+      getAssetsThunk({
+        limit: paginationLimit,
+        cursor: cursor.current,
+        search,
+      }),
     );
-  }, [cursor, dispatch]);
+  }, [cursor, dispatch, search]);
 
   const onLoadMore = useCallback(() => {
     cursor.current += paginationLimit;
     dispatch(
-      getAssetsThunk({ limit: paginationLimit, cursor: cursor.current }),
+      getAssetsThunk({
+        limit: paginationLimit,
+        cursor: cursor.current,
+        search,
+      }),
     );
-  }, [dispatch]);
+  }, [dispatch, search]);
 
   // const wallets = useMemo(() => {
   //   const hideLessThanOne = walletSettings.find(

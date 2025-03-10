@@ -3,6 +3,9 @@ import { WalletSettingsId } from '@app/features/wallet/screens/Wallet/constants.
 export type PaginationParams = {
   limit: number;
   cursor: number;
+  is_essential?: boolean;
+  search?: string;
+  sort_by?: string;
 };
 
 export type AppUserWalletsDto = {

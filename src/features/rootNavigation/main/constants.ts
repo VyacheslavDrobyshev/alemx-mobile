@@ -1,5 +1,6 @@
 export enum MainRoute {
   Wallet = 'Wallet',
+  WalletDetails = 'WalletDetails',
   Deposit = 'Deposit',
   DepositDetails = 'DepositDetails',
   Withdraw = 'Withdraw',

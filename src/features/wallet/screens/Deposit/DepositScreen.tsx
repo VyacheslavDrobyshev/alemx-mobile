@@ -1,5 +1,5 @@
-import { FC, useCallback } from 'react';
-import { AppScreen, useAppBottomDrawer } from '@app/components';
+import { FC, useCallback, useState } from 'react';
+import { AppInput, AppScreen, useAppBottomDrawer } from '@app/components';
 
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { MainParamList } from '@app/features/rootNavigation/main/types.ts';
@@ -30,9 +30,12 @@ export const DepositScreen: FC = () => {
     [onPress, openBottomDrawer],
   );
 
+  const [search, setSearch] = useState('');
+
   return (
     <AppScreen title={'Deposit'} noScroll>
-      <CryptoCurrencyList onPress={onChooseNetwork} />
+      <AppInput onChangeText={setSearch} />
+      <CryptoCurrencyList search={search} onPress={onChooseNetwork} />
     </AppScreen>
   );
 };

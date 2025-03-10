@@ -11,6 +11,7 @@ import { DepositDetailsScreen } from '@app/features/wallet/screens/DepositDetail
 import { WithdrawScreen } from '@app/features/wallet/screens/Withdraw/WithdrawScreen.tsx';
 import { WithdrawDetailsScreen } from '@app/features/wallet/screens/WithdrawDetails/WithdrawDetailsScreen.tsx';
 import { HistoryScreen } from '@app/features/wallet/screens/History/History.tsx';
+import { WalletDetailsScreen } from '@app/features/wallet/screens/WalletDetails/WalletDetailsScreen.tsx';
 
 const Main = createNativeStackNavigator<MainParamList>();
 
@@ -20,6 +21,10 @@ export const MainNavigator: FC = () => {
       screenOptions={noHeaderOptions}
       initialRouteName={MainRoute.Wallet}>
       <Main.Screen name={MainRoute.Wallet} component={WalletScreen} />
+      <Main.Screen
+        name={MainRoute.WalletDetails}
+        component={WalletDetailsScreen}
+      />
       <Main.Screen name={MainRoute.Deposit} component={DepositScreen} />
       <Main.Screen
         name={MainRoute.DepositDetails}

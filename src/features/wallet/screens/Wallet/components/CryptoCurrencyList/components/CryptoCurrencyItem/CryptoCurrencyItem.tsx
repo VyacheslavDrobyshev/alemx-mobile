@@ -3,7 +3,7 @@ import { useAppTheme } from '@app/theme';
 import { AssetsData } from '@app/features/wallet/screens/Wallet/redux/types.ts';
 
 // import { formatNumber } from '@app/utils/number.ts';
-import { Image } from 'react-native';
+import { AppImage } from '@app/components/AppImage/AppImage.tsx';
 
 export const CryptoCurrencyItem = ({
   item,
@@ -30,11 +30,11 @@ export const CryptoCurrencyItem = ({
       paddingHorizontal={itemContainer.paddingHorizontal}
       backgroundColor={colors.primaryLightColor}>
       {item.image ? (
-        <Image
-          src={item.image}
+        <AppImage
+          uri={item.image}
           height={icon.height}
           width={icon.width}
-          style={{ marginRight: icon.marginRight }}
+          marginRight={icon.marginRight}
         />
       ) : (
         <AppView

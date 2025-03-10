@@ -18,8 +18,6 @@ import { useAppToast } from '@app/components/AppToast/useAppToast.ts';
 import { NetworksModalContent } from '@app/features/wallet/modals/NetworksModalContent/NetworksModalContent.tsx';
 import { AppIconName } from '@app/components/AppIcon/types.ts';
 
-const data = 'djbhfsjfsdhfhhfsd7f9s8d7f9s8d789f78s9d7fs89df798sf';
-
 export const DepositDetailsScreen: FC = () => {
   const {
     params: { item, network: initialNetwork },
@@ -46,9 +44,9 @@ export const DepositDetailsScreen: FC = () => {
   }, [onNetworkChange, openBottomDrawer]);
 
   const copyToClipboard = useCallback(() => {
-    Clipboard.setString(data);
+    Clipboard.setString(item?.contractAddress ?? '');
     showSuccess('Copied to clipboard');
-  }, [showSuccess]);
+  }, [item?.contractAddress, showSuccess]);
 
   const itemsList: {
     title: string;
@@ -65,12 +63,12 @@ export const DepositDetailsScreen: FC = () => {
       },
       {
         title: 'Deposit address',
-        value: data,
+        value: item?.contractAddress ?? '',
         icon: 'Copy',
         onPress: copyToClipboard,
       },
     ],
-    [copyToClipboard, network, onChangeNetwork],
+    [copyToClipboard, item?.contractAddress, network, onChangeNetwork],
   );
 
   return (
@@ -87,7 +85,7 @@ export const DepositDetailsScreen: FC = () => {
           logo={item?.image}
           logoSize={30}
           size={150}
-          value={data}
+          value={item?.contractAddress}
           logoMargin={0}
           logoBackgroundColor={colors.black}
         />

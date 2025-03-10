@@ -5,6 +5,7 @@ import { AssetsData } from '@app/features/wallet/screens/Wallet/redux/types.ts';
 
 export type MainParamList = {
   [MainRoute.Wallet]: undefined;
+  [MainRoute.WalletDetails]: { item?: AssetsData };
   [MainRoute.Deposit]: undefined;
   [MainRoute.DepositDetails]: { item?: AssetsData; network: string };
   [MainRoute.Withdraw]: undefined;
