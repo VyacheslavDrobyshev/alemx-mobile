@@ -1,6 +1,6 @@
-import { AppColorScheme } from '@app/theme/types';
+import { AppColorScheme } from '@app/theme/types.ts';
 
-import { AppScreenTheme } from './types';
+import { AppScreenTheme } from './types.ts';
 
 export const getCryptoCurrencyListTheme = (
   colors: AppColorScheme,
@@ -16,7 +16,8 @@ export const getCryptoCurrencyListTheme = (
       marginBottom: 5,
       height: 56,
       paddingHorizontal: 15,
-      borderColor: colors.primaryLightColor,
+      paddingVertical: 15,
+      borderColor: colors.inputBorderColor,
     },
     icon: {
       height: 30,

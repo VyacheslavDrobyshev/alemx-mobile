@@ -26,8 +26,15 @@ export function useForm<FV extends FormikValues>({
     ...config,
   });
 
-  const { values, errors, touched, setFieldValue, validateField, handleBlur } =
-    formik;
+  const {
+    values,
+    errors,
+    touched,
+    setFieldValue,
+    validateField,
+    handleBlur,
+    setErrors,
+  } = formik;
 
   const getField = useCallback(
     <V>(name: keyof FV): Field<V> => {
@@ -91,5 +98,6 @@ export function useForm<FV extends FormikValues>({
     hasChanges,
     changedFields,
     setValueAndValidate,
+    setErrors,
   };
 }

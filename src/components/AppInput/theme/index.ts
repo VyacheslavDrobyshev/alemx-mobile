@@ -5,7 +5,7 @@ import { InputTheme } from './types';
 export const getInputTheme = (colors: AppColorScheme): InputTheme => ({
   textStyle: 'regular_16_20',
   container: {
-    height: 48,
+    height: 40,
     backgroundColor: colors.transparent,
     borderWidth: 1,
     borderRadius: 12,

@@ -7,7 +7,7 @@ import { reducers } from './reducers';
 
 type CoreReduxState = ReturnType<typeof reducers>;
 
-const whitelist: (keyof CoreReduxState)[] = ['theme', 'auth', 'wallets'];
+const whitelist: (keyof CoreReduxState)[] = ['theme', 'auth'];
 
 export const persistConfig = {
   key: 'root',

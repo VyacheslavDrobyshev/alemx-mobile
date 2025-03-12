@@ -1,13 +1,23 @@
 import { AppIcon, AppText, AppView, useAppBottomDrawer } from '@app/components';
 import { AccountValue } from '@app/features/wallet/screens/Wallet/components/AccountValue/AccountValue.tsx';
-import { CryptoCurrencyList } from '@app/features/wallet/screens/Wallet/components/CryptoCurrencyList/CryptoCurrencyList.tsx';
 import { useAppTheme } from '@app/theme';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { SettingsModalContent } from '@app/features/wallet/modals/SettingsModalContent/SettingsModalContent.tsx';
+import {
+  getAssetsThunk,
+  getUnifiedBalanceThunk,
+  getUserWalletsThunk,
+} from '@app/features/wallet/redux/thunks.ts';
+import { paginationLimit } from '@app/features/wallet/screens/Wallet/constants.ts';
+import { useAppDispatch } from '@app/redux';
+import {
+  ModifiedWallet,
+  WalletsList,
+} from '@app/features/wallet/screens/Wallet/components/WalletsList/WalletsList.tsx';
+
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { MainParamList } from '@app/features/rootNavigation/main/types.ts';
 import { MainRoute } from '@app/features/rootNavigation/main/constants.ts';
-import { AssetsData } from '@app/features/wallet/screens/Wallet/redux/types.ts';
 
 export const DigitalAssetsTab = () => {
   const { colors } = useAppTheme();
@@ -23,11 +33,23 @@ export const DigitalAssetsTab = () => {
   }, [openBottomDrawer]);
 
   const onPress = useCallback(
-    (item: AssetsData) => {
+    (item: ModifiedWallet) => {
       navigate(MainRoute.WalletDetails, { item });
     },
     [navigate],
   );
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(
+      getAssetsThunk({
+        limit: paginationLimit,
+        cursor: 1,
+      }),
+    );
+    dispatch(getUserWalletsThunk());
+    dispatch(getUnifiedBalanceThunk());
+  });
 
   return (
     <AppView flex={1}>
@@ -46,7 +68,7 @@ export const DigitalAssetsTab = () => {
           color={colors.inputLabelColor}
         />
       </AppView>
-      <CryptoCurrencyList onPress={onPress} />
+      <WalletsList onPress={onPress} />
     </AppView>
   );
 };

@@ -8,34 +8,37 @@ export type PaginationParams = {
   sort_by?: string;
 };
 
+export type AppCreateWalletParams = {
+  assetsIds: number[];
+};
+
+export type AppWithdrawParams = {
+  assetId: number;
+  amount: string;
+  feeLevel: 'low' | 'high' | 'medium';
+  receiverOneTimeAddress: string;
+};
+
 export type AppUserWalletsDto = {
   id: number;
   address: string;
-  cryptoAsset: {
-    id: number;
-    name: string;
-    symbol: string;
-    networkId: number;
-    externalId: string;
-    decimals: number;
-    isEssential: boolean;
-    contractAddress: string;
-  };
+  cryptoAsset: AssetsData;
   network: {
     id: number;
     name: string;
     nativeAssetSymbol: string;
     isEvmCompatible: boolean;
     isTest: boolean;
+    image?: string;
   };
 };
 
 export type AssetBalance = {
   assetId: string;
-  balance: number;
+  balance: string;
   assetName: string;
   assetSymbol: string;
-  balanceUsd: number;
+  balanceUsd: string;
 };
 
 export type AppUserUnifiedBalanceDto = {
@@ -55,17 +58,19 @@ export type AssetsData = {
   isEssential: boolean;
   contractAddress: string;
   image: string;
-  network: {
-    id: number;
-    name: string;
-    nativeAssetSymbol: string;
-    isEvmCompatible: boolean;
-    isTest: boolean;
-  };
+  network: AssetNetwork;
 };
 
+export type AssetNetwork = {
+  id: number;
+  name: string;
+  nativeAssetSymbol: string;
+  isEvmCompatible: boolean;
+  isTest: boolean;
+};
 export type AppAssetsDto = {
   data: AssetsData[];
+  nextCursor: number;
 };
 
 export type WalletSettings = {
@@ -78,6 +83,31 @@ export type WalletSettings = {
 export type AppUserWalletsState = {
   wallets: AppUserWalletsDto[] | null;
   unifiedBalance: AppUserUnifiedBalanceDto | null;
-  assets: AssetsData[];
+  assets: AppAssetsDto;
   walletSettings: WalletSettings[];
+};
+
+export type AppWithdrawError = {
+  detail:
+    | {
+        message: string;
+        available_balance: number;
+        requested_withdrawal: number;
+        estimated_fee: number;
+        total_required: number;
+      }
+    | string;
+};
+
+export type AppFeeDto = {
+  [p: string]: {
+    feePerByte: number | null;
+    gasPrice: number | null;
+    gasLimit: number | null;
+    networkFee: number;
+    baseFee: number | null;
+    priorityFee: number | null;
+    maxFeePerGasDelta: number | null;
+    l1Fee: number | null;
+  };
 };

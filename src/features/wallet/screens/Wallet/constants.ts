@@ -5,6 +5,12 @@ export enum WalletSettingsId {
   Assets = 'assets',
 }
 
+export enum LevelFee {
+  High = 'high',
+  Medium = 'medium',
+  Low = 'low',
+}
+
 export const walletSettings = [
   {
     id: WalletSettingsId.Balance,

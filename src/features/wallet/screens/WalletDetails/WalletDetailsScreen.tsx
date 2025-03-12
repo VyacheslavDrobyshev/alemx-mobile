@@ -1,4 +1,4 @@
-import { FC, useMemo } from 'react';
+import { FC } from 'react';
 import { AppScreen, AppText, AppView } from '@app/components';
 import { AppTab } from '@app/components/AppTab/AppTab.tsx';
 import { transactionHistoryTabs } from '@app/features/wallet/screens/WalletDetails/constants.ts';
@@ -8,30 +8,23 @@ import { MainRoute } from '@app/features/rootNavigation/main/constants.ts';
 import { useAppTheme } from '@app/theme';
 import { formatNumber } from '@app/utils/number.ts';
 import { AppImage } from '@app/components/AppImage/AppImage.tsx';
+import { NetworkItem } from '@app/features/wallet/screens/WalletDetails/components/NetworkItem/NetworkItem.tsx';
 
 export const WalletDetailsScreen: FC = () => {
   const {
     params: { item },
   } = useRoute<RouteProp<MainParamList, MainRoute.WalletDetails>>();
 
-  const networks = useMemo(() => {
-    return [
-      { name: 'TRON', symbol: 'TRC20', icon: item?.image, balance: 0 },
-      { name: 'TRON', symbol: 'TRC20', icon: item?.image, balance: 0 },
-      { name: 'TRON', symbol: 'TRC20', icon: item?.image, balance: 0 },
-    ];
-  }, [item?.image]);
-
   const { colors } = useAppTheme();
   return (
-    <AppScreen title={item?.symbol}>
+    <AppScreen title={item?.cryptoAsset.symbol}>
       <AppView
         height={100}
         marginVertical={20}
         alignItems={'center'}
         justifyContent={'space-between'}>
-        {item?.image ? (
-          <AppImage width={30} height={30} uri={item?.image} />
+        {item?.cryptoAsset.image ? (
+          <AppImage width={30} height={30} uri={item?.cryptoAsset.image} />
         ) : (
           <AppView
             alignItems={'center'}
@@ -41,18 +34,18 @@ export const WalletDetailsScreen: FC = () => {
             borderRadius={30}
             backgroundColor={colors.buttonPrimary}>
             <AppText textStyle={'medium_14_20'}>
-              {item?.name.slice(0, 2)}
+              {item?.cryptoAsset.name.slice(0, 2)}
             </AppText>
           </AppView>
         )}
 
-        <AppText textStyle={'medium_26_32'}>{`${formatNumber(33456)} ${
-          item?.symbol
-        }`}</AppText>
+        <AppText textStyle={'medium_26_32'}>{`${formatNumber(
+          Number(item.balancesByAsset?.balance ?? 0),
+        )} ${item?.cryptoAsset.symbol}`}</AppText>
         <AppText
           color={colors.inputLabelColor}
           textStyle={'regular_12_18'}>{`${formatNumber(
-          33456,
+          Number(item.balancesByAsset?.balanceUsd ?? 0),
           'currency',
         )}`}</AppText>
       </AppView>
@@ -62,30 +55,7 @@ export const WalletDetailsScreen: FC = () => {
         borderColor={colors.inputBorderColor}
         paddingVertical={20}
         gap={10}>
-        {networks.map(({ icon, name, balance, symbol }) => (
-          <AppView flexDirection={'row'}>
-            {icon ? (
-              <AppImage
-                width={15}
-                height={15}
-                uri={icon}
-                marginRight={10}
-                marginTop={3}
-              />
-            ) : null}
-
-            <AppView flex={1}>
-              <AppText>{name}</AppText>
-              <AppText color={colors.inputLabelColor}>{symbol}</AppText>
-            </AppView>
-            <AppView alignItems={'flex-end'} flex={1}>
-              <AppText>{formatNumber(balance)}</AppText>
-              <AppText color={colors.inputLabelColor}>
-                {formatNumber(balance, 'currency')}
-              </AppText>
-            </AppView>
-          </AppView>
-        ))}
+        <NetworkItem item={item} />
       </AppView>
       <AppView>
         <AppText marginTop={10} textStyle={'medium_16_24'}>

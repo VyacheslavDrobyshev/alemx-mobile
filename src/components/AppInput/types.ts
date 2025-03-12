@@ -8,6 +8,7 @@ export type AppInputProps = Partial<AppViewProps> &
   Omit<TextInputProps, 'placeholderTextColor' | 'width'> & {
     textStyle?: AppTextProps['textStyle'];
     isValid?: boolean;
+    title?: string;
     errorMessage?: string;
     rightContent?: ReactNode;
     leftContent?: ReactNode;

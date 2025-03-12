@@ -8,4 +8,5 @@ export type AppScreenProps = {
   withHeader?: boolean;
   withBottomTabs?: boolean;
   title?: string;
+  isLoading?: boolean;
 };

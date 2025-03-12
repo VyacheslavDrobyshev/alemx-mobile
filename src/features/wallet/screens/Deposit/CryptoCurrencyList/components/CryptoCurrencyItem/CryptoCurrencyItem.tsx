@@ -1,6 +1,6 @@
 import { AppText, AppTouchable, AppView } from '@app/components';
 import { useAppTheme } from '@app/theme';
-import { AssetsData } from '@app/features/wallet/screens/Wallet/redux/types.ts';
+import { AssetsData } from '@app/features/wallet/redux/types.ts';
 
 // import { formatNumber } from '@app/utils/number.ts';
 import { AppImage } from '@app/components/AppImage/AppImage.tsx';

@@ -1,10 +1,10 @@
 import { useAppDispatch } from '@app/redux';
 import { useSelector } from 'react-redux';
-import { selectWalletSettings } from '@app/features/wallet/screens/Wallet/redux/selectors.ts';
+import { selectWalletSettings } from '@app/features/wallet/redux/selectors.ts';
 import { useAppTheme } from '@app/theme';
 import { useCallback, useState } from 'react';
-import { WalletSettings } from '@app/features/wallet/screens/Wallet/redux/types.ts';
-import { updateWalletSettings } from '@app/features/wallet/screens/Wallet/redux';
+import { WalletSettings } from '@app/features/wallet/redux/types.ts';
+import { updateWalletSettings } from '@app/features/wallet/redux';
 import { AppText, AppView, useAppBottomDrawer } from '@app/components';
 import { AppCheckBox } from '@app/components/AppCheckBox/AppCheckBox.tsx';
 import { AppButton } from '@app/components/AppButton/AppButton.tsx';

@@ -17,6 +17,7 @@ import ChevronRight from './icons/ChevronRight';
 import Transfer from './icons/Transfer';
 import Warning from './icons/Warning';
 import Copy from './icons/Copy';
+import Search from './icons/Search';
 
 export const appIcons = {
   Message,
@@ -38,4 +39,5 @@ export const appIcons = {
   Transfer,
   Warning,
   Copy,
+  Search,
 } as const;

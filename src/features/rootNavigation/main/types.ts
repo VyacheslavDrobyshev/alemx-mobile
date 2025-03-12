@@ -1,15 +1,16 @@
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 
 import { MainRoute } from './constants';
-import { AssetsData } from '@app/features/wallet/screens/Wallet/redux/types.ts';
+import { AppUserWalletsDto } from '@app/features/wallet/redux/types.ts';
+import { ModifiedWallet } from '@app/features/wallet/screens/Wallet/components/WalletsList/WalletsList.tsx';
 
 export type MainParamList = {
   [MainRoute.Wallet]: undefined;
-  [MainRoute.WalletDetails]: { item?: AssetsData };
+  [MainRoute.WalletDetails]: { item: ModifiedWallet };
   [MainRoute.Deposit]: undefined;
-  [MainRoute.DepositDetails]: { item?: AssetsData; network: string };
+  [MainRoute.DepositDetails]: { item?: AppUserWalletsDto };
   [MainRoute.Withdraw]: undefined;
-  [MainRoute.WithdrawDetails]: undefined;
+  [MainRoute.WithdrawDetails]: { item: ModifiedWallet };
   [MainRoute.History]: undefined;
 };
 

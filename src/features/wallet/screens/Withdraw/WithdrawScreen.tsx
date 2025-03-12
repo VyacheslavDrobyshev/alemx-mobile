@@ -1,22 +1,27 @@
-import { FC } from 'react';
-import { Text } from 'react-native';
-import { AppScreen, AppView } from '@app/components';
+import { FC, useCallback } from 'react';
+import { AppScreen } from '@app/components';
 
-import { AppTab } from '@app/components/AppTab/AppTab';
-
-const tabs = ['Digital assets', 'Bank cards'];
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { MainParamList } from '@app/features/rootNavigation/main/types.ts';
+import { MainRoute } from '@app/features/rootNavigation/main/constants.ts';
+import {
+  ModifiedWallet,
+  WalletsList,
+} from '@app/features/wallet/screens/Wallet/components/WalletsList/WalletsList.tsx';
 
 export const WithdrawScreen: FC = () => {
+  const { navigate } = useNavigation<NavigationProp<MainParamList>>();
+
+  const onPress = useCallback(
+    (item: ModifiedWallet) => {
+      navigate(MainRoute.WithdrawDetails, { item });
+    },
+    [navigate],
+  );
+
   return (
     <AppScreen title={'Withdraw'} noScroll>
-      <AppTab tabs={tabs}>
-        <AppView flex={1} justifyContent="center" alignItems="center">
-          <Text>Wallet Screen</Text>
-        </AppView>
-        <AppView flex={1} justifyContent="center" alignItems="center">
-          <Text>Card Screen</Text>
-        </AppView>
-      </AppTab>
+      <WalletsList onPress={onPress} />
     </AppScreen>
   );
 };

@@ -1,52 +1,56 @@
-import { FC, useCallback, useMemo, useState } from 'react';
+import { FC, useCallback, useMemo } from 'react';
 import {
   AppIcon,
   AppScreen,
   AppText,
   AppTouchable,
   AppView,
-  useAppBottomDrawer,
+  // useAppBottomDrawer,
 } from '@app/components';
 import Clipboard from '@react-native-clipboard/clipboard';
 
 import QRCode from 'react-native-qrcode-svg';
-import { RouteProp, useRoute } from '@react-navigation/native';
+import {
+  NavigationProp,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import { MainParamList } from '@app/features/rootNavigation/main/types.ts';
 import { MainRoute } from '@app/features/rootNavigation/main/constants.ts';
 import { useAppTheme } from '@app/theme';
 import { useAppToast } from '@app/components/AppToast/useAppToast.ts';
-import { NetworksModalContent } from '@app/features/wallet/modals/NetworksModalContent/NetworksModalContent.tsx';
+// import { NetworksModalContent } from '@app/features/wallet/modals/NetworksModalContent/NetworksModalContent.tsx';
 import { AppIconName } from '@app/components/AppIcon/types.ts';
 
 export const DepositDetailsScreen: FC = () => {
   const {
-    params: { item, network: initialNetwork },
+    params: { item },
   } = useRoute<RouteProp<MainParamList, MainRoute.DepositDetails>>();
   const { colors } = useAppTheme();
-  const { openBottomDrawer } = useAppBottomDrawer();
+  // const { openBottomDrawer } = useAppBottomDrawer();
+  const { goBack } = useNavigation<NavigationProp<MainParamList>>();
 
-  const [network, setNetwork] = useState(initialNetwork);
+  // const [network, setNetwork] = useState(initialNetwork);
   const { showSuccess } = useAppToast();
 
-  const onNetworkChange = useCallback(
-    (ntw: string) => {
-      setNetwork(ntw);
-    },
-    [setNetwork],
-  );
+  // const onNetworkChange = useCallback(() => {
+  //   goBack();
+  // }, [goBack]);
 
   const onChangeNetwork = useCallback(() => {
-    openBottomDrawer({
-      body: <NetworksModalContent onPress={onNetworkChange} />,
-      closeOnBackdropPress: true,
-      title: 'Choose network',
-    });
-  }, [onNetworkChange, openBottomDrawer]);
+    goBack();
+    // openBottomDrawer({
+    //   body: <NetworksModalContent onPress={onNetworkChange} />,
+    //   closeOnBackdropPress: true,
+    //   title: 'Choose network',
+    // });
+  }, [goBack]);
 
   const copyToClipboard = useCallback(() => {
-    Clipboard.setString(item?.contractAddress ?? '');
+    Clipboard.setString(item?.address ?? '');
     showSuccess('Copied to clipboard');
-  }, [item?.contractAddress, showSuccess]);
+  }, [item?.address, showSuccess]);
 
   const itemsList: {
     title: string;
@@ -57,38 +61,41 @@ export const DepositDetailsScreen: FC = () => {
     () => [
       {
         title: 'Network',
-        value: network,
+        value: item?.network.name ?? '',
         icon: 'Switch',
         onPress: onChangeNetwork,
       },
       {
         title: 'Deposit address',
-        value: item?.contractAddress ?? '',
+        value: item?.address ?? '',
         icon: 'Copy',
         onPress: copyToClipboard,
       },
     ],
-    [copyToClipboard, item?.contractAddress, network, onChangeNetwork],
+    [copyToClipboard, item?.address, item?.network.name, onChangeNetwork],
   );
 
   return (
-    <AppScreen title={`Deposit ${item?.symbol}`} noScroll>
+    <AppScreen title={`Deposit ${item?.cryptoAsset.symbol}`} noScroll>
       <AppView
+        minHeight={150}
+        minWidth={150}
         borderRadius={8}
-        width={'auto'}
         alignSelf={'center'}
         backgroundColor={colors.white}
         marginVertical={20}
         padding={10}>
-        <QRCode
-          ecl={'H'}
-          logo={item?.image}
-          logoSize={30}
-          size={150}
-          value={item?.contractAddress}
-          logoMargin={0}
-          logoBackgroundColor={colors.black}
-        />
+        {item?.address && (
+          <QRCode
+            ecl={'H'}
+            logo={item?.cryptoAsset.image}
+            logoSize={30}
+            size={150}
+            value={item?.address}
+            logoMargin={0}
+            logoBackgroundColor={colors.black}
+          />
+        )}
       </AppView>
       <AppView
         width={'100%'}
@@ -132,7 +139,10 @@ export const DepositDetailsScreen: FC = () => {
         <AppText color={colors.inputLabelColor} textStyle={'regular_12_18'}>
           Minimum deposit
         </AppText>
-        <AppText textStyle={'regular_12_18'}>{`>0.01 ${item?.symbol}`}</AppText>
+        <AppText
+          textStyle={
+            'regular_12_18'
+          }>{`>0.01 ${item?.cryptoAsset.symbol}`}</AppText>
       </AppView>
       <AppText color={colors.inputErrorColor}>
         *Do not transact with Sanctioned Entities

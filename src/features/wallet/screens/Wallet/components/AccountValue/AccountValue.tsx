@@ -9,7 +9,7 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { MainParamList } from '@app/features/rootNavigation/main/types.ts';
 import { accountValueButtonsList } from '@app/features/wallet/screens/Wallet/components/AccountValue/constants.tsx';
 import { useSelector } from 'react-redux';
-import { selectUnifiedBalance } from '@app/features/wallet/screens/Wallet/redux/selectors.ts';
+import { selectUnifiedBalance } from '@app/features/wallet/redux/selectors.ts';
 import { formatNumber } from '@app/utils/number.ts';
 import { useCallback, useMemo } from 'react';
 import { SelectMethodModalContent } from '@app/features/wallet/modals/SelectMethodModalContent/SelectMethodModalContent.tsx';

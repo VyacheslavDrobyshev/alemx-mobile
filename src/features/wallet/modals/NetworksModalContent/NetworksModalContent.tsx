@@ -8,7 +8,7 @@ import {
   useAppBottomDrawer,
 } from '@app/components';
 import { FC, useMemo } from 'react';
-import { AssetsData } from '@app/features/wallet/screens/Wallet/redux/types.ts';
+import { AppUserWalletsDto } from '@app/features/wallet/redux/types.ts';
 
 type NetworkItem = {
   id: string;
@@ -50,8 +50,8 @@ export const NetworkItem: FC<NetworkItem> = ({
 };
 
 export const NetworksModalContent: FC<{
-  onPress: (network: string, item?: AssetsData) => void;
-  item?: AssetsData;
+  onPress: (network: string, item?: AppUserWalletsDto) => void;
+  item?: AppUserWalletsDto;
 }> = ({ onPress, item }) => {
   const { closeBottomDrawer } = useAppBottomDrawer();
   const { colors } = useAppTheme();

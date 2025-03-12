@@ -14,7 +14,7 @@ export const AppErrorText: FC<AppTextProps> = ({
     <AppText
       textAlign="left"
       color={theme.input.errorMessage.color}
-      textStyle={textStyle ?? 'medium_12_15'}
+      textStyle={textStyle ?? 'regular_12_18'}
       marginTop={3}
       {...rest}>
       {children}

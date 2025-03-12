@@ -18,3 +18,8 @@ export const registerApi = async (params: AppRegisterParams) => {
   );
   return response.data;
 };
+
+export const getUserinfoApi = async () => {
+  const response = await axios.get('auth/me');
+  return response.data;
+};

@@ -23,7 +23,7 @@ instance.interceptors.response.use(
   },
   async error => {
     if (error.response?.data.message === 'refresh token is expired') {
-      store.dispatch(logoutThunk);
+      store.dispatch(logoutThunk());
       return;
     }
     return Promise.reject(error);

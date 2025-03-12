@@ -32,6 +32,7 @@ export const AppInput: FC<AppInputProps> = props => {
     leftContent,
     rightContent,
     placeholder,
+    title,
     withClear,
     secureTextEntry,
     borderRadius,
@@ -54,12 +55,14 @@ export const AppInput: FC<AppInputProps> = props => {
 
   return (
     <AppView onLayout={onLayout}>
-      <AppText
-        marginBottom={input.placeholder.marginBottom}
-        color={input.placeholder.color}
-        textStyle="medium_16_24">
-        {placeholder}
-      </AppText>
+      {title ? (
+        <AppText
+          marginBottom={input.placeholder.marginBottom}
+          color={input.placeholder.color}
+          textStyle="regular_14_25">
+          {title}
+        </AppText>
+      ) : null}
       <AppView
         margin={margin}
         marginHorizontal={marginHorizontal}
@@ -125,7 +128,7 @@ export const AppInput: FC<AppInputProps> = props => {
           )}
           {withClear && (
             <AppTouchable onPress={clearInput} marginLeft={10}>
-              <AppIcon height={17} fill={colors.inputItemColor} name="Cross" />
+              <AppIcon color={colors.inputItemColor} name="Cross" />
             </AppTouchable>
           )}
           {rightContent}

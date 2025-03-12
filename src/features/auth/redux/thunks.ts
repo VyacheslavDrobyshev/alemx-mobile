@@ -1,4 +1,3 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
 import { loginApi, registerApi } from '@app/features/auth/api';
 import {
   AppLoginDto,
@@ -9,37 +8,36 @@ import {
 } from '@app/features/auth/redux/types.ts';
 import { AxiosError } from 'axios';
 import { ejectAuthInterceptor } from '@app/api/interceptor.ts';
+import { createAppThunk } from '@app/redux/thunk.ts';
 
-export const loginThunk = createAsyncThunk<
-  AppLoginDto,
-  AppLoginParams,
-  { rejectValue: string }
->('auth/loginThunk', async (params, { rejectWithValue }) => {
-  try {
-    return await loginApi(params);
-  } catch (e) {
-    const error = e as AxiosError<AppLoginError>;
-    return rejectWithValue(
-      error.response?.data.detail ?? 'Something went wrong',
-    );
-  }
-});
+export const loginThunk = createAppThunk<AppLoginDto, AppLoginParams>(
+  'auth/loginThunk',
+  async (params, { rejectWithValue }) => {
+    try {
+      return await loginApi(params);
+    } catch (e) {
+      const error = e as AxiosError<AppLoginError>;
+      return rejectWithValue(
+        error.response?.data.detail ?? 'Something went wrong',
+      );
+    }
+  },
+);
 
-export const registerThunk = createAsyncThunk<
-  AppRegisterDto,
-  AppRegisterParams,
-  { rejectValue: string }
->('auth/registerThunk', async (params, { rejectWithValue }) => {
-  try {
-    return await registerApi(params);
-  } catch (e) {
-    const error = e as AxiosError<AppLoginError>;
-    return rejectWithValue(
-      error.response?.data.detail ?? 'Something went wrong',
-    );
-  }
-});
+export const registerThunk = createAppThunk<AppRegisterDto, AppRegisterParams>(
+  'auth/registerThunk',
+  async (params, { rejectWithValue }) => {
+    try {
+      return await registerApi(params);
+    } catch (e) {
+      const error = e as AxiosError<AppLoginError>;
+      return rejectWithValue(
+        error.response?.data.detail ?? 'Something went wrong',
+      );
+    }
+  },
+);
 
-export const logoutThunk = createAsyncThunk('auth/logoutThunk', async () => {
+export const logoutThunk = createAppThunk('auth/logoutThunk', async () => {
   ejectAuthInterceptor();
 });
