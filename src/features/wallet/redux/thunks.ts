@@ -3,12 +3,14 @@ import { AxiosError } from 'axios';
 import {
   createUserWalletApi,
   getAssetsApi,
+  getUsersApi,
   getUserUnifiedBalanceApi,
   getUserWalletsApi,
 } from '@app/features/wallet/api';
 import {
   AppAssetsDto,
   AppCreateWalletParams,
+  AppUsersDto,
   AppUserUnifiedBalanceDto,
   AppUserWalletsDto,
   PaginationParams,
@@ -54,6 +56,20 @@ export const getAssetsThunk = createAppThunk<AppAssetsDto, PaginationParams>(
   async (params, { rejectWithValue }) => {
     try {
       return await getAssetsApi(params);
+    } catch (e) {
+      const error = e as AxiosError<AppLoginError>;
+      return rejectWithValue(
+        error.response?.data.detail ?? 'Something went wrong',
+      );
+    }
+  },
+);
+
+export const getUsersThunk = createAppThunk<AppUsersDto, PaginationParams>(
+  'auth/getUsersThunk',
+  async (params, { rejectWithValue }) => {
+    try {
+      return await getUsersApi(params);
     } catch (e) {
       const error = e as AxiosError<AppLoginError>;
       return rejectWithValue(

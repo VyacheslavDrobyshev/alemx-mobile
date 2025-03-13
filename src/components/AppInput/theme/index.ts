@@ -20,7 +20,7 @@ export const getInputTheme = (colors: AppColorScheme): InputTheme => ({
     borderColor: colors.inputBorderColor,
   },
   disabled: {
-    borderColor: colors.transparent,
+    borderColor: colors.inputBorderColor,
     color: colors.textSecondary,
   },
   filled: {

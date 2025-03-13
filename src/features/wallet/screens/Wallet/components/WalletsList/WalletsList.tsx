@@ -26,7 +26,9 @@ export type ModifiedWallet = AppUserWalletsDto & {
 
 export const WalletsList: FC<{
   onPress?: (item: ModifiedWallet) => void;
-}> = ({ onPress }) => {
+  hideZeroBalance?: boolean;
+  hasAssets?: boolean;
+}> = ({ onPress, hideZeroBalance, hasAssets }) => {
   const {
     cryptoCurrencyList: { contentContainerStyle },
   } = useAppTheme();
@@ -62,21 +64,31 @@ export const WalletsList: FC<{
   );
 
   const filteredWallets = useMemo(() => {
-    if (!hideBalance) {
-      return mappedWallets;
+    if (hideZeroBalance) {
+      if (hideBalance) {
+        return mappedWallets.filter(
+          el => Number(el.balancesByAsset?.balance ?? 0) > 1,
+        );
+      }
+      return mappedWallets.filter(
+        el => Number(el.balancesByAsset?.balance ?? 0) > 0,
+      );
     }
-    return mappedWallets.filter(
-      el => Number(el.balancesByAsset?.balance ?? 0) > 1,
-    );
-  }, [mappedWallets, hideBalance]);
+    return mappedWallets;
+  }, [hideBalance, hideZeroBalance, mappedWallets]);
 
   const renderItem = useCallback<ListRenderItem<ModifiedWallet>>(
     ({ item }) => {
       return (
-        <WalletItem showAssets={showAssets} onPress={onPress} item={item} />
+        <WalletItem
+          hasAssets={hasAssets}
+          showAssets={showAssets}
+          onPress={onPress}
+          item={item}
+        />
       );
     },
-    [showAssets, onPress],
+    [hasAssets, showAssets, onPress],
   );
 
   const onPressPlaceholderButton = useCallback(() => {

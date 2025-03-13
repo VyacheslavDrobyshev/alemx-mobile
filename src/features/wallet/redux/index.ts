@@ -4,6 +4,7 @@ import { AppUserWalletsState, WalletSettings } from './types.ts';
 import {
   getAssetsThunk,
   getUnifiedBalanceThunk,
+  getUsersThunk,
   getUserWalletsThunk,
 } from './thunks.ts';
 import { walletSettings } from '@app/features/wallet/screens/Wallet/constants.ts';
@@ -14,9 +15,13 @@ const initialPersistState: AppUserWalletsState = {
   unifiedBalance: null,
   assets: {
     data: [],
-    nextCursor: 1,
+    next_cursor: 1,
   },
   walletSettings: walletSettings,
+  users: {
+    data: [],
+    next_cursor: 1,
+  },
 };
 
 const slice = createSlice({
@@ -46,7 +51,15 @@ const slice = createSlice({
       } else {
         state.assets.data = [...state.assets.data, ...payload.data];
       }
-      state.assets.nextCursor = payload.nextCursor;
+      state.assets.next_cursor = payload.next_cursor;
+    });
+    builder.addCase(getUsersThunk.fulfilled, (state, { payload, meta }) => {
+      if (meta.arg.cursor === 1) {
+        state.users.data = payload.data;
+      } else {
+        state.users.data = [...state.users.data, ...payload.data];
+      }
+      state.users.next_cursor = payload.next_cursor;
     });
     builder.addCase(getUnifiedBalanceThunk.fulfilled, (state, { payload }) => {
       state.unifiedBalance = payload;

@@ -8,7 +8,7 @@ import { CryptoCurrencyItem } from '@app/features/wallet/screens/Deposit/CryptoC
 import { useSelector } from 'react-redux';
 import {
   selectAssets,
-  selectNextCursor,
+  selectNextAssetCursor,
 } from '@app/features/wallet/redux/selectors';
 import { useAppDispatch } from '@app/redux';
 import { getAssetsThunk } from '@app/features/wallet/redux/thunks';
@@ -25,7 +25,7 @@ export const CryptoCurrencyList: FC<{
   } = useAppTheme();
   const dispatch = useAppDispatch();
   const assets = useSelector(selectAssets);
-  const nextCursor = useSelector(selectNextCursor);
+  const nextCursor = useSelector(selectNextAssetCursor);
 
   const groupByFirstLetter = useCallback(
     (items: AssetsData[]): { title: string; data: AssetsData[] }[] => {

@@ -6,9 +6,9 @@ export enum WalletSettingsId {
 }
 
 export enum LevelFee {
-  High = 'high',
-  Medium = 'medium',
-  Low = 'low',
+  High = 'HIGH',
+  Medium = 'MEDIUM',
+  Low = 'LOW',
 }
 
 export const walletSettings = [

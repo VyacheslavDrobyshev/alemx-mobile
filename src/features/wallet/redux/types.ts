@@ -1,4 +1,7 @@
-import { WalletSettingsId } from '@app/features/wallet/screens/Wallet/constants.ts';
+import {
+  LevelFee,
+  WalletSettingsId,
+} from '@app/features/wallet/screens/Wallet/constants.ts';
 
 export type PaginationParams = {
   limit: number;
@@ -15,8 +18,15 @@ export type AppCreateWalletParams = {
 export type AppWithdrawParams = {
   assetId: number;
   amount: string;
-  feeLevel: 'low' | 'high' | 'medium';
+  feeLevel: LevelFee;
   receiverOneTimeAddress: string;
+};
+
+export type AppTransferParams = {
+  assetId: number;
+  amount: string;
+  feeLevel: LevelFee;
+  receiverUserId: number;
 };
 
 export type AppUserWalletsDto = {
@@ -61,6 +71,12 @@ export type AssetsData = {
   network: AssetNetwork;
 };
 
+export type UserData = {
+  id: number;
+  username: string;
+  email: string;
+};
+
 export type AssetNetwork = {
   id: number;
   name: string;
@@ -70,7 +86,12 @@ export type AssetNetwork = {
 };
 export type AppAssetsDto = {
   data: AssetsData[];
-  nextCursor: number;
+  next_cursor: number;
+};
+
+export type AppUsersDto = {
+  data: UserData[];
+  next_cursor: number;
 };
 
 export type WalletSettings = {
@@ -85,6 +106,7 @@ export type AppUserWalletsState = {
   unifiedBalance: AppUserUnifiedBalanceDto | null;
   assets: AppAssetsDto;
   walletSettings: WalletSettings[];
+  users: AppUsersDto;
 };
 
 export type AppWithdrawError = {

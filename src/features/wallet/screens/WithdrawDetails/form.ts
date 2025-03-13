@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { WithdrawFormValues } from './types.ts';
 
 export const getWithdrawFormInitialValues = (): WithdrawFormValues => ({
-  address: 'AJwEmchVjcjSYRxQtmZNx7WfYEzBRSBFXA4Cz2bFWZ9Z',
+  address: '',
   amount: '',
 });
 
@@ -14,7 +14,7 @@ export const useWithdrawFormValidation = () => {
       object().shape({
         address: string().required('Please enter receiving address'),
         amount: number()
-          .typeError('Amount must be a number') // Сообщение, если введён нечисловой формат
+          .typeError('Amount must be a number')
           .min(0, 'Amount must be positive')
           .required('Amount is required'),
       }),

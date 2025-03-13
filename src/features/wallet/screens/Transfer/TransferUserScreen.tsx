@@ -1,0 +1,38 @@
+import { FC, useCallback, useState } from 'react';
+import { AppIcon, AppInput, AppScreen } from '@app/components';
+
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { MainParamList } from '@app/features/rootNavigation/main/types.ts';
+import { MainRoute } from '@app/features/rootNavigation/main/constants.ts';
+import { UserData } from '@app/features/wallet/redux/types.ts';
+import { useAppTheme } from '@app/theme';
+
+import { UsersList } from '@app/features/wallet/screens/Transfer/components/UsersList/UsersList.tsx';
+
+export const TransferUserScreen: FC = () => {
+  const { navigate } = useNavigation<NavigationProp<MainParamList>>();
+  const { colors } = useAppTheme();
+  const onPress = useCallback(
+    async (user: UserData) => {
+      navigate(MainRoute.TransferAsset, { user });
+    },
+    [navigate],
+  );
+
+  const [search, setSearch] = useState('');
+
+  return (
+    <AppScreen title={'Transfer'} noScroll>
+      <AppInput
+        placeholder={'Search coins'}
+        rightContent={
+          !search && <AppIcon name={'Search'} color={colors.inputLabelColor} />
+        }
+        value={search}
+        withClear={!!search}
+        onChangeText={setSearch}
+      />
+      <UsersList search={search} onPress={onPress} />
+    </AppScreen>
+  );
+};

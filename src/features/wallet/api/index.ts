@@ -3,6 +3,8 @@ import {
   AppAssetsDto,
   AppCreateWalletParams,
   AppFeeDto,
+  AppTransferParams,
+  AppUsersDto,
   AppUserUnifiedBalanceDto,
   AppUserWalletsDto,
   AppWithdrawParams,
@@ -49,7 +51,17 @@ export const createWithdrawApi = async (params: AppWithdrawParams) => {
   return response.data;
 };
 
+export const createTransferApi = async (params: AppTransferParams) => {
+  const response = await axios.post<void>('user/make-transfer', params);
+  return response.data;
+};
+
 export const getAssetsApi = async (params: PaginationParams) => {
   const response = await axios.get<AppAssetsDto>('/assets', { params });
+  return response.data;
+};
+
+export const getUsersApi = async (params: PaginationParams) => {
+  const response = await axios.get<AppUsersDto>('/users/all', { params });
   return response.data;
 };

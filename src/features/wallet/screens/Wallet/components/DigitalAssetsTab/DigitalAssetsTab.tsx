@@ -1,7 +1,7 @@
 import { AppIcon, AppText, AppView, useAppBottomDrawer } from '@app/components';
 import { AccountValue } from '@app/features/wallet/screens/Wallet/components/AccountValue/AccountValue.tsx';
 import { useAppTheme } from '@app/theme';
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { SettingsModalContent } from '@app/features/wallet/modals/SettingsModalContent/SettingsModalContent.tsx';
 import {
   getAssetsThunk,
@@ -15,7 +15,11 @@ import {
   WalletsList,
 } from '@app/features/wallet/screens/Wallet/components/WalletsList/WalletsList.tsx';
 
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import {
+  NavigationProp,
+  useFocusEffect,
+  useNavigation,
+} from '@react-navigation/native';
 import { MainParamList } from '@app/features/rootNavigation/main/types.ts';
 import { MainRoute } from '@app/features/rootNavigation/main/constants.ts';
 
@@ -23,6 +27,7 @@ export const DigitalAssetsTab = () => {
   const { colors } = useAppTheme();
   const { openBottomDrawer } = useAppBottomDrawer();
   const { navigate } = useNavigation<NavigationProp<MainParamList>>();
+  const dispatch = useAppDispatch();
 
   const onOpenSettings = useCallback(() => {
     openBottomDrawer({
@@ -39,17 +44,18 @@ export const DigitalAssetsTab = () => {
     [navigate],
   );
 
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(
-      getAssetsThunk({
-        limit: paginationLimit,
-        cursor: 1,
-      }),
-    );
-    dispatch(getUserWalletsThunk());
-    dispatch(getUnifiedBalanceThunk());
-  });
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(
+        getAssetsThunk({
+          limit: paginationLimit,
+          cursor: 1,
+        }),
+      );
+      dispatch(getUserWalletsThunk());
+      dispatch(getUnifiedBalanceThunk());
+    }, [dispatch]),
+  );
 
   return (
     <AppView flex={1}>
@@ -68,7 +74,7 @@ export const DigitalAssetsTab = () => {
           color={colors.inputLabelColor}
         />
       </AppView>
-      <WalletsList onPress={onPress} />
+      <WalletsList hasAssets hideZeroBalance onPress={onPress} />
     </AppView>
   );
 };

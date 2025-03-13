@@ -1,7 +1,10 @@
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 
 import { MainRoute } from './constants';
-import { AppUserWalletsDto } from '@app/features/wallet/redux/types.ts';
+import {
+  AppUserWalletsDto,
+  UserData,
+} from '@app/features/wallet/redux/types.ts';
 import { ModifiedWallet } from '@app/features/wallet/screens/Wallet/components/WalletsList/WalletsList.tsx';
 
 export type MainParamList = {
@@ -12,6 +15,9 @@ export type MainParamList = {
   [MainRoute.Withdraw]: undefined;
   [MainRoute.WithdrawDetails]: { item: ModifiedWallet };
   [MainRoute.History]: undefined;
+  [MainRoute.TransferUser]: undefined;
+  [MainRoute.TransferAsset]: { user: UserData };
+  [MainRoute.TransferDetails]: { user: UserData; item: ModifiedWallet };
 };
 
 export type MainNavigationProp<

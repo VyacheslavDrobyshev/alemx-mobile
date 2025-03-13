@@ -7,6 +7,8 @@ export enum MainRoute {
   WithdrawDetails = 'WithdrawDetails',
   History = 'History',
   HistoryDetails = 'HistoryDetails',
-  Transfer = 'Transfer',
+  TransferUser = 'TransferUser',
+  TransferAsset = 'TransferAsset',
+  TransferDetails = 'TransferDetails',
   Swap = 'Swap',
 }

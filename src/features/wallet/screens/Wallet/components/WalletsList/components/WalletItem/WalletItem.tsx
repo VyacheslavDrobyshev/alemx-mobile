@@ -1,4 +1,5 @@
 import { AppText, AppTouchable, AppView } from '@app/components';
+import { FC } from 'react';
 import { useAppTheme } from '@app/theme';
 
 import { formatNumber } from '@app/utils/number.ts';
@@ -6,15 +7,12 @@ import { AppImage } from '@app/components/AppImage/AppImage.tsx';
 import { ModifiedWallet } from '@app/features/wallet/screens/Wallet/components/WalletsList/WalletsList.tsx';
 import { NetworkItem } from '@app/features/wallet/screens/WalletDetails/components/NetworkItem/NetworkItem.tsx';
 
-export const WalletItem = ({
-  item,
-  onPress,
-  showAssets = false,
-}: {
+export const WalletItem: FC<{
   item: ModifiedWallet;
   onPress?: (item: ModifiedWallet) => void;
   showAssets?: boolean;
-}) => {
+  hasAssets?: boolean;
+}> = ({ item, onPress, showAssets = false, hasAssets }) => {
   const {
     colors,
     cryptoCurrencyList: { secondaryTextColor, itemContainer, icon },
@@ -80,7 +78,7 @@ export const WalletItem = ({
         </AppView>
         <AppView />
       </AppTouchable>
-      {showAssets && (
+      {showAssets && hasAssets && (
         <>
           <AppView
             alignSelf={'center'}

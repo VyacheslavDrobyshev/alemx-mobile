@@ -16,7 +16,7 @@ export type InputTheme = {
     borderColor: AppColorValue;
   };
   disabled: {
-    borderColor: AppColorValue;
+    borderColor?: AppColorValue;
     color: AppColorValue;
   };
   default: {

@@ -7,9 +7,13 @@ export const selectUnifiedBalance = ({ wallets }: CoreReduxState) =>
   wallets.unifiedBalance;
 
 export const selectAssets = ({ wallets }: CoreReduxState) => wallets.assets;
+export const selectUsers = ({ wallets }: CoreReduxState) => wallets.users;
 
 export const selectWalletSettings = ({ wallets }: CoreReduxState) =>
   wallets.walletSettings;
 
-export const selectNextCursor = ({ wallets }: CoreReduxState) =>
-  wallets.assets.nextCursor;
+export const selectNextAssetCursor = ({ wallets }: CoreReduxState) =>
+  wallets.assets.next_cursor;
+
+export const selectNextUserCursor = ({ wallets }: CoreReduxState) =>
+  wallets.users.next_cursor;

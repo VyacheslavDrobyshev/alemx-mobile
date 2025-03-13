@@ -1,7 +1,12 @@
 import { FC, useCallback } from 'react';
 import { AppScreen } from '@app/components';
 
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import {
+  NavigationProp,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import { MainParamList } from '@app/features/rootNavigation/main/types.ts';
 import { MainRoute } from '@app/features/rootNavigation/main/constants.ts';
 import {
@@ -9,14 +14,18 @@ import {
   WalletsList,
 } from '@app/features/wallet/screens/Wallet/components/WalletsList/WalletsList.tsx';
 
-export const WithdrawScreen: FC = () => {
+export const TransferAssetScreen: FC = () => {
   const { navigate } = useNavigation<NavigationProp<MainParamList>>();
+
+  const {
+    params: { user },
+  } = useRoute<RouteProp<MainParamList, MainRoute.TransferAsset>>();
 
   const onPress = useCallback(
     (item: ModifiedWallet) => {
-      navigate(MainRoute.WithdrawDetails, { item });
+      navigate(MainRoute.TransferDetails, { user, item });
     },
-    [navigate],
+    [navigate, user],
   );
 
   return (

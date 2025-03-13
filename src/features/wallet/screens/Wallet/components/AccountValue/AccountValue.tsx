@@ -85,7 +85,7 @@ export const AccountValue = () => {
                 icon: 'Transfer',
                 title: 'Transfer',
                 subtitle: 'Send crypto through username to another ALEMX user.',
-                action: () => {},
+                action: () => navigate(MainRoute.TransferUser),
               },
             ],
           });
