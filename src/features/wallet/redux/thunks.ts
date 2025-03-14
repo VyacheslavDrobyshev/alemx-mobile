@@ -1,12 +1,6 @@
-import { AppLoginError } from '@app/features/auth/redux/types.ts';
 import { AxiosError } from 'axios';
-import {
-  createUserWalletApi,
-  getAssetsApi,
-  getUsersApi,
-  getUserUnifiedBalanceApi,
-  getUserWalletsApi,
-} from '@app/features/wallet/api';
+import { createAppThunk } from '@app/redux/thunk.ts';
+import { TransactionType } from '@app/features/wallet/screens/Wallet/constants.ts';
 import {
   AppAssetsDto,
   AppCreateWalletParams,
@@ -14,9 +8,18 @@ import {
   AppUserUnifiedBalanceDto,
   AppUserWalletsDto,
   PaginationParams,
+  TransferTransactionDto,
 } from '@app/features/wallet/redux/types.ts';
-
-import { createAppThunk } from '@app/redux/thunk.ts';
+import {
+  createUserWalletApi,
+  getAssetsApi,
+  getTransactionsApi,
+  getTransactionsByIdApi,
+  getUsersApi,
+  getUserUnifiedBalanceApi,
+  getUserWalletsApi,
+} from '@app/features/wallet/api';
+import { AppLoginError } from '@app/features/auth/redux/types.ts';
 
 export const getUserWalletsThunk = createAppThunk<AppUserWalletsDto[], void>(
   'auth/getUserWalletsThunk',
@@ -78,6 +81,34 @@ export const getUsersThunk = createAppThunk<AppUsersDto, PaginationParams>(
     }
   },
 );
+
+export const getTransactionsByIdThunk = createAppThunk<
+  any,
+  { external_id: string }
+>('auth/getTransactionsByIdThunk', async (params, { rejectWithValue }) => {
+  try {
+    return await getTransactionsByIdApi(params);
+  } catch (e) {
+    const error = e as AxiosError<AppLoginError>;
+    return rejectWithValue(
+      error.response?.data.detail ?? 'Something went wrong',
+    );
+  }
+});
+
+export const getTransactionsThunk = createAppThunk<
+  TransferTransactionDto,
+  PaginationParams & { transaction_type: TransactionType }
+>('auth/getTransactionsThunk', async (params, { rejectWithValue }) => {
+  try {
+    return await getTransactionsApi(params);
+  } catch (e) {
+    const error = e as AxiosError<AppLoginError>;
+    return rejectWithValue(
+      error.response?.data.detail ?? 'Something went wrong',
+    );
+  }
+});
 
 export const getUnifiedBalanceThunk = createAppThunk<
   AppUserUnifiedBalanceDto,

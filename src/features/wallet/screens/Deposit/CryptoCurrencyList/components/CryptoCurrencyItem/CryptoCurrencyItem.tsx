@@ -2,7 +2,6 @@ import { AppText, AppTouchable, AppView } from '@app/components';
 import { useAppTheme } from '@app/theme';
 import { AssetsData } from '@app/features/wallet/redux/types.ts';
 
-// import { formatNumber } from '@app/utils/number.ts';
 import { AppImage } from '@app/components/AppImage/AppImage.tsx';
 
 export const CryptoCurrencyItem = ({
@@ -54,15 +53,14 @@ export const CryptoCurrencyItem = ({
       <AppView flex={1}>
         <AppView flexDirection={'row'} justifyContent={'space-between'}>
           <AppText textStyle={'medium_14_20'}>{item.symbol}</AppText>
-          <AppText textStyle={'medium_14_20'}>
-            {/*{formatNumber(item.balance)}*/}
-          </AppText>
+          <AppText textStyle={'medium_14_20'} />
         </AppView>
         <AppView flexDirection={'row'} justifyContent={'space-between'}>
           <AppText textStyle={'regular_12_18'}>{item.name}</AppText>
-          <AppText textStyle={'regular_12_18'} color={secondaryTextColor.color}>
-            {/*{formatNumber(item.balanceUsd, 'currency')}*/}
-          </AppText>
+          <AppText
+            textStyle={'regular_12_18'}
+            color={secondaryTextColor.color}
+          />
         </AppView>
       </AppView>
       <AppView />

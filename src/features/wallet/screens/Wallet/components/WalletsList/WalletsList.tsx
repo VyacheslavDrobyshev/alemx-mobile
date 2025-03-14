@@ -45,7 +45,7 @@ export const WalletsList: FC<{
         return {
           ...el,
           balancesByAsset:
-            unifiedBalance?.balancesByAsset[el.cryptoAsset.symbol],
+            unifiedBalance?.balancesByAsset?.[el.cryptoAsset.symbol],
         };
       }) ?? [];
     setMappedWallets(modifiedWallets);

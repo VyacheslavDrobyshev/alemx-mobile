@@ -17,3 +17,6 @@ export const selectNextAssetCursor = ({ wallets }: CoreReduxState) =>
 
 export const selectNextUserCursor = ({ wallets }: CoreReduxState) =>
   wallets.users.next_cursor;
+
+export const selectTransactionsByType = ({ wallets }: CoreReduxState) =>
+  wallets.transactionsByType;

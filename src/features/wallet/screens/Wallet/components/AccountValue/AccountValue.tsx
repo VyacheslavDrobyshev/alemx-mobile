@@ -99,6 +99,7 @@ export const AccountValue = () => {
           navigate(MainRoute.History);
           break;
         default:
+          const _: never = id;
           break;
       }
     },

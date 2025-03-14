@@ -5,7 +5,6 @@ import {
   AppText,
   AppTouchable,
   AppView,
-  // useAppBottomDrawer,
 } from '@app/components';
 import Clipboard from '@react-native-clipboard/clipboard';
 
@@ -20,7 +19,6 @@ import { MainParamList } from '@app/features/rootNavigation/main/types.ts';
 import { MainRoute } from '@app/features/rootNavigation/main/constants.ts';
 import { useAppTheme } from '@app/theme';
 import { useAppToast } from '@app/components/AppToast/useAppToast.ts';
-// import { NetworksModalContent } from '@app/features/wallet/modals/NetworksModalContent/NetworksModalContent.tsx';
 import { AppIconName } from '@app/components/AppIcon/types.ts';
 
 export const DepositDetailsScreen: FC = () => {
@@ -28,24 +26,9 @@ export const DepositDetailsScreen: FC = () => {
     params: { item },
   } = useRoute<RouteProp<MainParamList, MainRoute.DepositDetails>>();
   const { colors } = useAppTheme();
-  // const { openBottomDrawer } = useAppBottomDrawer();
   const { goBack } = useNavigation<NavigationProp<MainParamList>>();
 
-  // const [network, setNetwork] = useState(initialNetwork);
   const { showSuccess } = useAppToast();
-
-  // const onNetworkChange = useCallback(() => {
-  //   goBack();
-  // }, [goBack]);
-
-  const onChangeNetwork = useCallback(() => {
-    goBack();
-    // openBottomDrawer({
-    //   body: <NetworksModalContent onPress={onNetworkChange} />,
-    //   closeOnBackdropPress: true,
-    //   title: 'Choose network',
-    // });
-  }, [goBack]);
 
   const copyToClipboard = useCallback(() => {
     Clipboard.setString(item?.address ?? '');
@@ -63,7 +46,7 @@ export const DepositDetailsScreen: FC = () => {
         title: 'Network',
         value: item?.network.name ?? '',
         icon: 'Switch',
-        onPress: onChangeNetwork,
+        onPress: goBack,
       },
       {
         title: 'Deposit address',
@@ -72,7 +55,7 @@ export const DepositDetailsScreen: FC = () => {
         onPress: copyToClipboard,
       },
     ],
-    [copyToClipboard, item?.address, item?.network.name, onChangeNetwork],
+    [copyToClipboard, item?.address, item?.network.name, goBack],
   );
 
   return (

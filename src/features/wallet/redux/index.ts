@@ -1,14 +1,18 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
 import { AppUserWalletsState, WalletSettings } from './types.ts';
 import {
   getAssetsThunk,
+  getTransactionsThunk,
   getUnifiedBalanceThunk,
   getUsersThunk,
   getUserWalletsThunk,
 } from './thunks.ts';
-import { walletSettings } from '@app/features/wallet/screens/Wallet/constants.ts';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {
+  TransactionType,
+  walletSettings,
+} from '@app/features/wallet/screens/Wallet/constants.ts';
 import { logoutThunk } from '@app/features/auth/redux/thunks.ts';
+
 
 const initialPersistState: AppUserWalletsState = {
   wallets: [],
@@ -22,6 +26,13 @@ const initialPersistState: AppUserWalletsState = {
     data: [],
     next_cursor: 1,
   },
+  transactionsByType: {
+    [TransactionType.Base]: [],
+    [TransactionType.Deposit]: [],
+    [TransactionType.Withdrawal]: [],
+    [TransactionType.Transfer]: [],
+  },
+  transactionsByCoin: {},
 };
 
 const slice = createSlice({
@@ -64,6 +75,13 @@ const slice = createSlice({
     builder.addCase(getUnifiedBalanceThunk.fulfilled, (state, { payload }) => {
       state.unifiedBalance = payload;
     });
+    builder.addCase(
+      getTransactionsThunk.fulfilled,
+      (state, { payload, meta }) => {
+        state.transactionsByType[meta.arg.transaction_type] =
+          payload.transactions;
+      },
+    );
   },
 });
 

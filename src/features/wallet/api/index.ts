@@ -1,4 +1,4 @@
-import { default as axios } from '@app/api/interceptor.ts';
+import { TransactionType } from '@app/features/wallet/screens/Wallet/constants.ts';
 import {
   AppAssetsDto,
   AppCreateWalletParams,
@@ -9,7 +9,9 @@ import {
   AppUserWalletsDto,
   AppWithdrawParams,
   PaginationParams,
+  TransferTransactionDto,
 } from '@app/features/wallet/redux/types.ts';
+import { default as axios } from '@app/api/interceptor.ts';
 
 export const getUserWalletsApi = async () => {
   const response = await axios.get<AppUserWalletsDto[]>('user/wallets');
@@ -63,5 +65,26 @@ export const getAssetsApi = async (params: PaginationParams) => {
 
 export const getUsersApi = async (params: PaginationParams) => {
   const response = await axios.get<AppUsersDto>('/users/all', { params });
+  return response.data;
+};
+
+export const getTransactionsByIdApi = async (params: {
+  external_id: string;
+}) => {
+  const response = await axios.get<any>(
+    `/user/transactions/${params.external_id}`,
+  );
+  return response.data;
+};
+
+export const getTransactionsApi = async (
+  params: PaginationParams & { transaction_type: TransactionType },
+) => {
+  const response = await axios.get<TransferTransactionDto>(
+    '/user/transactions',
+    {
+      params,
+    },
+  );
   return response.data;
 };

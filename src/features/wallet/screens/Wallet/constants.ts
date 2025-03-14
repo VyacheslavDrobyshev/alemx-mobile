@@ -11,6 +11,13 @@ export enum LevelFee {
   Low = 'LOW',
 }
 
+export enum TransactionType {
+  Base = 'base',
+  Transfer = 'transfer',
+  Deposit = 'deposit',
+  Withdrawal = 'withdrawal',
+}
+
 export const walletSettings = [
   {
     id: WalletSettingsId.Balance,

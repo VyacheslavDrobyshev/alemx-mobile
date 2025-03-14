@@ -1,5 +1,6 @@
 import {
   LevelFee,
+  TransactionType,
   WalletSettingsId,
 } from '@app/features/wallet/screens/Wallet/constants.ts';
 
@@ -107,6 +108,10 @@ export type AppUserWalletsState = {
   assets: AppAssetsDto;
   walletSettings: WalletSettings[];
   users: AppUsersDto;
+  transactionsByType: {
+    [key in TransactionType]: UnionTransaction[];
+  };
+  transactionsByCoin: { [key: string]: any };
 };
 
 export type AppWithdrawError = {
@@ -132,4 +137,90 @@ export type AppFeeDto = {
     maxFeePerGasDelta: number | null;
     l1Fee: number | null;
   };
+};
+
+export type CryptoAssetTransaction = {
+  name: string;
+  is_essential: boolean;
+  contract_address: string;
+  image: string;
+  symbol: string;
+  network_id: number;
+  external_id: string;
+  decimals: number;
+  id: number;
+  created_at: string;
+};
+
+export type UnionTransaction =
+  | TransferTransaction
+  | SwapTransaction
+  | DepositTransaction
+  | WithdrawalTransaction;
+
+export type TransferTransaction = {
+  external_id: string;
+  transaction_type: TransactionType;
+  status: string;
+  id: number;
+  created_at: string;
+  sender_user_id: number;
+  receiver_user_id: number;
+  crypto_asset_id: number;
+  amount: number;
+  transaction_hash: string;
+  updated_at: string;
+  sender_user: {
+    email: string;
+    username: string;
+    password: string;
+    created_at: string;
+    vault_account_id: number;
+    id: number;
+    updated_at: string;
+  };
+  receiver_user: {
+    email: string;
+    username: string;
+    password: string;
+    created_at: number;
+    vault_account_id: number;
+    id: number;
+    updated_at: string;
+  };
+  crypto_asset: CryptoAssetTransaction;
+};
+export type SwapTransaction = {
+  transaction_type: TransactionType;
+};
+export type DepositTransaction = {
+  transaction_type: TransactionType;
+};
+export type WithdrawalTransaction = {
+  external_id: string;
+  transaction_type: TransactionType;
+  status: string;
+  created_at: string;
+  user_id: number;
+  external_destination_address: string;
+  amount: number;
+  crypto_asset_id: number;
+  transaction_hash: string;
+  id: number;
+  updated_at: string;
+  user: {
+    email: string;
+    username: string;
+    password: string;
+    created_at: string;
+    vault_account_id: number;
+    id: number;
+    updated_at: string;
+  };
+  crypto_asset: CryptoAssetTransaction;
+};
+
+export type TransferTransactionDto = {
+  transactions: Array<UnionTransaction>;
+  next_cursor: number;
 };

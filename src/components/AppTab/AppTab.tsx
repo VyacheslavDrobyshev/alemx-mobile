@@ -1,11 +1,16 @@
-import { AppText, AppTouchable, AppView } from '@app/components';
+import { FC, useEffect, useState } from 'react';
 import { useAppTheme } from '@app/theme';
-import { FC, useState } from 'react';
 import { AppTabProps } from '@app/components/AppTab/types.ts';
+import { AppText, AppTouchable, AppView } from '@app/components';
 
-export const AppTab: FC<AppTabProps> = ({ tabs, children }) => {
+export const AppTab: FC<AppTabProps> = ({ tabs, children, onTabChange }) => {
   const { colors } = useAppTheme();
   const [activeTab, setActiveTab] = useState(0);
+
+  useEffect(() => {
+    onTabChange?.(activeTab);
+  }, [activeTab, onTabChange]);
+
   return (
     <>
       <AppView
