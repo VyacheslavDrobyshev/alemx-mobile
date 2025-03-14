@@ -14,7 +14,6 @@ import {
   createUserWalletApi,
   getAssetsApi,
   getTransactionsApi,
-  getTransactionsByIdApi,
   getUsersApi,
   getUserUnifiedBalanceApi,
   getUserWalletsApi,
@@ -81,20 +80,6 @@ export const getUsersThunk = createAppThunk<AppUsersDto, PaginationParams>(
     }
   },
 );
-
-export const getTransactionsByIdThunk = createAppThunk<
-  any,
-  { external_id: string }
->('auth/getTransactionsByIdThunk', async (params, { rejectWithValue }) => {
-  try {
-    return await getTransactionsByIdApi(params);
-  } catch (e) {
-    const error = e as AxiosError<AppLoginError>;
-    return rejectWithValue(
-      error.response?.data.detail ?? 'Something went wrong',
-    );
-  }
-});
 
 export const getTransactionsThunk = createAppThunk<
   TransferTransactionDto,

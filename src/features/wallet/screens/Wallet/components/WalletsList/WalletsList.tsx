@@ -67,11 +67,11 @@ export const WalletsList: FC<{
     if (hideZeroBalance) {
       if (hideBalance) {
         return mappedWallets.filter(
-          el => Number(el.balancesByAsset?.balance ?? 0) > 1,
+          el => Number(el.balancesByAsset?.balanceUsd ?? 0) > 1,
         );
       }
       return mappedWallets.filter(
-        el => Number(el.balancesByAsset?.balance ?? 0) > 0,
+        el => Number(el.balancesByAsset?.balanceUsd ?? 0) > 0,
       );
     }
     return mappedWallets;

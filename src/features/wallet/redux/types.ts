@@ -111,7 +111,6 @@ export type AppUserWalletsState = {
   transactionsByType: {
     [key in TransactionType]: UnionTransaction[];
   };
-  transactionsByCoin: { [key: string]: any };
 };
 
 export type AppWithdrawError = {

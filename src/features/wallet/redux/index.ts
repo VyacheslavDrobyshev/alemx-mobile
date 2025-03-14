@@ -13,7 +13,6 @@ import {
 } from '@app/features/wallet/screens/Wallet/constants.ts';
 import { logoutThunk } from '@app/features/auth/redux/thunks.ts';
 
-
 const initialPersistState: AppUserWalletsState = {
   wallets: [],
   unifiedBalance: null,
@@ -32,7 +31,6 @@ const initialPersistState: AppUserWalletsState = {
     [TransactionType.Withdrawal]: [],
     [TransactionType.Transfer]: [],
   },
-  transactionsByCoin: {},
 };
 
 const slice = createSlice({

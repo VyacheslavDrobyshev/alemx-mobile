@@ -68,15 +68,6 @@ export const getUsersApi = async (params: PaginationParams) => {
   return response.data;
 };
 
-export const getTransactionsByIdApi = async (params: {
-  external_id: string;
-}) => {
-  const response = await axios.get<any>(
-    `/user/transactions/${params.external_id}`,
-  );
-  return response.data;
-};
-
 export const getTransactionsApi = async (
   params: PaginationParams & { transaction_type: TransactionType },
 ) => {
