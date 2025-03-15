@@ -13,8 +13,8 @@ import {
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
-import { WalletParamList } from '@app/features/rootNavigation/main/types.ts';
-import { WalletRoute } from '@app/features/rootNavigation/main/constants.ts';
+import { WalletParamList } from '@app/features/wallet/navigation/types.ts';
+import { WalletRoute } from '@app/features/wallet/navigation/constants.ts';
 import { useAppTheme } from '@app/theme';
 import { AssetsData } from '@app/features/wallet/redux/types.ts';
 import { FormikConfig } from 'formik';

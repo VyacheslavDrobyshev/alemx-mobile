@@ -7,8 +7,8 @@ import {
   AppView,
 } from '@app/components';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { UnauthorizedRoute } from '@app/features/rootNavigation/unauthorized/constants.ts';
-import { UnauthorizedParamList } from '@app/features/rootNavigation/unauthorized/types.ts';
+import { UnauthorizedRoute } from '@app/features/auth/navigation/constants.ts';
+import { UnauthorizedParamList } from '@app/features/auth/navigation/types.ts';
 import { useAppTheme } from '@app/theme';
 import { useForm } from '@app/form';
 import { FormikConfig } from 'formik';

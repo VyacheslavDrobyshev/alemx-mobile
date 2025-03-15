@@ -14,8 +14,8 @@ import {
 } from '@app/features/wallet/components/WalletsList/WalletsList.tsx';
 
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { WalletParamList } from '@app/features/rootNavigation/main/types.ts';
-import { WalletRoute } from '@app/features/rootNavigation/main/constants.ts';
+import { WalletParamList } from '@app/features/wallet/navigation/types.ts';
+import { WalletRoute } from '@app/features/wallet/navigation/constants.ts';
 
 export const DigitalAssetsTab = () => {
   const { colors } = useAppTheme();

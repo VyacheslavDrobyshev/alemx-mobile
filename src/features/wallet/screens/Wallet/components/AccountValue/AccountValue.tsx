@@ -6,7 +6,7 @@ import {
 } from '@app/components';
 import { useAppTheme } from '@app/theme';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { WalletParamList } from '@app/features/rootNavigation/main/types.ts';
+import { WalletParamList } from '@app/features/wallet/navigation/types.ts';
 import { accountValueButtonsList } from '@app/features/wallet/screens/Wallet/components/AccountValue/constants.tsx';
 import { useSelector } from 'react-redux';
 import {
@@ -18,7 +18,7 @@ import { useCallback, useMemo } from 'react';
 import { SelectMethodModalContent } from '@app/features/wallet/modals/SelectMethodModalContent/SelectMethodModalContent.tsx';
 import { AccountValueButtonsId } from '@app/features/wallet/screens/Wallet/components/AccountValue/types.ts';
 import { SelectMethodModalItem } from '@app/features/wallet/modals/SelectMethodModalContent/types.ts';
-import { WalletRoute } from '@app/features/rootNavigation/main/constants.ts';
+import { WalletRoute } from '@app/features/wallet/navigation/constants.ts';
 import { AppActivityIndicator } from '@app/components/AppActivityIndicator/AppActivityIndicator.tsx';
 
 export const AccountValue = () => {

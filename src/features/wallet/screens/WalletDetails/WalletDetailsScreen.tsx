@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { AppScreen, AppText, AppView } from '@app/components';
 import { RouteProp, useRoute } from '@react-navigation/native';
-import { WalletParamList } from '@app/features/rootNavigation/main/types.ts';
-import { WalletRoute } from '@app/features/rootNavigation/main/constants.ts';
+import { WalletParamList } from '@app/features/wallet/navigation/types.ts';
+import { WalletRoute } from '@app/features/wallet/navigation/constants.ts';
 import { useAppTheme } from '@app/theme';
 import { formatNumber } from '@app/utils/number.ts';
 import { AppImage } from '@app/components/AppImage/AppImage.tsx';

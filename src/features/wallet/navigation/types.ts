@@ -1,4 +1,4 @@
-import { WalletRoute } from './constants';
+import { WalletRoute } from './constants.ts';
 import {
   AppUserWalletsDto,
   UserData,

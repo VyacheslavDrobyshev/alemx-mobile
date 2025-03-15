@@ -1,5 +1,5 @@
 import { JSX } from 'react';
-import { WalletParamList } from '@app/features/rootNavigation/main/types.ts';
+import { WalletParamList } from '@app/features/wallet/navigation/types.ts';
 
 export enum AccountValueButtonsId {
   Deposit = 'deposit',

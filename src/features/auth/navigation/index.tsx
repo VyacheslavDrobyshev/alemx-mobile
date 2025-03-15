@@ -2,10 +2,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { FC } from 'react';
 import { SignUpScreen, SignInScreen } from '@app/features/auth';
 
-import { noHeaderOptions } from '../constants';
+import { noHeaderOptions } from '../../rootNavigation/constants.ts';
 
-import { UnauthorizedParamList } from './types';
-import { UnauthorizedRoute } from './constants';
+import { UnauthorizedParamList } from './types.ts';
+import { UnauthorizedRoute } from './constants.ts';
 
 const Unauthorized = createNativeStackNavigator<UnauthorizedParamList>();
 

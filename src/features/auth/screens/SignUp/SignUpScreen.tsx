@@ -1,7 +1,7 @@
 import { FC, useCallback, useMemo } from 'react';
-import { UnauthorizedRoute } from '@app/features/rootNavigation/unauthorized/constants.ts';
+import { UnauthorizedRoute } from '@app/features/auth/navigation/constants.ts';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { UnauthorizedParamList } from '@app/features/rootNavigation/unauthorized/types.ts';
+import { UnauthorizedParamList } from '@app/features/auth/navigation/types.ts';
 import {
   AppIcon,
   AppInput,

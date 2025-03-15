@@ -2,8 +2,8 @@ import { FC, useCallback, useState } from 'react';
 import { AppIcon, AppInput, AppScreen } from '@app/components';
 
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { WalletParamList } from '@app/features/rootNavigation/main/types.ts';
-import { WalletRoute } from '@app/features/rootNavigation/main/constants.ts';
+import { WalletParamList } from '@app/features/wallet/navigation/types.ts';
+import { WalletRoute } from '@app/features/wallet/navigation/constants.ts';
 import { UserData } from '@app/features/wallet/redux/types.ts';
 import { useAppTheme } from '@app/theme';
 

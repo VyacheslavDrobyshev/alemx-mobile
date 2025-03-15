@@ -1,4 +1,4 @@
-import { UnauthorizedRoute } from './constants';
+import { UnauthorizedRoute } from './constants.ts';
 
 export type UnauthorizedParamList = {
   [UnauthorizedRoute.SignIn]: undefined;

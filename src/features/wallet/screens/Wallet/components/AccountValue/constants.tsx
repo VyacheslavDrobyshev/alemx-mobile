@@ -3,7 +3,7 @@ import {
   AccountValueButtonsList,
 } from '@app/features/wallet/screens/Wallet/components/AccountValue/types.ts';
 import { AppIcon } from '@app/components';
-import { WalletRoute } from '@app/features/rootNavigation/main/constants.ts';
+import { WalletRoute } from '@app/features/wallet/navigation/constants.ts';
 
 export const accountValueButtonsList: AccountValueButtonsList[] = [
   {

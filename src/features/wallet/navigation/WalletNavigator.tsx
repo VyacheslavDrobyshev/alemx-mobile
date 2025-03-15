@@ -1,17 +1,17 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { FC } from 'react';
 
-import { noHeaderOptions } from '../constants';
+import { noHeaderOptions } from '../../rootNavigation/constants.ts';
 
-import { WalletParamList } from './types';
-import { WalletRoute } from './constants';
+import { WalletParamList } from './types.ts';
+import { WalletRoute } from './constants.ts';
 import { WalletScreen } from '@app/features/wallet';
-import { DepositScreen } from '@app/features/wallet/screens/Deposit/DepositScreen';
-import { DepositDetailsScreen } from '@app/features/wallet/screens/DepositDetails/DepositDetailsScreen';
-import { WithdrawScreen } from '@app/features/wallet/screens/Withdraw/WithdrawScreen';
-import { WithdrawDetailsScreen } from '@app/features/wallet/screens/WithdrawDetails/WithdrawDetailsScreen';
-import { HistoryScreen } from '@app/features/wallet/screens/History/History';
-import { WalletDetailsScreen } from '@app/features/wallet/screens/WalletDetails/WalletDetailsScreen';
+import { DepositScreen } from '@app/features/wallet/screens/Deposit/DepositScreen.tsx';
+import { DepositDetailsScreen } from '@app/features/wallet/screens/DepositDetails/DepositDetailsScreen.tsx';
+import { WithdrawScreen } from '@app/features/wallet/screens/Withdraw/WithdrawScreen.tsx';
+import { WithdrawDetailsScreen } from '@app/features/wallet/screens/WithdrawDetails/WithdrawDetailsScreen.tsx';
+import { HistoryScreen } from '@app/features/wallet/screens/History/History.tsx';
+import { WalletDetailsScreen } from '@app/features/wallet/screens/WalletDetails/WalletDetailsScreen.tsx';
 import { TransferUserScreen } from '@app/features/wallet/screens/Transfer/TransferUserScreen.tsx';
 import { TransferAssetScreen } from '@app/features/wallet/screens/Transfer/TransferAssetScreen.tsx';
 import { TransferDetailsScreen } from '@app/features/wallet/screens/TransferDetails/TransferDetailsScreen.tsx';
