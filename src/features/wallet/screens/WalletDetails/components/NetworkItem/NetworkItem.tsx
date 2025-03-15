@@ -3,7 +3,7 @@ import { AppText, AppView } from '@app/components';
 import { formatNumber } from '@app/utils/number.ts';
 import { FC } from 'react';
 import { useAppTheme } from '@app/theme';
-import { ModifiedWallet } from '@app/features/wallet/screens/Wallet/components/WalletsList/WalletsList.tsx';
+import { ModifiedWallet } from '@app/features/wallet/components/WalletsList/WalletsList.tsx';
 
 export const NetworkItem: FC<{ item: ModifiedWallet }> = ({ item }) => {
   const { colors } = useAppTheme();

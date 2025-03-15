@@ -3,6 +3,9 @@ import { CoreReduxState } from '@app/redux/types.ts';
 export const selectUserWallets = ({ wallets }: CoreReduxState) =>
   wallets.wallets;
 
+export const selectDepositWallets = ({ wallets }: CoreReduxState) =>
+  wallets.depositWallets;
+
 export const selectUnifiedBalance = ({ wallets }: CoreReduxState) =>
   wallets.unifiedBalance;
 

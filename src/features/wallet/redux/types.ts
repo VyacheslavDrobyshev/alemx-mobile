@@ -104,6 +104,7 @@ export type WalletSettings = {
 
 export type AppUserWalletsState = {
   wallets: AppUserWalletsDto[] | null;
+  depositWallets: AppUserWalletsDto[] | null;
   unifiedBalance: AppUserUnifiedBalanceDto | null;
   assets: AppAssetsDto;
   walletSettings: WalletSettings[];

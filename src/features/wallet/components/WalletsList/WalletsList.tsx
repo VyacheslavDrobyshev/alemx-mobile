@@ -9,12 +9,13 @@ import { useAppTheme } from '@app/theme';
 
 import { useSelector } from 'react-redux';
 import {
+  selectDepositWallets,
   selectUnifiedBalance,
   selectUserWallets,
   selectWalletSettings,
 } from '@app/features/wallet/redux/selectors.ts';
 import { WalletSettingsId } from '@app/features/wallet/screens/Wallet/constants.ts';
-import { WalletItem } from '@app/features/wallet/screens/Wallet/components/WalletsList/components/WalletItem/WalletItem';
+import { WalletItem } from '@app/features/wallet/components/WalletsList/components/WalletItem/WalletItem.tsx';
 import { EmptyListPlaceholder } from '@app/features/wallet/components/EmptyListPlaceholder/EmptyListPlaceholder.tsx';
 import { MainRoute } from '@app/features/rootNavigation/main/constants.ts';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
@@ -28,16 +29,23 @@ export const WalletsList: FC<{
   onPress?: (item: ModifiedWallet) => void;
   hideZeroBalance?: boolean;
   hasAssets?: boolean;
-}> = ({ onPress, hideZeroBalance, hasAssets }) => {
+  isDeposit?: boolean;
+}> = ({ onPress, hideZeroBalance, hasAssets, isDeposit }) => {
   const {
-    cryptoCurrencyList: { contentContainerStyle },
+    walletList: { contentContainerStyle },
   } = useAppTheme();
-  const wallets = useSelector(selectUserWallets);
+  const userWallets = useSelector(selectUserWallets);
+  const depositWallets = useSelector(selectDepositWallets);
   const unifiedBalance = useSelector(selectUnifiedBalance);
   const walletSettings = useSelector(selectWalletSettings);
   const { navigate } = useNavigation<NavigationProp<MainParamList>>();
 
   const [mappedWallets, setMappedWallets] = useState<ModifiedWallet[]>([]);
+
+  const wallets = useMemo(
+    () => (isDeposit ? depositWallets : userWallets),
+    [depositWallets, isDeposit, userWallets],
+  );
 
   useEffect(() => {
     const modifiedWallets: ModifiedWallet[] =

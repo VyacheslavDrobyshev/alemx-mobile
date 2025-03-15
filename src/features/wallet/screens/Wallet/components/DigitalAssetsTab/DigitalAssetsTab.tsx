@@ -4,16 +4,14 @@ import { useAppTheme } from '@app/theme';
 import { useCallback } from 'react';
 import { SettingsModalContent } from '@app/features/wallet/modals/SettingsModalContent/SettingsModalContent.tsx';
 import {
-  getAssetsThunk,
   getUnifiedBalanceThunk,
   getUserWalletsThunk,
 } from '@app/features/wallet/redux/thunks.ts';
-import { paginationLimit } from '@app/features/wallet/screens/Wallet/constants.ts';
 import { useAppDispatch } from '@app/redux';
 import {
   ModifiedWallet,
   WalletsList,
-} from '@app/features/wallet/screens/Wallet/components/WalletsList/WalletsList.tsx';
+} from '@app/features/wallet/components/WalletsList/WalletsList.tsx';
 
 import {
   NavigationProp,
@@ -46,12 +44,6 @@ export const DigitalAssetsTab = () => {
 
   useFocusEffect(
     useCallback(() => {
-      dispatch(
-        getAssetsThunk({
-          limit: paginationLimit,
-          cursor: 1,
-        }),
-      );
       dispatch(getUserWalletsThunk());
       dispatch(getUnifiedBalanceThunk());
     }, [dispatch]),

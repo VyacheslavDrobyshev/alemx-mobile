@@ -11,6 +11,7 @@ export type AppScreenTheme = {
     marginBottom: number;
     height: number;
     paddingHorizontal: number;
+    paddingVertical: number;
     borderColor: AppColorValue;
   };
   icon: {

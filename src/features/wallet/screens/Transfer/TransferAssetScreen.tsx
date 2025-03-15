@@ -12,7 +12,7 @@ import { MainRoute } from '@app/features/rootNavigation/main/constants.ts';
 import {
   ModifiedWallet,
   WalletsList,
-} from '@app/features/wallet/screens/Wallet/components/WalletsList/WalletsList.tsx';
+} from '@app/features/wallet/components/WalletsList/WalletsList.tsx';
 
 export const TransferAssetScreen: FC = () => {
   const { navigate } = useNavigation<NavigationProp<MainParamList>>();

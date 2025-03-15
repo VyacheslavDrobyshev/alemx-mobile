@@ -1,19 +1,19 @@
 import { AppView } from '@app/components';
 import { FlatList, ListRenderItem } from 'react-native';
 import { FC, useCallback, useEffect } from 'react';
-import { UserData } from '@app/features/wallet/redux/types';
+import { UserData } from '@app/features/wallet/redux/types.ts';
 import { useAppTheme } from '@app/theme';
 
 import { useSelector } from 'react-redux';
 import {
   selectNextUserCursor,
   selectUsers,
-} from '@app/features/wallet/redux/selectors';
+} from '@app/features/wallet/redux/selectors.ts';
 import { useAppDispatch } from '@app/redux';
-import { getUsersThunk } from '@app/features/wallet/redux/thunks';
-import { paginationLimit } from '@app/features/wallet/screens/Wallet/constants';
+import { getUsersThunk } from '@app/features/wallet/redux/thunks.ts';
+import { paginationLimit } from '@app/features/wallet/screens/Wallet/constants.ts';
 import { EmptyListPlaceholder } from '@app/features/wallet/components/EmptyListPlaceholder/EmptyListPlaceholder.tsx';
-import { UserItem } from '@app/features/wallet/screens/Transfer/components/UsersList/components/UserItem/UserItem.tsx';
+import { UserItem } from '@app/features/wallet/components/UsersList/components/UserItem/UserItem.tsx';
 
 export const UsersList: FC<{
   onPress?: (item: UserData) => void;

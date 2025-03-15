@@ -7,7 +7,7 @@ import { MainRoute } from '@app/features/rootNavigation/main/constants.ts';
 import { UserData } from '@app/features/wallet/redux/types.ts';
 import { useAppTheme } from '@app/theme';
 
-import { UsersList } from '@app/features/wallet/screens/Transfer/components/UsersList/UsersList.tsx';
+import { UsersList } from '@app/features/wallet/components/UsersList/UsersList.tsx';
 
 export const TransferUserScreen: FC = () => {
   const { navigate } = useNavigation<NavigationProp<MainParamList>>();

@@ -4,7 +4,7 @@ import { useAppTheme } from '@app/theme';
 
 import { formatNumber } from '@app/utils/number.ts';
 import { AppImage } from '@app/components/AppImage/AppImage.tsx';
-import { ModifiedWallet } from '@app/features/wallet/screens/Wallet/components/WalletsList/WalletsList.tsx';
+import { ModifiedWallet } from '@app/features/wallet/components/WalletsList/WalletsList.tsx';
 import { NetworkItem } from '@app/features/wallet/screens/WalletDetails/components/NetworkItem/NetworkItem.tsx';
 
 export const WalletItem: FC<{

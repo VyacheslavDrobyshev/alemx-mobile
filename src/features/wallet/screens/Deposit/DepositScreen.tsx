@@ -1,17 +1,21 @@
-import { FC, useCallback, useState } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { AppIcon, AppInput, AppScreen } from '@app/components';
 
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { MainParamList } from '@app/features/rootNavigation/main/types.ts';
 import { MainRoute } from '@app/features/rootNavigation/main/constants.ts';
-import { CryptoCurrencyList } from '@app/features/wallet/screens/Deposit/CryptoCurrencyList/CryptoCurrencyList.tsx';
+import { CryptoCurrencyList } from '@app/features/wallet/components/CryptoCurrencyList/CryptoCurrencyList.tsx';
 import { AssetsData } from '@app/features/wallet/redux/types.ts';
 import { useAppTheme } from '@app/theme';
 import { isThunkPayload, useAppDispatch } from '@app/redux';
-import { createUserWalletsThunk } from '@app/features/wallet/redux/thunks.ts';
+import {
+  createUserWalletsThunk,
+  getAssetsThunk,
+} from '@app/features/wallet/redux/thunks.ts';
 import { useSelector } from 'react-redux';
 import { selectUserWallets } from '@app/features/wallet/redux/selectors.ts';
 import { useAppToast } from '@app/components/AppToast/useAppToast.ts';
+import { paginationLimit } from '@app/features/wallet/screens/Wallet/constants.ts';
 
 export const DepositScreen: FC = () => {
   const { navigate } = useNavigation<NavigationProp<MainParamList>>();
@@ -20,6 +24,7 @@ export const DepositScreen: FC = () => {
   const dispatch = useAppDispatch();
   const wallets = useSelector(selectUserWallets);
   const [isLoading, setIsLoading] = useState(false);
+  const [search, setSearch] = useState('');
 
   const onChooseNetwork = useCallback(
     async (item: AssetsData) => {
@@ -43,7 +48,15 @@ export const DepositScreen: FC = () => {
     [dispatch, navigate, showError, wallets],
   );
 
-  const [search, setSearch] = useState('');
+  useEffect(() => {
+    dispatch(
+      getAssetsThunk({
+        search,
+        limit: paginationLimit,
+        cursor: 1,
+      }),
+    );
+  }, [dispatch, search]);
 
   return (
     <AppScreen isLoading={isLoading} title={'Deposit'} noScroll>

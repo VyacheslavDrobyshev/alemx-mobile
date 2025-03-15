@@ -13,6 +13,7 @@ import {
 import {
   createUserWalletApi,
   getAssetsApi,
+  getDepositWalletsApi,
   getTransactionsApi,
   getUsersApi,
   getUserUnifiedBalanceApi,
@@ -25,6 +26,20 @@ export const getUserWalletsThunk = createAppThunk<AppUserWalletsDto[], void>(
   async (_, { rejectWithValue }) => {
     try {
       return await getUserWalletsApi();
+    } catch (e) {
+      const error = e as AxiosError<AppLoginError>;
+      return rejectWithValue(
+        error.response?.data.detail ?? 'Something went wrong',
+      );
+    }
+  },
+);
+
+export const getDepositWalletsThunk = createAppThunk<AppUserWalletsDto[], void>(
+  'auth/getDepositWalletsThunk',
+  async (_, { rejectWithValue }) => {
+    try {
+      return await getDepositWalletsApi();
     } catch (e) {
       const error = e as AxiosError<AppLoginError>;
       return rejectWithValue(

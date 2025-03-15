@@ -5,7 +5,7 @@ import {
   paginationLimit,
   TransactionType,
 } from '@app/features/wallet/screens/Wallet/constants.ts';
-import { DepositItem } from '@app/features/wallet/screens/History/components/DepositItem/DepositItem.tsx';
+import { DepositItem } from '@app/features/wallet/components/HistoryTabContent/components/DepositItem/DepositItem.tsx';
 import {
   CryptoAssetTransaction,
   DepositTransaction,
@@ -14,9 +14,9 @@ import {
   WithdrawalTransaction,
 } from '@app/features/wallet/redux/types.ts';
 import { EmptyListPlaceholder } from '@app/features/wallet/components/EmptyListPlaceholder/EmptyListPlaceholder.tsx';
-import { WithdrawalItem } from '@app/features/wallet/screens/History/components/WithdrawalItem/WithdrawalItem.tsx';
-import { TransferItem } from '@app/features/wallet/screens/History/components/TransferItem/TransferItem.tsx';
-import { SwapItem } from '@app/features/wallet/screens/History/components/SwapItem/SwapItem.tsx';
+import { WithdrawalItem } from '@app/features/wallet/components/HistoryTabContent/components/WithdrawalItem/WithdrawalItem.tsx';
+import { TransferItem } from '@app/features/wallet/components/HistoryTabContent/components/TransferItem/TransferItem.tsx';
+import { SwapItem } from '@app/features/wallet/components/HistoryTabContent/components/SwapItem/SwapItem.tsx';
 import { FC, useCallback } from 'react';
 import { getTransactionsThunk } from '@app/features/wallet/redux/thunks.ts';
 import { useAppDispatch } from '@app/redux';

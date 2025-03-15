@@ -2,9 +2,7 @@ import { AppColorScheme } from '@app/theme/types.ts';
 
 import { AppScreenTheme } from './types.ts';
 
-export const getCryptoCurrencyListTheme = (
-  colors: AppColorScheme,
-): AppScreenTheme => {
+export const getWalletListTheme = (colors: AppColorScheme): AppScreenTheme => {
   return {
     contentContainerStyle: {
       paddingBottom: 30,
@@ -16,7 +14,8 @@ export const getCryptoCurrencyListTheme = (
       marginBottom: 5,
       height: 56,
       paddingHorizontal: 15,
-      borderColor: colors.primaryLightColor,
+      paddingVertical: 15,
+      borderColor: colors.inputBorderColor,
     },
     icon: {
       height: 30,

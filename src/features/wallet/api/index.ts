@@ -18,6 +18,11 @@ export const getUserWalletsApi = async () => {
   return response.data;
 };
 
+export const getDepositWalletsApi = async () => {
+  const response = await axios.get<AppUserWalletsDto[]>('user/deposit-wallets');
+  return response.data;
+};
+
 export const createUserWalletApi = async ({
   assetsIds,
 }: AppCreateWalletParams) => {

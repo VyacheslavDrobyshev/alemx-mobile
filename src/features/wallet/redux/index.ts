@@ -1,6 +1,7 @@
 import { AppUserWalletsState, WalletSettings } from './types.ts';
 import {
   getAssetsThunk,
+  getDepositWalletsThunk,
   getTransactionsThunk,
   getUnifiedBalanceThunk,
   getUsersThunk,
@@ -15,6 +16,7 @@ import { logoutThunk } from '@app/features/auth/redux/thunks.ts';
 
 const initialPersistState: AppUserWalletsState = {
   wallets: [],
+  depositWallets: [],
   unifiedBalance: null,
   assets: {
     data: [],
@@ -47,6 +49,9 @@ const slice = createSlice({
   extraReducers: builder => {
     builder.addCase(getUserWalletsThunk.fulfilled, (state, { payload }) => {
       state.wallets = payload;
+    });
+    builder.addCase(getDepositWalletsThunk.fulfilled, (state, { payload }) => {
+      state.depositWallets = payload;
     });
     builder.addCase(logoutThunk.fulfilled, state => {
       state.assets = initialPersistState.assets;

@@ -4,11 +4,12 @@ import { getInputTheme } from '@app/components/AppInput/theme';
 import { getScreenTheme } from '@app/components/AppScreen/theme';
 import { getButtonTheme } from '../components/AppButton/theme';
 import { getTypographyTheme } from '../components/AppText/theme';
-import { getCryptoCurrencyListTheme } from '@app/features/wallet/screens/Deposit/CryptoCurrencyList/theme';
+import { getCryptoCurrencyListTheme } from '@app/features/wallet/components/CryptoCurrencyList/theme';
 import { getModalContainerTheme } from '@app/components/AppModal/components/AppModalContainer/theme';
 import { getDialogTheme } from '@app/components/AppModal/components/AppDialog/theme';
 import { getDrawerTheme } from '@app/components/AppModal/components/AppBottomDrawer/theme';
 import { getCheckBoxTheme } from '@app/components/AppCheckBox/theme.ts';
+import { getWalletListTheme } from '@app/features/wallet/components/WalletsList/components/theme';
 
 export const coreTheme = {
   colors: (colors: AppColorScheme) => colors,
@@ -17,6 +18,7 @@ export const coreTheme = {
   input: getInputTheme,
   screen: getScreenTheme,
   cryptoCurrencyList: getCryptoCurrencyListTheme,
+  walletList: getWalletListTheme,
   modalContainer: getModalContainerTheme,
   dialog: getDialogTheme,
   drawer: getDrawerTheme,

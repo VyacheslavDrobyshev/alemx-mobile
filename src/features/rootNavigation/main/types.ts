@@ -5,7 +5,7 @@ import {
   AppUserWalletsDto,
   UserData,
 } from '@app/features/wallet/redux/types.ts';
-import { ModifiedWallet } from '@app/features/wallet/screens/Wallet/components/WalletsList/WalletsList.tsx';
+import { ModifiedWallet } from '@app/features/wallet/components/WalletsList/WalletsList.tsx';
 
 export type MainParamList = {
   [MainRoute.Wallet]: undefined;

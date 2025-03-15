@@ -1,18 +1,18 @@
 import { AppText, AppView } from '@app/components';
 import { ListRenderItem, SectionList } from 'react-native';
-import { FC, useCallback, useEffect } from 'react';
-import { AssetsData } from '@app/features/wallet/redux/types';
+import { FC, useCallback } from 'react';
+import { AssetsData } from '@app/features/wallet/redux/types.ts';
 import { useAppTheme } from '@app/theme';
 
-import { CryptoCurrencyItem } from '@app/features/wallet/screens/Deposit/CryptoCurrencyList/components/CryptoCurrencyItem/CryptoCurrencyItem';
+import { CryptoCurrencyItem } from '@app/features/wallet/components/CryptoCurrencyList/components/CryptoCurrencyItem/CryptoCurrencyItem.tsx';
 import { useSelector } from 'react-redux';
 import {
   selectAssets,
   selectNextAssetCursor,
-} from '@app/features/wallet/redux/selectors';
+} from '@app/features/wallet/redux/selectors.ts';
 import { useAppDispatch } from '@app/redux';
-import { getAssetsThunk } from '@app/features/wallet/redux/thunks';
-import { paginationLimit } from '@app/features/wallet/screens/Wallet/constants';
+import { getAssetsThunk } from '@app/features/wallet/redux/thunks.ts';
+import { paginationLimit } from '@app/features/wallet/screens/Wallet/constants.ts';
 import { EmptyListPlaceholder } from '@app/features/wallet/components/EmptyListPlaceholder/EmptyListPlaceholder.tsx';
 
 export const CryptoCurrencyList: FC<{
@@ -71,16 +71,6 @@ export const CryptoCurrencyList: FC<{
     },
     [onPress],
   );
-
-  useEffect(() => {
-    dispatch(
-      getAssetsThunk({
-        search,
-        limit: paginationLimit,
-        cursor: 1,
-      }),
-    );
-  }, [dispatch, search]);
 
   return (
     <AppView flex={1}>
