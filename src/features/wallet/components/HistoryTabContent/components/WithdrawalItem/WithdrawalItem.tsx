@@ -1,16 +1,46 @@
-import { FC } from 'react';
+import { FC, useCallback, useMemo } from 'react';
 import { WithdrawalTransaction } from '@app/features/wallet/redux/types.ts';
 import { AppIcon, AppText, AppTouchable, AppView } from '@app/components';
 import { useAppTheme } from '@app/theme';
 import { capitalizeFirstLetter } from '@app/utils/common.ts';
 import { formatNumber } from '@app/utils/number.ts';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { WalletParamList } from '@app/features/wallet/navigation/types.ts';
+import dayjs from 'dayjs';
+import { WalletRoute } from '@app/features/wallet/navigation/constants.ts';
+import { TransactionDetailsHeader } from '@app/features/wallet/components/HistoryTabContent/components/TransactionDetailsHeader/TransactionDetailsHeader.tsx';
 
 export const WithdrawalItem: FC<{ item: WithdrawalTransaction }> = ({
   item,
 }) => {
   const { colors } = useAppTheme();
+
+  const { navigate } = useNavigation<NavigationProp<WalletParamList>>();
+
+  const renderedRows = useMemo(() => {
+    return {
+      'Transaction type': capitalizeFirstLetter(item.transaction_type),
+      'Asset type': 'Crypto',
+      Receiver: item.external_destination_address,
+      Date: dayjs(item.created_at).format('MMM DD, YYYY [at] HH:MM'),
+    };
+  }, [
+    item.created_at,
+    item.external_destination_address,
+    item.transaction_type,
+  ]);
+
+  const onPress = useCallback(() => {
+    navigate(WalletRoute.TransactionDetails, {
+      header: <TransactionDetailsHeader item={item} />,
+      title: `Withdraw ${item.crypto_asset.symbol}`,
+      rows: renderedRows,
+    });
+  }, [item, navigate, renderedRows]);
+
   return (
     <AppTouchable
+      onPress={onPress}
       backgroundColor={colors.primaryLightColor}
       height={64}
       flex={1}

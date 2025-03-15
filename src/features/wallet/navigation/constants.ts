@@ -6,7 +6,7 @@ export enum WalletRoute {
   Withdraw = 'Withdraw',
   WithdrawDetails = 'WithdrawDetails',
   History = 'History',
-  HistoryDetails = 'HistoryDetails',
+  TransactionDetails = 'TransactionDetails',
   TransferUser = 'TransferUser',
   TransferAsset = 'TransferAsset',
   TransferDetails = 'TransferDetails',

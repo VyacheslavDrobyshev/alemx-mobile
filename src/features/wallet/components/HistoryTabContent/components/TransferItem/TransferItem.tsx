@@ -1,15 +1,38 @@
-import { FC } from 'react';
+import { FC, useCallback, useMemo } from 'react';
 import { TransferTransaction } from '@app/features/wallet/redux/types.ts';
 import { AppIcon, AppText, AppTouchable, AppView } from '@app/components';
 import { useAppTheme } from '@app/theme';
 import { capitalizeFirstLetter } from '@app/utils/common.ts';
 import { formatNumber } from '@app/utils/number.ts';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { WalletParamList } from '@app/features/wallet/navigation/types.ts';
+import { WalletRoute } from '@app/features/wallet/navigation/constants.ts';
+import dayjs from 'dayjs';
+import { TransactionDetailsHeader } from '@app/features/wallet/components/HistoryTabContent/components/TransactionDetailsHeader/TransactionDetailsHeader.tsx';
 
 export const TransferItem: FC<{ item: TransferTransaction }> = ({ item }) => {
   const { colors } = useAppTheme();
+  const { navigate } = useNavigation<NavigationProp<WalletParamList>>();
+
+  const renderedRows = useMemo(() => {
+    return {
+      'Transaction type': capitalizeFirstLetter(item.transaction_type),
+      Receiver: item.receiver_user.username,
+      Date: dayjs(item.created_at).format('MMM DD, YYYY [at] HH:MM'),
+    };
+  }, [item.created_at, item.receiver_user.username, item.transaction_type]);
+
+  const onPress = useCallback(() => {
+    navigate(WalletRoute.TransactionDetails, {
+      header: <TransactionDetailsHeader item={item} />,
+      title: `Transfer ${item.crypto_asset.symbol}`,
+      rows: renderedRows,
+    });
+  }, [item, navigate, renderedRows]);
 
   return (
     <AppTouchable
+      onPress={onPress}
       backgroundColor={colors.primaryLightColor}
       height={64}
       flex={1}
@@ -40,7 +63,7 @@ export const TransferItem: FC<{ item: TransferTransaction }> = ({ item }) => {
       </AppView>
       <AppView alignItems={'flex-end'}>
         <AppText textStyle={'medium_14_20'} color={colors.negativeStatus}>
-          -{item.amount} {item.crypto_asset.symbol}
+          {-item.amount} {item.crypto_asset.symbol}
         </AppText>
         <AppText textStyle={'regular_12_18'} color={colors.inputLabelColor}>
           ={formatNumber(item.amount_usd, 'currency')}

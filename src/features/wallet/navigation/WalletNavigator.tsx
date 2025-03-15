@@ -15,6 +15,7 @@ import { WalletDetailsScreen } from '@app/features/wallet/screens/WalletDetails/
 import { TransferUserScreen } from '@app/features/wallet/screens/Transfer/TransferUserScreen.tsx';
 import { TransferAssetScreen } from '@app/features/wallet/screens/Transfer/TransferAssetScreen.tsx';
 import { TransferDetailsScreen } from '@app/features/wallet/screens/TransferDetails/TransferDetailsScreen.tsx';
+import { TransactionDetailsScreen } from '@app/features/wallet/screens/TransactionDetails/TransactionDetails.tsx';
 
 const Wallet = createNativeStackNavigator<WalletParamList>();
 
@@ -35,6 +36,10 @@ export const WalletNavigator: FC = () => {
       />
       <Wallet.Screen name={WalletRoute.Withdraw} component={WithdrawScreen} />
       <Wallet.Screen name={WalletRoute.History} component={HistoryScreen} />
+      <Wallet.Screen
+        name={WalletRoute.TransactionDetails}
+        component={TransactionDetailsScreen}
+      />
       <Wallet.Screen
         name={WalletRoute.TransferUser}
         component={TransferUserScreen}

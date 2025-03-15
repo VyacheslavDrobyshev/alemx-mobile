@@ -1,14 +1,40 @@
-import { FC } from 'react';
+import { FC, useCallback, useMemo } from 'react';
 import { DepositTransaction } from '@app/features/wallet/redux/types.ts';
 import { AppIcon, AppText, AppTouchable, AppView } from '@app/components';
 import { useAppTheme } from '@app/theme';
 import { formatNumber } from '@app/utils/number.ts';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { WalletParamList } from '@app/features/wallet/navigation/types.ts';
+import dayjs from 'dayjs';
+import { WalletRoute } from '@app/features/wallet/navigation/constants.ts';
+import { TransactionDetailsHeader } from '@app/features/wallet/components/HistoryTabContent/components/TransactionDetailsHeader/TransactionDetailsHeader.tsx';
+
+const sender = 'djbsdnkniufids';
 
 export const DepositItem: FC<{ item: DepositTransaction }> = ({ item }) => {
   const { colors } = useAppTheme();
+  const { navigate } = useNavigation<NavigationProp<WalletParamList>>();
+
+  const renderedRows = useMemo(() => {
+    return {
+      'Transaction type': 'Receive',
+      'Asset type': 'Crypto',
+      Sender: sender,
+      Date: dayjs(item.created_at).format('MMM DD, YYYY [at] HH:MM'),
+    };
+  }, [item.created_at]);
+
+  const onPress = useCallback(() => {
+    navigate(WalletRoute.TransactionDetails, {
+      header: <TransactionDetailsHeader item={item} />,
+      title: `Receive ${item.crypto_asset.symbol}`,
+      rows: renderedRows,
+    });
+  }, [item, navigate, renderedRows]);
 
   return (
     <AppTouchable
+      onPress={onPress}
       backgroundColor={colors.primaryLightColor}
       height={64}
       flex={1}
@@ -43,7 +69,7 @@ export const DepositItem: FC<{ item: DepositTransaction }> = ({ item }) => {
           numberOfLines={1}
           textStyle={'regular_12_18'}>
           <AppText color={colors.inputLabelColor}>From</AppText>{' '}
-          <AppText color={colors.inputLabelColor}>djbsdnkniufids</AppText>
+          <AppText color={colors.inputLabelColor}>{sender}</AppText>
           {/*  todo change to value from BE*/}
         </AppText>
       </AppView>
