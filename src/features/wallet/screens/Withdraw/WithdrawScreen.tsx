@@ -35,7 +35,7 @@ export const WithdrawScreen: FC = () => {
         isDeposit
         onPressPlaceholderButton={onPressPlaceholderButton}
         withBalance
-        hideZeroBalance
+        showNetwork
         onPress={onPress}
       />
     </AppScreen>

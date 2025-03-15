@@ -53,7 +53,7 @@ export const DepositScreen: FC = () => {
 
   return (
     <AppScreen isLoading={isLoading} title={'Deposit'} noScroll>
-      <WalletsList isDeposit onPress={onPress} />
+      <WalletsList showNetwork isDeposit onPress={onPress} />
     </AppScreen>
   );
 };

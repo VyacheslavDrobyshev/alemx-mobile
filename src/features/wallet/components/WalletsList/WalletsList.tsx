@@ -33,6 +33,7 @@ export const WalletsList: FC<{
   isDeposit?: boolean;
   withBalance?: boolean;
   onPressPlaceholderButton?: () => void;
+  showNetwork?: boolean;
 }> = ({
   onPress,
   hideZeroBalance,
@@ -40,6 +41,7 @@ export const WalletsList: FC<{
   isDeposit,
   withBalance,
   onPressPlaceholderButton,
+  showNetwork,
 }) => {
   const {
     walletList: { contentContainerStyle },
@@ -103,12 +105,13 @@ export const WalletsList: FC<{
         <WalletItem
           hasAssets={hasAssets}
           showAssets={showAssets}
+          showNetwork={showNetwork}
           onPress={onPress}
           item={item}
         />
       );
     },
-    [hasAssets, showAssets, onPress],
+    [hasAssets, showAssets, showNetwork, onPress],
   );
 
   const isLoading = useMemo(
