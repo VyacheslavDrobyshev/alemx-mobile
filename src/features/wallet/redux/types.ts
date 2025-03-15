@@ -104,14 +104,20 @@ export type WalletSettings = {
 
 export type AppUserWalletsState = {
   wallets: AppUserWalletsDto[] | null;
+  isWalletsLoading: boolean;
   depositWallets: AppUserWalletsDto[] | null;
+  isDepositWalletsLoading: boolean;
   unifiedBalance: AppUserUnifiedBalanceDto | null;
+  isUnifiedBalanceLoading: boolean;
   assets: AppAssetsDto;
+  isAssetsLoading: boolean;
   walletSettings: WalletSettings[];
   users: AppUsersDto;
+  isUsersLoading: boolean;
   transactionsByType: {
     [key in TransactionType]: UnionTransaction[];
   };
+  isTransactionsLoading: boolean;
 };
 
 export type AppWithdrawError = {

@@ -1,7 +1,7 @@
 import { AppIcon, AppText, AppView, useAppBottomDrawer } from '@app/components';
 import { AccountValue } from '@app/features/wallet/screens/Wallet/components/AccountValue/AccountValue.tsx';
 import { useAppTheme } from '@app/theme';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { SettingsModalContent } from '@app/features/wallet/modals/SettingsModalContent/SettingsModalContent.tsx';
 import {
   getUnifiedBalanceThunk,
@@ -13,11 +13,7 @@ import {
   WalletsList,
 } from '@app/features/wallet/components/WalletsList/WalletsList.tsx';
 
-import {
-  NavigationProp,
-  useFocusEffect,
-  useNavigation,
-} from '@react-navigation/native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { MainParamList } from '@app/features/rootNavigation/main/types.ts';
 import { MainRoute } from '@app/features/rootNavigation/main/constants.ts';
 
@@ -42,12 +38,14 @@ export const DigitalAssetsTab = () => {
     [navigate],
   );
 
-  useFocusEffect(
-    useCallback(() => {
-      dispatch(getUserWalletsThunk());
-      dispatch(getUnifiedBalanceThunk());
-    }, [dispatch]),
-  );
+  const onPressPlaceholderButton = useCallback(() => {
+    navigate(MainRoute.Deposit);
+  }, [navigate]);
+
+  useEffect(() => {
+    dispatch(getUserWalletsThunk());
+    dispatch(getUnifiedBalanceThunk());
+  }, [dispatch]);
 
   return (
     <AppView flex={1}>
@@ -66,7 +64,13 @@ export const DigitalAssetsTab = () => {
           color={colors.inputLabelColor}
         />
       </AppView>
-      <WalletsList hasAssets hideZeroBalance onPress={onPress} />
+      <WalletsList
+        onPressPlaceholderButton={onPressPlaceholderButton}
+        hasAssets
+        hideZeroBalance
+        onPress={onPress}
+        withBalance
+      />
     </AppView>
   );
 };

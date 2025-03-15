@@ -5,9 +5,9 @@ import { AppButton } from '@app/components/AppButton/AppButton.tsx';
 import { useAppTheme } from '@app/theme';
 
 export const EmptyListPlaceholder: FC<{
-  cb?: () => void;
+  onPressPlaceholderButton?: () => void;
   title: string;
-}> = ({ cb, title }) => {
+}> = ({ onPressPlaceholderButton, title }) => {
   const { colors } = useAppTheme();
 
   return (
@@ -20,9 +20,9 @@ export const EmptyListPlaceholder: FC<{
         textAlign={'center'}>
         {title}
       </AppText>
-      {!!cb && (
+      {!!onPressPlaceholderButton && (
         <AppButton
-          onPress={cb}
+          onPress={onPressPlaceholderButton}
           width={183}
           leftIcon={'Money'}
           title={'DEPOSIT FUNDS'}

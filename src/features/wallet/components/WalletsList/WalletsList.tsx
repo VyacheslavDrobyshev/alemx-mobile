@@ -10,6 +10,9 @@ import { useAppTheme } from '@app/theme';
 import { useSelector } from 'react-redux';
 import {
   selectDepositWallets,
+  selectIsDepositWalletsLoading,
+  selectIsUnifiedBalanceLoading,
+  selectIsWalletsLoading,
   selectUnifiedBalance,
   selectUserWallets,
   selectWalletSettings,
@@ -17,9 +20,7 @@ import {
 import { WalletSettingsId } from '@app/features/wallet/screens/Wallet/constants.ts';
 import { WalletItem } from '@app/features/wallet/components/WalletsList/components/WalletItem/WalletItem.tsx';
 import { EmptyListPlaceholder } from '@app/features/wallet/components/EmptyListPlaceholder/EmptyListPlaceholder.tsx';
-import { MainRoute } from '@app/features/rootNavigation/main/constants.ts';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { MainParamList } from '@app/features/rootNavigation/main/types.ts';
+import { AppActivityIndicator } from '@app/components/AppActivityIndicator/AppActivityIndicator.tsx';
 
 export type ModifiedWallet = AppUserWalletsDto & {
   balancesByAsset?: AssetBalance;
@@ -30,7 +31,16 @@ export const WalletsList: FC<{
   hideZeroBalance?: boolean;
   hasAssets?: boolean;
   isDeposit?: boolean;
-}> = ({ onPress, hideZeroBalance, hasAssets, isDeposit }) => {
+  withBalance?: boolean;
+  onPressPlaceholderButton?: () => void;
+}> = ({
+  onPress,
+  hideZeroBalance,
+  hasAssets,
+  isDeposit,
+  withBalance,
+  onPressPlaceholderButton,
+}) => {
   const {
     walletList: { contentContainerStyle },
   } = useAppTheme();
@@ -38,7 +48,9 @@ export const WalletsList: FC<{
   const depositWallets = useSelector(selectDepositWallets);
   const unifiedBalance = useSelector(selectUnifiedBalance);
   const walletSettings = useSelector(selectWalletSettings);
-  const { navigate } = useNavigation<NavigationProp<MainParamList>>();
+  const isWalletsLoading = useSelector(selectIsWalletsLoading);
+  const isDepositWalletsLoading = useSelector(selectIsDepositWalletsLoading);
+  const isUnifiedBalanceLoading = useSelector(selectIsUnifiedBalanceLoading);
 
   const [mappedWallets, setMappedWallets] = useState<ModifiedWallet[]>([]);
 
@@ -99,29 +111,42 @@ export const WalletsList: FC<{
     [hasAssets, showAssets, onPress],
   );
 
-  const onPressPlaceholderButton = useCallback(() => {
-    navigate(MainRoute.Deposit);
-  }, [navigate]);
+  const isLoading = useMemo(
+    () =>
+      withBalance
+        ? isWalletsLoading || isUnifiedBalanceLoading
+        : isDepositWalletsLoading,
+    [
+      isDepositWalletsLoading,
+      isUnifiedBalanceLoading,
+      withBalance,
+      isWalletsLoading,
+    ],
+  );
 
   return (
     <AppView flex={1}>
-      <FlatList
-        keyExtractor={item =>
-          `${item.id}/${item.cryptoAsset.name}/${item.cryptoAsset.symbol}/${item.cryptoAsset.networkId}`
-        }
-        ListEmptyComponent={
-          <EmptyListPlaceholder
-            cb={onPressPlaceholderButton}
-            title={
-              'You have no assets in your wallet.\nMake your first deposit to receive\nfunds.'
-            }
-          />
-        }
-        contentContainerStyle={contentContainerStyle}
-        showsVerticalScrollIndicator={false}
-        renderItem={renderItem}
-        data={filteredWallets}
-      />
+      {isLoading ? (
+        <AppActivityIndicator absoluteFill />
+      ) : (
+        <FlatList
+          keyExtractor={item =>
+            `${item.id}/${item.cryptoAsset.name}/${item.cryptoAsset.symbol}/${item.cryptoAsset.networkId}`
+          }
+          ListEmptyComponent={
+            <EmptyListPlaceholder
+              onPressPlaceholderButton={onPressPlaceholderButton}
+              title={
+                'You have no assets in your wallet.\nMake your first deposit to receive\nfunds.'
+              }
+            />
+          }
+          contentContainerStyle={contentContainerStyle}
+          showsVerticalScrollIndicator={false}
+          renderItem={renderItem}
+          data={filteredWallets}
+        />
+      )}
     </AppView>
   );
 };

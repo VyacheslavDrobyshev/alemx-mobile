@@ -9,18 +9,23 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { MainParamList } from '@app/features/rootNavigation/main/types.ts';
 import { accountValueButtonsList } from '@app/features/wallet/screens/Wallet/components/AccountValue/constants.tsx';
 import { useSelector } from 'react-redux';
-import { selectUnifiedBalance } from '@app/features/wallet/redux/selectors.ts';
+import {
+  selectIsUnifiedBalanceLoading,
+  selectUnifiedBalance,
+} from '@app/features/wallet/redux/selectors.ts';
 import { formatNumber } from '@app/utils/number.ts';
 import { useCallback, useMemo } from 'react';
 import { SelectMethodModalContent } from '@app/features/wallet/modals/SelectMethodModalContent/SelectMethodModalContent.tsx';
 import { AccountValueButtonsId } from '@app/features/wallet/screens/Wallet/components/AccountValue/types.ts';
 import { SelectMethodModalItem } from '@app/features/wallet/modals/SelectMethodModalContent/types.ts';
 import { MainRoute } from '@app/features/rootNavigation/main/constants.ts';
+import { AppActivityIndicator } from '@app/components/AppActivityIndicator/AppActivityIndicator.tsx';
 
 export const AccountValue = () => {
   const { colors } = useAppTheme();
   const { navigate } = useNavigation<NavigationProp<MainParamList>>();
   const unifiedBalance = useSelector(selectUnifiedBalance);
+  const isUnifiedBalanceLoading = useSelector(selectIsUnifiedBalanceLoading);
   const { openBottomDrawer } = useAppBottomDrawer();
 
   const assetsCount = useMemo(
@@ -124,13 +129,21 @@ export const AccountValue = () => {
           <AppText textStyle={'regular_12_18'} color={colors.inputLabelColor}>
             VOLUME
           </AppText>
-          <AppText
-            textStyle={'regular_12_18'}
-            color={colors.inputLabelColor}>{`${assetsCount} ASSETS`}</AppText>
+          {isUnifiedBalanceLoading ? (
+            <AppActivityIndicator size={'small'} absoluteFill />
+          ) : (
+            <AppText
+              textStyle={'regular_12_18'}
+              color={colors.inputLabelColor}>{`${assetsCount} ASSETS`}</AppText>
+          )}
         </AppView>
         <AppView justifyContent={'center'} flex={1}>
           <AppText textStyle={'medium_26_32'}>
-            {formatNumber(unifiedBalance?.totalBalanceUsd ?? 0, 'currency')}
+            {isUnifiedBalanceLoading ? (
+              <AppActivityIndicator size={'small'} absoluteFill />
+            ) : (
+              formatNumber(unifiedBalance?.totalBalanceUsd ?? 0, 'currency')
+            )}
           </AppText>
         </AppView>
       </AppView>

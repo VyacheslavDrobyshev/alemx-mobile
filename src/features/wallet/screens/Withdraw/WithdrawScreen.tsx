@@ -1,4 +1,4 @@
-import { FC, useCallback } from 'react';
+import { FC, useCallback, useEffect } from 'react';
 import { AppScreen } from '@app/components';
 
 import { NavigationProp, useNavigation } from '@react-navigation/native';
@@ -8,10 +8,12 @@ import {
   ModifiedWallet,
   WalletsList,
 } from '@app/features/wallet/components/WalletsList/WalletsList.tsx';
+import { getDepositWalletsThunk } from '@app/features/wallet/redux/thunks.ts';
+import { useAppDispatch } from '@app/redux';
 
 export const WithdrawScreen: FC = () => {
   const { navigate } = useNavigation<NavigationProp<MainParamList>>();
-
+  const dispatch = useAppDispatch();
   const onPress = useCallback(
     (item: ModifiedWallet) => {
       navigate(MainRoute.WithdrawDetails, { item });
@@ -19,9 +21,23 @@ export const WithdrawScreen: FC = () => {
     [navigate],
   );
 
+  useEffect(() => {
+    dispatch(getDepositWalletsThunk());
+  }, [dispatch]);
+
+  const onPressPlaceholderButton = useCallback(() => {
+    navigate(MainRoute.Deposit);
+  }, [navigate]);
+
   return (
     <AppScreen title={'Withdraw'} noScroll>
-      <WalletsList hideZeroBalance onPress={onPress} />
+      <WalletsList
+        isDeposit
+        onPressPlaceholderButton={onPressPlaceholderButton}
+        withBalance
+        hideZeroBalance
+        onPress={onPress}
+      />
     </AppScreen>
   );
 };

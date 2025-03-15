@@ -23,3 +23,21 @@ export const selectNextUserCursor = ({ wallets }: CoreReduxState) =>
 
 export const selectTransactionsByType = ({ wallets }: CoreReduxState) =>
   wallets.transactionsByType;
+
+export const selectIsDepositWalletsLoading = ({ wallets }: CoreReduxState) =>
+  wallets.isDepositWalletsLoading;
+
+export const selectIsUsersLoading = ({ wallets }: CoreReduxState) =>
+  wallets.isUsersLoading;
+
+export const selectIsTransactionsLoading = ({ wallets }: CoreReduxState) =>
+  wallets.isTransactionsLoading;
+
+export const selectIsAssetsLoading = ({ wallets }: CoreReduxState) =>
+  wallets.isAssetsLoading;
+
+export const selectIsUnifiedBalanceLoading = ({ wallets }: CoreReduxState) =>
+  wallets.isUnifiedBalanceLoading;
+
+export const selectIsWalletsLoading = ({ wallets }: CoreReduxState) =>
+  wallets.isWalletsLoading;
