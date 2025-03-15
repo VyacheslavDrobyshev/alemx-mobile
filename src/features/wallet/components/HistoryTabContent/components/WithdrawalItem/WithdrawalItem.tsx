@@ -42,9 +42,15 @@ export const WithdrawalItem: FC<{ item: WithdrawalTransaction }> = ({
           <AppText textStyle={'medium_14_20'}>Crypto</AppText>
         </AppView>
 
-        <AppText width={100} numberOfLines={1} textStyle={'regular_12_18'}>
+        <AppText
+          ellipsizeMode={'middle'}
+          width={100}
+          numberOfLines={1}
+          textStyle={'regular_12_18'}>
           <AppText color={colors.inputLabelColor}>To </AppText>
-          {item.external_destination_address}
+          <AppText color={colors.inputLabelColor}>
+            {item.external_destination_address}
+          </AppText>
         </AppText>
       </AppView>
       <AppView alignItems={'flex-end'}>

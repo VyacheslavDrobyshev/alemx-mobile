@@ -59,12 +59,15 @@ export const HistoryList: FC<HistoryTabContentProps> = ({
     transactions[transactionType].filter(filteredFunction),
   );
 
+  // todo implement pagination
+
   return (
     <AppView flex={1}>
       {isTransactionsLoading ? (
         <AppActivityIndicator absoluteFill />
       ) : (
         <SectionList
+          stickySectionHeadersEnabled={false}
           sections={sections}
           contentContainerStyle={contentContainerStyle}
           renderItem={renderItem}

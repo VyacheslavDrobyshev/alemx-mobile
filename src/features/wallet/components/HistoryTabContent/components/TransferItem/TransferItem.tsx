@@ -29,7 +29,11 @@ export const TransferItem: FC<{ item: TransferTransaction }> = ({ item }) => {
         <AppText textStyle={'medium_14_20'}>
           {capitalizeFirstLetter(item.transaction_type)}
         </AppText>
-        <AppText textStyle={'regular_12_18'}>
+        <AppText
+          ellipsizeMode={'middle'}
+          width={100}
+          numberOfLines={1}
+          textStyle={'regular_12_18'}>
           <AppText color={colors.inputLabelColor}>To</AppText>{' '}
           {item.receiver_user.username}
         </AppText>

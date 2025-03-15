@@ -201,11 +201,17 @@ export type SwapTransaction = {
   transaction_type: TransactionType;
   crypto_asset: CryptoAssetTransaction;
   created_at: string;
+  amount: number;
+  amount_usd: number;
+  //   todo add more props
 };
 export type DepositTransaction = {
   transaction_type: TransactionType;
   crypto_asset: CryptoAssetTransaction;
   created_at: string;
+  amount: number;
+  amount_usd: number;
+  //   todo add more props
 };
 export type WithdrawalTransaction = {
   external_id: string;

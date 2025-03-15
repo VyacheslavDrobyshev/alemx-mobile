@@ -41,7 +41,6 @@ export const AppScreen: FC<AppScreenProps> = ({
           )}
         </AppView>
         {withBottomTabs && <AppView height={50} />}
-        {/*todo remove before integration*/}
       </AppView>
       {isLoading && (
         <AppView
