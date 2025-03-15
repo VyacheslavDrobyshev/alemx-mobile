@@ -1,13 +1,60 @@
 import { FC } from 'react';
 import { WithdrawalTransaction } from '@app/features/wallet/redux/types.ts';
-import { AppText, AppView } from '@app/components';
+import { AppIcon, AppText, AppTouchable, AppView } from '@app/components';
+import { useAppTheme } from '@app/theme';
+import { capitalizeFirstLetter } from '@app/utils/common.ts';
+import { formatNumber } from '@app/utils/number.ts';
 
 export const WithdrawalItem: FC<{ item: WithdrawalTransaction }> = ({
   item,
 }) => {
+  const { colors } = useAppTheme();
   return (
-    <AppView>
-      <AppText>{item.transaction_type}</AppText>
-    </AppView>
+    <AppTouchable
+      backgroundColor={colors.primaryLightColor}
+      height={64}
+      flex={1}
+      marginBottom={10}
+      padding={10}
+      borderRadius={8}
+      borderWidth={1}
+      flexDirection={'row'}
+      alignItems={'center'}
+      borderColor={colors.inputBorderColor}>
+      <AppIcon
+        marginRight={10}
+        name={'ExternalLink'}
+        color={colors.inputLabelColor}
+      />
+      <AppView flex={1}>
+        <AppView flexDirection={'row'}>
+          <AppText textStyle={'medium_14_20'}>
+            {capitalizeFirstLetter(item.transaction_type)}{' '}
+          </AppText>
+          <AppView
+            alignSelf={'center'}
+            marginHorizontal={5}
+            height={4}
+            width={4}
+            borderRadius={4}
+            backgroundColor={colors.inputItemColor}
+          />
+          <AppText textStyle={'medium_14_20'}>Crypto</AppText>
+        </AppView>
+
+        <AppText width={100} numberOfLines={1} textStyle={'regular_12_18'}>
+          <AppText color={colors.inputLabelColor}>To </AppText>
+          {item.external_destination_address}
+        </AppText>
+      </AppView>
+      <AppView alignItems={'flex-end'}>
+        <AppText textStyle={'medium_14_20'} color={colors.negativeStatus}>
+          -{item.amount} {item.crypto_asset.symbol}
+        </AppText>
+        <AppText textStyle={'regular_12_18'} color={colors.inputLabelColor}>
+          ={formatNumber(item.amount_usd ?? 0, 'currency')}
+        </AppText>
+      </AppView>
+    </AppTouchable>
   );
 };

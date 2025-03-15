@@ -215,6 +215,7 @@ export type WithdrawalTransaction = {
   user_id: number;
   external_destination_address: string;
   amount: number;
+  amount_usd: number;
   crypto_asset_id: number;
   transaction_hash: string;
   id: number;
