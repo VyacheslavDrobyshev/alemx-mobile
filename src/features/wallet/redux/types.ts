@@ -174,6 +174,7 @@ export type TransferTransaction = {
   receiver_user_id: number;
   crypto_asset_id: number;
   amount: number;
+  amount_usd: number;
   transaction_hash: string;
   updated_at: string;
   sender_user: {
@@ -199,10 +200,12 @@ export type TransferTransaction = {
 export type SwapTransaction = {
   transaction_type: TransactionType;
   crypto_asset: CryptoAssetTransaction;
+  created_at: string;
 };
 export type DepositTransaction = {
   transaction_type: TransactionType;
   crypto_asset: CryptoAssetTransaction;
+  created_at: string;
 };
 export type WithdrawalTransaction = {
   external_id: string;

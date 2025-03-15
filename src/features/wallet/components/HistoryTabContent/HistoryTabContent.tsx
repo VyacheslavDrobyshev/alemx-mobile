@@ -1,6 +1,6 @@
 import { AppTab } from '@app/components/AppTab/AppTab.tsx';
-import { AppView } from '@app/components';
-import { FlatList, ListRenderItem } from 'react-native';
+import { AppText, AppView } from '@app/components';
+import { ListRenderItem, SectionList } from 'react-native';
 import {
   paginationLimit,
   TransactionType,
@@ -29,6 +29,7 @@ import {
 import { useAppTheme } from '@app/theme';
 import { transactionHistoryTabs } from '@app/features/wallet/screens/WalletDetails/constants.ts';
 import { AppActivityIndicator } from '@app/components/AppActivityIndicator/AppActivityIndicator.tsx';
+import { groupTransactionsByDate } from '@app/features/wallet/components/HistoryTabContent/components/utils.ts';
 
 export type HistoryTabContentProps = {
   assetSymbol?: string;
@@ -42,6 +43,7 @@ export const HistoryList: FC<HistoryTabContentProps> = ({
   renderItem,
 }) => {
   const {
+    colors,
     cryptoCurrencyList: { contentContainerStyle },
   } = useAppTheme();
   const transactions = useSelector(selectTransactionsByType);
@@ -53,15 +55,27 @@ export const HistoryList: FC<HistoryTabContentProps> = ({
     return assetSymbol ? el.crypto_asset.symbol === assetSymbol : true;
   };
 
+  const sections = groupTransactionsByDate(
+    transactions[transactionType].filter(filteredFunction),
+  );
+
   return (
-    <AppView flex={1} justifyContent="center" alignItems="center">
+    <AppView flex={1}>
       {isTransactionsLoading ? (
         <AppActivityIndicator absoluteFill />
       ) : (
-        <FlatList
+        <SectionList
+          sections={sections}
           contentContainerStyle={contentContainerStyle}
-          data={transactions[transactionType].filter(filteredFunction)}
           renderItem={renderItem}
+          renderSectionHeader={({ section: { title } }) => (
+            <AppText
+              color={colors.inputItemColor}
+              marginBottom={5}
+              marginTop={10}>
+              {title}
+            </AppText>
+          )}
           ListEmptyComponent={
             <EmptyListPlaceholder
               title={

@@ -18,6 +18,7 @@ import Transfer from './icons/Transfer';
 import Warning from './icons/Warning';
 import Copy from './icons/Copy';
 import Search from './icons/Search';
+import TransferTop from './icons/TransferTop';
 
 export const appIcons = {
   Message,
@@ -40,4 +41,5 @@ export const appIcons = {
   Warning,
   Copy,
   Search,
+  TransferTop,
 } as const;

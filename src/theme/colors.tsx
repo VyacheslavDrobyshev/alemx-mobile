@@ -26,6 +26,10 @@ export const lightThemeColors = {
   transparent: 'transparent',
   placeholder: '#B1B1B1',
   modalOverlay: '#000000cc',
+
+  negativeStatus: '#E3423F',
+  positiveStatus: '#00AB6D',
+  pendingStatus: '#D2A63D',
 } as const;
 
 export const darkThemeColors = {
@@ -56,4 +60,8 @@ export const darkThemeColors = {
   transparent: 'transparent',
   placeholder: '#B1B1B1',
   modalOverlay: '#000000cc',
+
+  negativeStatus: '#E3423F',
+  positiveStatus: '#00AB6D',
+  pendingStatus: '#D2A63D',
 } as const;
