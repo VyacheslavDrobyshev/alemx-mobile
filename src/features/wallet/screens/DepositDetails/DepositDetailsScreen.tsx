@@ -15,8 +15,8 @@ import {
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
-import { MainParamList } from '@app/features/rootNavigation/main/types.ts';
-import { MainRoute } from '@app/features/rootNavigation/main/constants.ts';
+import { WalletParamList } from '@app/features/rootNavigation/main/types.ts';
+import { WalletRoute } from '@app/features/rootNavigation/main/constants.ts';
 import { useAppTheme } from '@app/theme';
 import { useAppToast } from '@app/components/AppToast/useAppToast.ts';
 import { AppIconName } from '@app/components/AppIcon/types.ts';
@@ -24,9 +24,9 @@ import { AppIconName } from '@app/components/AppIcon/types.ts';
 export const DepositDetailsScreen: FC = () => {
   const {
     params: { item },
-  } = useRoute<RouteProp<MainParamList, MainRoute.DepositDetails>>();
+  } = useRoute<RouteProp<WalletParamList, WalletRoute.DepositDetails>>();
   const { colors } = useAppTheme();
-  const { goBack } = useNavigation<NavigationProp<MainParamList>>();
+  const { goBack } = useNavigation<NavigationProp<WalletParamList>>();
 
   const { showSuccess } = useAppToast();
 

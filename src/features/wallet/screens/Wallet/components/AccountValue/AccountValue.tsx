@@ -6,7 +6,7 @@ import {
 } from '@app/components';
 import { useAppTheme } from '@app/theme';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { MainParamList } from '@app/features/rootNavigation/main/types.ts';
+import { WalletParamList } from '@app/features/rootNavigation/main/types.ts';
 import { accountValueButtonsList } from '@app/features/wallet/screens/Wallet/components/AccountValue/constants.tsx';
 import { useSelector } from 'react-redux';
 import {
@@ -18,12 +18,12 @@ import { useCallback, useMemo } from 'react';
 import { SelectMethodModalContent } from '@app/features/wallet/modals/SelectMethodModalContent/SelectMethodModalContent.tsx';
 import { AccountValueButtonsId } from '@app/features/wallet/screens/Wallet/components/AccountValue/types.ts';
 import { SelectMethodModalItem } from '@app/features/wallet/modals/SelectMethodModalContent/types.ts';
-import { MainRoute } from '@app/features/rootNavigation/main/constants.ts';
+import { WalletRoute } from '@app/features/rootNavigation/main/constants.ts';
 import { AppActivityIndicator } from '@app/components/AppActivityIndicator/AppActivityIndicator.tsx';
 
 export const AccountValue = () => {
   const { colors } = useAppTheme();
-  const { navigate } = useNavigation<NavigationProp<MainParamList>>();
+  const { navigate } = useNavigation<NavigationProp<WalletParamList>>();
   const unifiedBalance = useSelector(selectUnifiedBalance);
   const isUnifiedBalanceLoading = useSelector(selectIsUnifiedBalanceLoading);
   const { openBottomDrawer } = useAppBottomDrawer();
@@ -56,7 +56,7 @@ export const AccountValue = () => {
                 title: 'Crypto',
                 subtitle:
                   'Deposit crypto to your wallet from another on-chain wallet or exchange',
-                action: () => navigate(MainRoute.Deposit),
+                action: () => navigate(WalletRoute.Deposit),
               },
               {
                 icon: 'Money',
@@ -77,7 +77,7 @@ export const AccountValue = () => {
                 title: 'Crypto',
                 subtitle:
                   'Withdraw crypto to a wallet, exchange, or ALEMX address',
-                action: () => navigate(MainRoute.Withdraw),
+                action: () => navigate(WalletRoute.Withdraw),
               },
               {
                 icon: 'Money',
@@ -90,7 +90,7 @@ export const AccountValue = () => {
                 icon: 'Transfer',
                 title: 'Transfer',
                 subtitle: 'Send crypto through username to another ALEMX user.',
-                action: () => navigate(MainRoute.TransferUser),
+                action: () => navigate(WalletRoute.TransferUser),
               },
             ],
           });
@@ -98,10 +98,10 @@ export const AccountValue = () => {
         case AccountValueButtonsId.Buy:
           break;
         case AccountValueButtonsId.History:
-          navigate(MainRoute.History);
+          navigate(WalletRoute.History);
           break;
         case AccountValueButtonsId.Swap:
-          navigate(MainRoute.History);
+          navigate(WalletRoute.History);
           break;
         default:
           const _: never = id;

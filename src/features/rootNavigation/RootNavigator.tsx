@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 
 import { UnauthorizedNavigator } from './unauthorized';
-import { MainNavigator } from '@app/features/rootNavigation/main/MainNavigator.tsx';
+import { WalletNavigator } from '@app/features/rootNavigation/main/WalletNavigator.tsx';
 import { selectAccessToken } from '@app/features/auth/redux/selectors.ts';
 import { useSelector } from 'react-redux';
 
@@ -11,7 +11,7 @@ export const RootNavigator: FC = () => {
 
   return (
     <NavigationContainer>
-      {isAuthenticated ? <MainNavigator /> : <UnauthorizedNavigator />}
+      {isAuthenticated ? <WalletNavigator /> : <UnauthorizedNavigator />}
     </NavigationContainer>
   );
 };

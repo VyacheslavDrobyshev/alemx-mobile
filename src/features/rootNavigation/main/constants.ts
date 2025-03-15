@@ -1,4 +1,4 @@
-export enum MainRoute {
+export enum WalletRoute {
   Wallet = 'Wallet',
   WalletDetails = 'WalletDetails',
   Deposit = 'Deposit',

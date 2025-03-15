@@ -14,8 +14,8 @@ import {
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
-import { MainParamList } from '@app/features/rootNavigation/main/types.ts';
-import { MainRoute } from '@app/features/rootNavigation/main/constants.ts';
+import { WalletParamList } from '@app/features/rootNavigation/main/types.ts';
+import { WalletRoute } from '@app/features/rootNavigation/main/constants.ts';
 import { useAppTheme } from '@app/theme';
 import { AssetsData } from '@app/features/wallet/redux/types.ts';
 import { FormikConfig } from 'formik';
@@ -60,9 +60,9 @@ const feeLevel = LevelFee.High;
 export const TransferDetailsScreen: FC = () => {
   const {
     params: { item, user },
-  } = useRoute<RouteProp<MainParamList, MainRoute.TransferDetails>>();
+  } = useRoute<RouteProp<WalletParamList, WalletRoute.TransferDetails>>();
 
-  const { navigate, goBack } = useNavigation<NavigationProp<MainParamList>>();
+  const { navigate, goBack } = useNavigation<NavigationProp<WalletParamList>>();
   const { showError } = useAppToast();
   const { colors } = useAppTheme();
   const [isLoading, setIsLoading] = useState(false);
@@ -77,7 +77,7 @@ export const TransferDetailsScreen: FC = () => {
           feeLevel,
           receiverUserId: user.id,
         });
-        navigate(MainRoute.Wallet);
+        navigate(WalletRoute.Wallet);
       } catch (e) {
         showError('Ups, something went wrong');
       } finally {
@@ -115,7 +115,7 @@ export const TransferDetailsScreen: FC = () => {
           }
           rightContent={
             <AppIcon
-              onPress={() => navigate(MainRoute.TransferUser)}
+              onPress={() => navigate(WalletRoute.TransferUser)}
               name={'ChevronRight'}
               color={colors.white}
             />

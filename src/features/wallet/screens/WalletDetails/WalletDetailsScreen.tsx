@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { AppScreen, AppText, AppView } from '@app/components';
 import { RouteProp, useRoute } from '@react-navigation/native';
-import { MainParamList } from '@app/features/rootNavigation/main/types.ts';
-import { MainRoute } from '@app/features/rootNavigation/main/constants.ts';
+import { WalletParamList } from '@app/features/rootNavigation/main/types.ts';
+import { WalletRoute } from '@app/features/rootNavigation/main/constants.ts';
 import { useAppTheme } from '@app/theme';
 import { formatNumber } from '@app/utils/number.ts';
 import { AppImage } from '@app/components/AppImage/AppImage.tsx';
@@ -12,7 +12,7 @@ import { HistoryTabContent } from '@app/features/wallet/components/HistoryTabCon
 export const WalletDetailsScreen: FC = () => {
   const {
     params: { item },
-  } = useRoute<RouteProp<MainParamList, MainRoute.WalletDetails>>();
+  } = useRoute<RouteProp<WalletParamList, WalletRoute.WalletDetails>>();
 
   const { colors } = useAppTheme();
   return (

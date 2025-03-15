@@ -1,5 +1,5 @@
 import { JSX } from 'react';
-import { MainParamList } from '@app/features/rootNavigation/main/types.ts';
+import { WalletParamList } from '@app/features/rootNavigation/main/types.ts';
 
 export enum AccountValueButtonsId {
   Deposit = 'deposit',
@@ -12,6 +12,6 @@ export enum AccountValueButtonsId {
 export type AccountValueButtonsList = {
   button: JSX.Element;
   title: string;
-  route: keyof MainParamList;
+  route: keyof WalletParamList;
   id: AccountValueButtonsId;
 };

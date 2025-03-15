@@ -14,13 +14,13 @@ import {
 } from '@app/features/wallet/components/WalletsList/WalletsList.tsx';
 
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { MainParamList } from '@app/features/rootNavigation/main/types.ts';
-import { MainRoute } from '@app/features/rootNavigation/main/constants.ts';
+import { WalletParamList } from '@app/features/rootNavigation/main/types.ts';
+import { WalletRoute } from '@app/features/rootNavigation/main/constants.ts';
 
 export const DigitalAssetsTab = () => {
   const { colors } = useAppTheme();
   const { openBottomDrawer } = useAppBottomDrawer();
-  const { navigate } = useNavigation<NavigationProp<MainParamList>>();
+  const { navigate } = useNavigation<NavigationProp<WalletParamList>>();
   const dispatch = useAppDispatch();
 
   const onOpenSettings = useCallback(() => {
@@ -33,13 +33,13 @@ export const DigitalAssetsTab = () => {
 
   const onPress = useCallback(
     (item: ModifiedWallet) => {
-      navigate(MainRoute.WalletDetails, { item });
+      navigate(WalletRoute.WalletDetails, { item });
     },
     [navigate],
   );
 
   const onPressPlaceholderButton = useCallback(() => {
-    navigate(MainRoute.Deposit);
+    navigate(WalletRoute.Deposit);
   }, [navigate]);
 
   useEffect(() => {

@@ -3,8 +3,8 @@ import React, { FC } from 'react';
 
 import { noHeaderOptions } from '../constants';
 
-import { MainParamList } from './types';
-import { MainRoute } from './constants';
+import { WalletParamList } from './types';
+import { WalletRoute } from './constants';
 import { WalletScreen } from '@app/features/wallet';
 import { DepositScreen } from '@app/features/wallet/screens/Deposit/DepositScreen';
 import { DepositDetailsScreen } from '@app/features/wallet/screens/DepositDetails/DepositDetailsScreen';
@@ -16,41 +16,41 @@ import { TransferUserScreen } from '@app/features/wallet/screens/Transfer/Transf
 import { TransferAssetScreen } from '@app/features/wallet/screens/Transfer/TransferAssetScreen.tsx';
 import { TransferDetailsScreen } from '@app/features/wallet/screens/TransferDetails/TransferDetailsScreen.tsx';
 
-const Main = createNativeStackNavigator<MainParamList>();
+const Wallet = createNativeStackNavigator<WalletParamList>();
 
-export const MainNavigator: FC = () => {
+export const WalletNavigator: FC = () => {
   return (
-    <Main.Navigator
+    <Wallet.Navigator
       screenOptions={noHeaderOptions}
-      initialRouteName={MainRoute.Wallet}>
-      <Main.Screen name={MainRoute.Wallet} component={WalletScreen} />
-      <Main.Screen
-        name={MainRoute.WalletDetails}
+      initialRouteName={WalletRoute.Wallet}>
+      <Wallet.Screen name={WalletRoute.Wallet} component={WalletScreen} />
+      <Wallet.Screen
+        name={WalletRoute.WalletDetails}
         component={WalletDetailsScreen}
       />
-      <Main.Screen name={MainRoute.Deposit} component={DepositScreen} />
-      <Main.Screen
-        name={MainRoute.DepositDetails}
+      <Wallet.Screen name={WalletRoute.Deposit} component={DepositScreen} />
+      <Wallet.Screen
+        name={WalletRoute.DepositDetails}
         component={DepositDetailsScreen}
       />
-      <Main.Screen name={MainRoute.Withdraw} component={WithdrawScreen} />
-      <Main.Screen name={MainRoute.History} component={HistoryScreen} />
-      <Main.Screen
-        name={MainRoute.TransferUser}
+      <Wallet.Screen name={WalletRoute.Withdraw} component={WithdrawScreen} />
+      <Wallet.Screen name={WalletRoute.History} component={HistoryScreen} />
+      <Wallet.Screen
+        name={WalletRoute.TransferUser}
         component={TransferUserScreen}
       />
-      <Main.Screen
-        name={MainRoute.TransferAsset}
+      <Wallet.Screen
+        name={WalletRoute.TransferAsset}
         component={TransferAssetScreen}
       />
-      <Main.Screen
-        name={MainRoute.TransferDetails}
+      <Wallet.Screen
+        name={WalletRoute.TransferDetails}
         component={TransferDetailsScreen}
       />
-      <Main.Screen
-        name={MainRoute.WithdrawDetails}
+      <Wallet.Screen
+        name={WalletRoute.WithdrawDetails}
         component={WithdrawDetailsScreen}
       />
-    </Main.Navigator>
+    </Wallet.Navigator>
   );
 };

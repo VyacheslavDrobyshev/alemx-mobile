@@ -13,8 +13,8 @@ import {
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
-import { MainParamList } from '@app/features/rootNavigation/main/types.ts';
-import { MainRoute } from '@app/features/rootNavigation/main/constants.ts';
+import { WalletParamList } from '@app/features/rootNavigation/main/types.ts';
+import { WalletRoute } from '@app/features/rootNavigation/main/constants.ts';
 import { useAppTheme } from '@app/theme';
 import { AssetsData } from '@app/features/wallet/redux/types.ts';
 import { FormikConfig } from 'formik';
@@ -64,8 +64,8 @@ const feeLevel = LevelFee.High;
 export const WithdrawDetailsScreen: FC = () => {
   const {
     params: { item },
-  } = useRoute<RouteProp<MainParamList, MainRoute.WithdrawDetails>>();
-  const { navigate } = useNavigation<NavigationProp<MainParamList>>();
+  } = useRoute<RouteProp<WalletParamList, WalletRoute.WithdrawDetails>>();
+  const { navigate } = useNavigation<NavigationProp<WalletParamList>>();
   const { showError } = useAppToast();
   const { colors } = useAppTheme();
   const [fee, setFee] = useState(0);
@@ -81,7 +81,7 @@ export const WithdrawDetailsScreen: FC = () => {
           feeLevel,
           receiverOneTimeAddress: address,
         });
-        navigate(MainRoute.Wallet);
+        navigate(WalletRoute.Wallet);
       } catch (e) {
         showError('Ups, something went wrong');
       } finally {

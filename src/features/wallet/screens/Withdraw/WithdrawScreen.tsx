@@ -2,8 +2,8 @@ import { FC, useCallback, useEffect } from 'react';
 import { AppScreen } from '@app/components';
 
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { MainParamList } from '@app/features/rootNavigation/main/types.ts';
-import { MainRoute } from '@app/features/rootNavigation/main/constants.ts';
+import { WalletParamList } from '@app/features/rootNavigation/main/types.ts';
+import { WalletRoute } from '@app/features/rootNavigation/main/constants.ts';
 import {
   ModifiedWallet,
   WalletsList,
@@ -12,11 +12,11 @@ import { getDepositWalletsThunk } from '@app/features/wallet/redux/thunks.ts';
 import { useAppDispatch } from '@app/redux';
 
 export const WithdrawScreen: FC = () => {
-  const { navigate } = useNavigation<NavigationProp<MainParamList>>();
+  const { navigate } = useNavigation<NavigationProp<WalletParamList>>();
   const dispatch = useAppDispatch();
   const onPress = useCallback(
     (item: ModifiedWallet) => {
-      navigate(MainRoute.WithdrawDetails, { item });
+      navigate(WalletRoute.WithdrawDetails, { item });
     },
     [navigate],
   );
@@ -26,7 +26,7 @@ export const WithdrawScreen: FC = () => {
   }, [dispatch]);
 
   const onPressPlaceholderButton = useCallback(() => {
-    navigate(MainRoute.Deposit);
+    navigate(WalletRoute.Deposit);
   }, [navigate]);
 
   return (
