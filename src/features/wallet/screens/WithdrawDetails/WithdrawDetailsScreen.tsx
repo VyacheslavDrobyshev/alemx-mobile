@@ -170,6 +170,11 @@ export const WithdrawDetailsScreen: FC = () => {
           {...fields.address}
         />
         <AppInput
+          editable={false}
+          title={'Network'}
+          value={item.network.name}
+        />
+        <AppInput
           placeholder={'Paste amount'}
           title={'Withdraw amount'}
           {...fields.amount}

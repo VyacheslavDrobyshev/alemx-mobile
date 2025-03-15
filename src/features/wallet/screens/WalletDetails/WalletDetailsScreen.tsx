@@ -1,7 +1,5 @@
 import { FC } from 'react';
 import { AppScreen, AppText, AppView } from '@app/components';
-import { AppTab } from '@app/components/AppTab/AppTab.tsx';
-import { transactionHistoryTabs } from '@app/features/wallet/screens/WalletDetails/constants.ts';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { MainParamList } from '@app/features/rootNavigation/main/types.ts';
 import { MainRoute } from '@app/features/rootNavigation/main/constants.ts';
@@ -9,6 +7,7 @@ import { useAppTheme } from '@app/theme';
 import { formatNumber } from '@app/utils/number.ts';
 import { AppImage } from '@app/components/AppImage/AppImage.tsx';
 import { NetworkItem } from '@app/features/wallet/screens/WalletDetails/components/NetworkItem/NetworkItem.tsx';
+import { HistoryTabContent } from '@app/features/wallet/components/HistoryTabContent/HistoryTabContent.tsx';
 
 export const WalletDetailsScreen: FC = () => {
   const {
@@ -17,7 +16,7 @@ export const WalletDetailsScreen: FC = () => {
 
   const { colors } = useAppTheme();
   return (
-    <AppScreen title={item?.cryptoAsset.symbol}>
+    <AppScreen noScroll title={item?.cryptoAsset.symbol}>
       <AppView
         height={100}
         marginVertical={20}
@@ -57,24 +56,11 @@ export const WalletDetailsScreen: FC = () => {
         gap={10}>
         <NetworkItem item={item} />
       </AppView>
-      <AppView>
+      <AppView flex={1}>
         <AppText marginTop={10} textStyle={'medium_16_24'}>
           Transaction history
         </AppText>
-        <AppTab tabs={transactionHistoryTabs}>
-          <AppView>
-            <AppText>Deposits</AppText>
-          </AppView>
-          <AppView>
-            <AppText>Withdrawals</AppText>
-          </AppView>
-          <AppView>
-            <AppText>Transfers</AppText>
-          </AppView>
-          <AppView>
-            <AppText>Exchanges</AppText>
-          </AppView>
-        </AppTab>
+        <HistoryTabContent assetSymbol={item.cryptoAsset.symbol} />
       </AppView>
     </AppScreen>
   );

@@ -191,9 +191,11 @@ export type TransferTransaction = {
 };
 export type SwapTransaction = {
   transaction_type: TransactionType;
+  crypto_asset: CryptoAssetTransaction;
 };
 export type DepositTransaction = {
   transaction_type: TransactionType;
+  crypto_asset: CryptoAssetTransaction;
 };
 export type WithdrawalTransaction = {
   external_id: string;
