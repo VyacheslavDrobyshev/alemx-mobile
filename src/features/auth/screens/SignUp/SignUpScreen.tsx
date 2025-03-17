@@ -19,7 +19,7 @@ import {
   useSignUpFormValidation,
 } from '@app/features/auth/screens/SignUp/form';
 import { SignUpFormValues } from '@app/features/auth/screens/SignUp/types';
-import { AppButton } from '@app/components/AppButton/AppButtonx';
+import { AppButton } from '@app/components/AppButton/AppButton';
 import { useSelector } from 'react-redux';
 import { selectIsLoadingAuth } from '@app/features/auth/redux/selectors';
 
@@ -82,15 +82,13 @@ export const SignUpScreen: FC = () => {
           <AppText
             color={colors.inputItemColor}
             textAlign="center"
-            textStyle="regular_12_18"
-          >
+            textStyle="regular_12_18">
             Already have an account?
           </AppText>
           <AppText
             onPress={signInNavigateHandler}
             color={colors.buttonPrimary}
-            textStyle="medium_12_18"
-          >
+            textStyle="medium_12_18">
             Login
           </AppText>
         </AppView>

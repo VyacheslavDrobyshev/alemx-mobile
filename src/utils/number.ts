@@ -1,6 +1,6 @@
 export const formatNumber = (
   truncatedNumber: number,
-  style?: string,
+  style: 'decimal' | 'currency' | 'percent' = 'decimal',
   minimumFractionDigits: number = 2,
   maximumFractionDigits: number = 2,
 ): string =>

@@ -1,7 +1,7 @@
 import { AppText, AppTouchable, AppView } from '@app/components';
 import { useAppTheme } from '@app/theme';
 import { AssetsData } from '@app/features/wallet/redux/types';
-import { AppImage } from '@app/components/AppImage/AppImagex';
+import { AppImage } from '@app/components/AppImage/AppImage';
 
 export function CryptoCurrencyItem({
   item,
@@ -26,8 +26,7 @@ export function CryptoCurrencyItem({
       flexDirection="row"
       alignItems="center"
       paddingHorizontal={itemContainer.paddingHorizontal}
-      backgroundColor={colors.primaryLightColor}
-    >
+      backgroundColor={colors.primaryLightColor}>
       {item.image ? (
         <AppImage
           uri={item.image}
@@ -43,8 +42,7 @@ export function CryptoCurrencyItem({
           width={icon.width}
           borderRadius={icon.borderRadius}
           backgroundColor={colors.buttonPrimary}
-          marginRight={icon.marginRight}
-        >
+          marginRight={icon.marginRight}>
           <AppText textStyle="semi_bold_12_18">
             {item.symbol.slice(0, 2)}
           </AppText>

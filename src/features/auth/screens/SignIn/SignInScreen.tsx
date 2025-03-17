@@ -17,7 +17,7 @@ import {
   getSignInFormInitialValues,
   useSignInFormValidation,
 } from '@app/features/auth/screens/SignIn/form';
-import { AppButton } from '@app/components/AppButton/AppButtonx';
+import { AppButton } from '@app/components/AppButton/AppButton';
 import { isThunkPayload, useAppDispatch } from '@app/redux';
 import { loginThunk } from '@app/features/auth/redux/thunks';
 import { useSelector } from 'react-redux';
@@ -70,15 +70,13 @@ export const SignInScreen: FC = () => {
           <AppText
             color={colors.inputItemColor}
             textAlign="center"
-            textStyle="regular_12_18"
-          >
+            textStyle="regular_12_18">
             Don't have an account yet?
           </AppText>
           <AppText
             onPress={signUpNavigateHandler}
             color={colors.buttonPrimary}
-            textStyle="medium_12_18"
-          >
+            textStyle="medium_12_18">
             Create a new one
           </AppText>
         </AppView>

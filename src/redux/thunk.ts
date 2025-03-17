@@ -1,10 +1,4 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import {
-  GetThunkAPI,
-  RejectWithValue,
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-expect-error
-} from '@reduxjs/toolkit/dist/createAsyncThunk';
+import { createAsyncThunk, GetThunkAPI } from '@reduxjs/toolkit';
 
 import type { ThunkApiConfig } from './types';
 
@@ -13,9 +7,10 @@ export const createAppThunk = <Returned, ThunkArg = void>(
   cb: (
     arg: ThunkArg,
     config: GetThunkAPI<ThunkApiConfig>,
-  ) => // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
-  | Promise<Returned | RejectWithValue<string, unknown>>
+  ) =>
+    | Promise<
+        Returned | ReturnType<GetThunkAPI<ThunkApiConfig>['rejectWithValue']>
+      >
     | Returned
-    // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
-    | RejectWithValue<string, unknown>,
+    | ReturnType<GetThunkAPI<ThunkApiConfig>['rejectWithValue']>,
 ) => createAsyncThunk<Returned, ThunkArg, ThunkApiConfig>(name, cb);

@@ -14,7 +14,7 @@ import { useAppToast } from '@app/components/AppToast/useAppToast';
 import {
   ModifiedWallet,
   WalletsList,
-} from '@app/features/wallet/components/WalletsList/WalletsListx';
+} from '@app/features/wallet/components/WalletsList/WalletsList';
 
 export const DepositScreen: FC = () => {
   const { navigate } = useNavigation<NavigationProp<WalletParamList>>();
@@ -25,7 +25,7 @@ export const DepositScreen: FC = () => {
 
   const onPress = useCallback(
     async (item: ModifiedWallet) => {
-      const chosenWallet = wallets?.find((el) => el.cryptoAsset.id === item.id);
+      const chosenWallet = wallets?.find(el => el.cryptoAsset.id === item.id);
       if (chosenWallet) {
         navigate(WalletRoute.DepositDetails, { item: chosenWallet });
       } else {
@@ -34,9 +34,7 @@ export const DepositScreen: FC = () => {
           createUserWalletsThunk({ assetsIds: [item.id] }),
         );
         if (isThunkPayload(payload)) {
-          const newWallet = payload?.find(
-            (el) => el.cryptoAsset.id === item.id,
-          );
+          const newWallet = payload?.find(el => el.cryptoAsset.id === item.id);
           navigate(WalletRoute.DepositDetails, { item: newWallet });
         } else {
           showError(payload ?? '');

@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { WalletNavigator } from '@app/features/wallet/navigation/WalletNavigatorx';
+import { WalletNavigator } from '@app/features/wallet/navigation/WalletNavigator';
 import { selectAccessToken } from '@app/features/auth/redux/selectors';
 import { useSelector } from 'react-redux';
 

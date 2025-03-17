@@ -20,6 +20,7 @@ import {
   getUserWalletsApi,
 } from '@app/features/wallet/api';
 import { AppLoginError } from '@app/features/auth/redux/types';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const getUserWalletsThunk = createAppThunk<AppUserWalletsDto[], void>(
   'auth/getUserWalletsThunk',
@@ -58,7 +59,7 @@ export const createUserWalletsThunk = createAppThunk<
     try {
       await createUserWalletApi({ assetsIds });
       const { payload } = await dispatch(getUserWalletsThunk());
-      return payload;
+      return payload as AppUserWalletsDto[];
     } catch (e) {
       const error = e as AxiosError<AppLoginError>;
       return rejectWithValue(
@@ -68,7 +69,7 @@ export const createUserWalletsThunk = createAppThunk<
   },
 );
 
-export const getAssetsThunk = createAppThunk<AppAssetsDto, PaginationParams>(
+export const getAssetsThunk = createAsyncThunk<AppAssetsDto, PaginationParams>(
   'auth/getAssetsThunk',
   async (params, { rejectWithValue }) => {
     try {
@@ -82,7 +83,7 @@ export const getAssetsThunk = createAppThunk<AppAssetsDto, PaginationParams>(
   },
 );
 
-export const getUsersThunk = createAppThunk<AppUsersDto, PaginationParams>(
+export const getUsersThunk = createAsyncThunk<AppUsersDto, PaginationParams>(
   'auth/getUsersThunk',
   async (params, { rejectWithValue }) => {
     try {
@@ -96,7 +97,7 @@ export const getUsersThunk = createAppThunk<AppUsersDto, PaginationParams>(
   },
 );
 
-export const getTransactionsThunk = createAppThunk<
+export const getTransactionsThunk = createAsyncThunk<
   TransferTransactionDto,
   PaginationParams & { transaction_type: TransactionType }
 >('auth/getTransactionsThunk', async (params, { rejectWithValue }) => {
@@ -110,7 +111,7 @@ export const getTransactionsThunk = createAppThunk<
   }
 });
 
-export const getUnifiedBalanceThunk = createAppThunk<
+export const getUnifiedBalanceThunk = createAsyncThunk<
   AppUserUnifiedBalanceDto,
   void
 >('auth/getUnifiedBalanceThunk', async (_, { rejectWithValue }) => {

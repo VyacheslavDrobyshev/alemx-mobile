@@ -1,8 +1,8 @@
 import { AppIcon, AppText, AppView, useAppBottomDrawer } from '@app/components';
-import { AccountValue } from '@app/features/wallet/screens/Wallet/components/AccountValue/AccountValuex';
+import { AccountValue } from '@app/features/wallet/screens/Wallet/components/AccountValue/AccountValue';
 import { useAppTheme } from '@app/theme';
 import { useCallback, useEffect } from 'react';
-import { SettingsModalContent } from '@app/features/wallet/modals/SettingsModalContent/SettingsModalContentx';
+import { SettingsModalContent } from '@app/features/wallet/modals/SettingsModalContent/SettingsModalContent';
 import {
   getUnifiedBalanceThunk,
   getUserWalletsThunk,
@@ -11,7 +11,7 @@ import { useAppDispatch } from '@app/redux';
 import {
   ModifiedWallet,
   WalletsList,
-} from '@app/features/wallet/components/WalletsList/WalletsListx';
+} from '@app/features/wallet/components/WalletsList/WalletsList';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { WalletParamList } from '@app/features/wallet/navigation/types';
 import { WalletRoute } from '@app/features/wallet/navigation/constants';
@@ -53,8 +53,7 @@ export function DigitalAssetsTab() {
         marginVertical={15}
         flexDirection="row"
         alignItems="center"
-        justifyContent="space-between"
-      >
+        justifyContent="space-between">
         <AppText textStyle="regular_12_18" color={colors.inputLabelColor}>
           Cryptocurrencies
         </AppText>

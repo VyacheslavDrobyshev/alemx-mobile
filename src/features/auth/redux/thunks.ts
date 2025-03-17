@@ -9,8 +9,9 @@ import {
 import { AxiosError } from 'axios';
 import { ejectAuthInterceptor } from '@app/api/interceptor';
 import { createAppThunk } from '@app/redux/thunk';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
-export const loginThunk = createAppThunk<AppLoginDto, AppLoginParams>(
+export const loginThunk = createAsyncThunk<AppLoginDto, AppLoginParams>(
   'auth/loginThunk',
   async (params, { rejectWithValue }) => {
     try {
@@ -24,19 +25,19 @@ export const loginThunk = createAppThunk<AppLoginDto, AppLoginParams>(
   },
 );
 
-export const registerThunk = createAppThunk<AppRegisterDto, AppRegisterParams>(
-  'auth/registerThunk',
-  async (params, { rejectWithValue }) => {
-    try {
-      return await registerApi(params);
-    } catch (e) {
-      const error = e as AxiosError<AppLoginError>;
-      return rejectWithValue(
-        error.response?.data.detail ?? 'Something went wrong',
-      );
-    }
-  },
-);
+export const registerThunk = createAsyncThunk<
+  AppRegisterDto,
+  AppRegisterParams
+>('auth/registerThunk', async (params, { rejectWithValue }) => {
+  try {
+    return await registerApi(params);
+  } catch (e) {
+    const error = e as AxiosError<AppLoginError>;
+    return rejectWithValue(
+      error.response?.data.detail ?? 'Something went wrong',
+    );
+  }
+});
 
 export const logoutThunk = createAppThunk('auth/logoutThunk', () => {
   ejectAuthInterceptor();
