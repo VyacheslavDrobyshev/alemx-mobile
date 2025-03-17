@@ -1,0 +1,126 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+desc 'iOS: get project name.'
+lane :get_project_name do |options|
+  package = load_json(json_path: "../package.json")
+  package['name']
+end
+
+desc 'iOS: Increment build number.'
+lane :bump_build_number_ios do |options|
+  package = load_json(json_path: "../package.json")
+  increment_build_number(
+    xcodeproj: '../ios/' + package['name'] + '.xcodeproj'
+  )
+end
+
+desc 'Android: Increment build number.'
+lane :bump_build_number_android do |options|
+  increment_version_code(
+    gradle_file_path: "../android/app/build.gradle",
+  )
+end
+
+desc 'iOS & Android: Increment build number.'
+lane :bump_build_number do |options|
+  bump_build_number_ios
+  bump_build_number_android
+end
+
+desc 'Get version commit message'
+lane :get_commit_message do
+  bump_build_number()
+  package = load_json(json_path: "../package.json")
+  version = package['version']
+  branch_name = sh("cd ../..; git branch --show-current").strip
+  postfix = branch_name == 'develop' || branch_name == 'master' || branch_name.index('build') == 0 ? "" : "." + branch_name
+  version + postfix + "(" + lane_context[SharedValues::BUILD_NUMBER] + ")"
+end
+
+desc 'Git: Commit version'
+lane :git_commit_version do
+  commit_message = get_commit_message()
+  sh("cd ../.. && git add . && git commit -m '" + commit_message + " [skip ci]' --no-verify && git tag 'v" + commit_message + "' && git push --no-verify && git push --tags --no-verify")
+end
+
+desc 'Android: Set versionName to package.json version.'
+package = load_json(json_path: "../package.json")
+private_lane :set_version_android do |options|
+    increment_version_name(
+      gradle_file_path: "../android/app/build.gradle",
+      version_name: options[:version]
+    )
+end
+
+desc 'iOS: Set the version to package.json version.'
+private_lane :set_version_ios do |options|
+package = load_json(json_path: "../package.json")
+    increment_version_number(
+      xcodeproj: '../ios/' + package['name'] + '.xcodeproj',
+      version_number: options[:version]
+    )
+end
+
+desc 'Step: Get version with prefix'
+private_lane :get_version_with_prefix do
+  package = load_json(json_path: "../package.json")
+  version = package['version']
+  version
+  # branch_name = sh("cd ../..; git branch --show-current").strip;
+  # postfix = branch_name == 'develop' || branch_name == 'master' || branch_name.index('build') == 0 ? "" : "@" + branch_name
+  # version_with_prefix = postfix.empty? ? version : version + postfix 
+
+  # version_with_prefix
+end
+
+
+desc 'Switch ios environment'
+lane :update_version_ios do |options|
+  version_with_prefix = get_version_with_prefix();
+  set_version_ios(version: version_with_prefix)
+end
+
+desc 'Switch android environment'
+lane :update_version_android do |options|
+  version_with_prefix = get_version_with_prefix();
+  set_version_android(version: version_with_prefix)
+end
+
+desc 'Save build number'
+lane :store_build_version do |options|
+  sh("cd ../.. && git checkout -- ios && git checkout -- android")
+  version_with_prefix = get_version_with_prefix()
+  update_version_ios(variant: options[:prefix])
+  update_version_android(variant: options[:prefix])
+  bump_build_number
+  version_with_build_number = "'v" + version_with_prefix + "(" + lane_context[SharedValues::BUILD_NUMBER] + ")'"
+  sh("cd ../.. && git add . && git commit -m " + version_with_build_number + " --no-verify && git tag " + version_with_build_number + " && git push --no-verify && git push --tags --no-verify")
+end
+
+desc "Get unreleased changelogs"
+lane :get_changelog do
+  submodule_changelog = read_changelog(
+    changelog_path: '../mobile-core/CHANGELOG.MD',
+    section_identifier: '[Unreleased]',
+  )
+
+  project_changelog = read_changelog(
+    changelog_path: '../CHANGELOG.MD',
+    section_identifier: '[Unreleased]',
+  )
+
+  project_changelog + "\n\n" + submodule_changelog;
+end

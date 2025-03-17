@@ -1,0 +1,55 @@
+import '../../distribution/fastlane/Fastfile';
+
+default_platform(:android)
+
+platform :android do
+  desc "Build signed aab"
+  lane :bundle do
+    keystoreSecrets = load_json(json_path: "./keystore-secrets.json")
+    keystoreFilePath = File.join(Dir.pwd, "..", get_project_name() + ".keystore")
+    gradle(
+      task: "clean bundle",
+      build_type: "Release",   
+      properties: {
+        "android.injected.signing.store.file" => keystoreFilePath,
+        "android.injected.signing.store.password" => keystoreSecrets["store.password"],
+        "android.injected.signing.key.alias" => keystoreSecrets["alias"],
+        "android.injected.signing.key.password" => keystoreSecrets["key.password"],
+      }
+    )
+  end
+    
+  desc "Deploy a new version to the Google Play"
+  lane :release do
+    bundle
+    aabPath = File.join(Dir.pwd, "..", "/app/build/outputs/bundle/release/app-release.aab")
+    upload_to_play_store(track: "internal", aab: aabPath)
+  end
+
+  desc "Push a new release build to the App Distribution"
+  lane :ad do
+    # bundle
+
+    # remove this after aab published START
+    keystoreSecrets = load_json(json_path: "./keystore-secrets.json")
+    keystoreFilePath = File.join(Dir.pwd, "..", get_project_name() + ".keystore")
+    gradle(
+      task: "clean assemble",
+      build_type: "Release",   
+      properties: {
+        "android.injected.signing.store.file" => keystoreFilePath,
+        "android.injected.signing.store.password" => keystoreSecrets["store.password"],
+        "android.injected.signing.key.alias" => keystoreSecrets["alias"],
+        "android.injected.signing.key.password" => keystoreSecrets["key.password"],
+      }
+    )
+    # remove this after aab published END
+
+    firebase_app_distribution(
+      app: "1:580812062384:android:480648bf6d9d2fd4e44575",
+      android_artifact_type: "APK",
+      groups: "internal-dev-team",
+      release_notes: get_changelog(),
+    )
+  end
+end
