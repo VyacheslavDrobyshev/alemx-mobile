@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "817627470050",
+    "project_id": "alemx-b22c3",
+    "storage_bucket": "alemx-b22c3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:817627470050:android:44657b1f4ce59a9cc066bb",
+        "android_client_info": {
+          "package_name": "com.alemx"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5dkzrHjXnK_zPaF1G4GNxAFIOCnhauE0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
