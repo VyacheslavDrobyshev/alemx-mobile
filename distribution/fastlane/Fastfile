@@ -102,11 +102,11 @@ end
 desc 'Save build number'
 lane :store_build_version do |options|
   sh("cd ../.. && git checkout -- ios && git checkout -- android")
+  current_version_code = android_get_version_name(gradle_file: "../android/app/build.gradle")
   version_with_prefix = get_version_with_prefix()
   update_version_ios(variant: options[:prefix])
   update_version_android(variant: options[:prefix])
-  bump_build_number
-  version_with_build_number = "'v" + version_with_prefix + "(" + lane_context[SharedValues::BUILD_NUMBER] + ")'"
+  version_with_build_number = "'v" + version_with_prefix + "(" + current_version_code + ")'"
   sh("cd ../.. && git add . && git commit -m " + version_with_build_number + " --no-verify && git tag " + version_with_build_number + " && git push --no-verify && git push --tags --no-verify")
 end
 
