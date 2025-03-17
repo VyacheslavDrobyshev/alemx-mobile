@@ -17,7 +17,9 @@ export const loginThunk = createAppThunk<AppLoginDto, AppLoginParams>(
       return await loginApi(params);
     } catch (e) {
       const error = e as AxiosError<AppLoginError>;
-      return rejectWithValue(String(e));
+      return rejectWithValue(
+        error.response?.data.detail ?? 'Something went wrong',
+      );
     }
   },
 );
