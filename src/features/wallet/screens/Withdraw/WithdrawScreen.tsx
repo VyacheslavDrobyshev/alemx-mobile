@@ -1,14 +1,13 @@
 import { FC, useCallback, useEffect } from 'react';
 import { AppScreen } from '@app/components';
-
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { WalletParamList } from '@app/features/wallet/navigation/types.ts';
-import { WalletRoute } from '@app/features/wallet/navigation/constants.ts';
+import { WalletParamList } from '@app/features/wallet/navigation/types';
+import { WalletRoute } from '@app/features/wallet/navigation/constants';
 import {
   ModifiedWallet,
   WalletsList,
-} from '@app/features/wallet/components/WalletsList/WalletsList.tsx';
-import { getDepositWalletsThunk } from '@app/features/wallet/redux/thunks.ts';
+} from '@app/features/wallet/components/WalletsList/WalletsList';
+import { getDepositWalletsThunk } from '@app/features/wallet/redux/thunks';
 import { useAppDispatch } from '@app/redux';
 
 export const WithdrawScreen: FC = () => {
@@ -22,7 +21,7 @@ export const WithdrawScreen: FC = () => {
   );
 
   useEffect(() => {
-    dispatch(getDepositWalletsThunk());
+    void dispatch(getDepositWalletsThunk());
   }, [dispatch]);
 
   const onPressPlaceholderButton = useCallback(() => {
@@ -30,7 +29,7 @@ export const WithdrawScreen: FC = () => {
   }, [navigate]);
 
   return (
-    <AppScreen title={'Withdraw'} noScroll>
+    <AppScreen title="Withdraw" noScroll>
       <WalletsList
         isDeposit
         onPressPlaceholderButton={onPressPlaceholderButton}

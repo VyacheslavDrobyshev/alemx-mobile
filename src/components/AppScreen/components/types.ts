@@ -1,3 +1,3 @@
 export type AppScreenProps = {
-    title: string;
-}
+  title: string;
+};

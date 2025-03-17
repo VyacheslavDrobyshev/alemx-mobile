@@ -19,10 +19,11 @@ export const AppModalContainer: FC<Omit<AppModalContainerProps, 'type'>> = ({
       backgroundColor={modalContainer.backdropColor}
       flex={1}
       justifyContent={justifyContent}
-      alignItems={alignItems}>
-      {/*{safeTop && <AppSafeTop />}*/}
+      alignItems={alignItems}
+    >
+      {/* {safeTop && <AppSafeTop />} */}
       {children}
-      {/*{safeBottom && <AppSafeBottom />}*/}
+      {/* {safeBottom && <AppSafeBottom />} */}
     </AppView>
   );
 };

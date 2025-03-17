@@ -1,14 +1,14 @@
-import { AppImage } from '@app/components/AppImage/AppImage.tsx';
+import { AppImage } from '@app/components/AppImage/AppImage';
 import { AppText, AppView } from '@app/components';
-import { formatNumber } from '@app/utils/number.ts';
+import { formatNumber } from '@app/utils/number';
 import { FC } from 'react';
 import { useAppTheme } from '@app/theme';
-import { ModifiedWallet } from '@app/features/wallet/components/WalletsList/WalletsList.tsx';
+import { ModifiedWallet } from '@app/features/wallet/components/WalletsList/WalletsList';
 
 export const NetworkItem: FC<{ item: ModifiedWallet }> = ({ item }) => {
   const { colors } = useAppTheme();
   return (
-    <AppView flexDirection={'row'}>
+    <AppView flexDirection="row">
       {item.network.image ? (
         <AppImage
           width={15}
@@ -19,15 +19,16 @@ export const NetworkItem: FC<{ item: ModifiedWallet }> = ({ item }) => {
         />
       ) : (
         <AppView
-          alignItems={'center'}
-          justifyContent={'center'}
+          alignItems="center"
+          justifyContent="center"
           height={15}
           width={15}
           borderRadius={15}
           marginRight={10}
           marginTop={3}
-          backgroundColor={colors.buttonPrimary}>
-          <AppText textStyle={'regular_8_16'}>
+          backgroundColor={colors.buttonPrimary}
+        >
+          <AppText textStyle="regular_8_16">
             {item.network.nativeAssetSymbol.slice(0, 2)}
           </AppText>
         </AppView>
@@ -39,7 +40,7 @@ export const NetworkItem: FC<{ item: ModifiedWallet }> = ({ item }) => {
           ({item.network.nativeAssetSymbol})
         </AppText>
       </AppView>
-      <AppView alignItems={'flex-end'} flex={1}>
+      <AppView alignItems="flex-end" flex={1}>
         <AppText>
           {formatNumber(Number(item.balancesByAsset?.balance ?? 0))}
         </AppText>

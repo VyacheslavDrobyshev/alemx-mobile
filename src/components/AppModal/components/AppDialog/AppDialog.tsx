@@ -4,9 +4,9 @@ import { AppText } from '@app/components/AppText/AppText';
 import { AppView } from '@app/components/AppView/AppView';
 import { useAppTheme } from '@app/theme';
 import { AppButton } from '@app/components/AppButton/AppButton';
+import { useAppModal } from '@app/components';
 
 import { AppModalContainer } from '../AppModalContainer/AppModalContainer';
-import { useAppModal } from '@app/components';
 
 import { AppDialogProps } from './types';
 
@@ -30,7 +30,8 @@ export const AppDialog: FC<AppDialogProps> = ({
             position="absolute"
             alignSelf="flex-end"
             top={+dialog.container.paddingTop! - dialog.close.marginTop}
-            right={+dialog.container.paddingTop! - dialog.close.marginRight}>
+            right={+dialog.container.paddingTop! - dialog.close.marginRight}
+          >
             <AppIcon
               name="Cross"
               height={dialog.close.height}
@@ -49,9 +50,7 @@ export const AppDialog: FC<AppDialogProps> = ({
         )}
         {body}
 
-        {buttons?.map(props => (
-          <AppButton key={props.title} {...props} />
-        ))}
+        {buttons?.map((props) => <AppButton key={props.title} {...props} />)}
       </AppView>
     </AppModalContainer>
   );

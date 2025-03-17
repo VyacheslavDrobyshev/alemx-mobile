@@ -17,15 +17,15 @@ export const persistConfig = {
 
 export const store = configureStore({
   reducer: persistReducer(persistConfig, reducers),
-  middleware: getDefaultMiddleware => {
-    return getDefaultMiddleware({
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
       serializableCheck: false,
       immutableCheck: Platform.OS === 'ios' ? { warnAfter: 128 } : false,
-    });
-  },
+    }),
   enhancers: __DEV__
-    ? getDefaultEnhancers =>
+    ? (getDefaultEnhancers) =>
         getDefaultEnhancers().concat(
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-var-requires,global-require
           require('../ReactotronConfig').default.createEnhancer!(),
         )
     : undefined,

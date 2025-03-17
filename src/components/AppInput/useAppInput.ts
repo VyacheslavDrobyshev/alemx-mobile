@@ -34,7 +34,7 @@ export const useAppInput = (props: AppInputProps) => {
   const [secure, setSecure] = useState(secureTextEntry);
 
   const toggleSecure = useCallback(
-    () => setSecure(prevState => !prevState),
+    () => setSecure((prevState) => !prevState),
     [],
   );
 

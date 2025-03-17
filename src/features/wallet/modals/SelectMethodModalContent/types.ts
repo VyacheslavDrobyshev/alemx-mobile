@@ -1,4 +1,4 @@
-import { AppIconName } from '@app/components/AppIcon/types.ts';
+import { AppIconName } from '@app/components/AppIcon/types';
 
 export type SelectMethodModalItem = {
   icon: AppIconName;

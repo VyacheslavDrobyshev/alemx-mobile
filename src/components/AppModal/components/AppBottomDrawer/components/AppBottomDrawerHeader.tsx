@@ -17,7 +17,8 @@ export const AppBottomDrawerHeader: FC<AppBottomDrawerHeaderProps> = ({
       <AppView
         flexDirection="row"
         justifyContent="space-between"
-        alignItems="center">
+        alignItems="center"
+      >
         <AppText textStyle="medium_16_24">{title ?? ''}</AppText>
       </AppView>
       {subTitle && (
@@ -25,7 +26,8 @@ export const AppBottomDrawerHeader: FC<AppBottomDrawerHeaderProps> = ({
           textStyle="regular_13_20"
           color={theme.colors.textSecondary}
           marginTop={4}
-          marginBottom={6}>
+          marginBottom={6}
+        >
           {subTitle}
         </AppText>
       )}

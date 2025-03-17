@@ -1,12 +1,11 @@
 import React, { FC } from 'react';
 import { Text } from 'react-native';
-
 import { AppTouchable } from '@app/components';
 
 import { AppTextProps } from './types';
 import { useAppText } from './useAppText';
 
-export const AppText: FC<AppTextProps> = React.memo(props => {
+export const AppText: FC<AppTextProps> = React.memo((props) => {
   const {
     children,
     numberOfLines,
@@ -21,7 +20,8 @@ export const AppText: FC<AppTextProps> = React.memo(props => {
       {...rest}
       style={style}
       numberOfLines={numberOfLines}
-      onPress={noOpacityWrapper && onPress ? onPress : undefined}>
+      onPress={noOpacityWrapper && onPress ? onPress : undefined}
+    >
       {children}
     </Text>
   );

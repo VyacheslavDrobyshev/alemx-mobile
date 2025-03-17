@@ -1,5 +1,4 @@
 import { useAppTheme } from '@app/theme';
-
 import {
   AppIcon,
   AppText,
@@ -8,7 +7,7 @@ import {
   useAppBottomDrawer,
 } from '@app/components';
 import { FC, useMemo } from 'react';
-import { AppUserWalletsDto } from '@app/features/wallet/redux/types.ts';
+import { AppUserWalletsDto } from '@app/features/wallet/redux/types';
 
 type NetworkItem = {
   id: string;
@@ -28,20 +27,21 @@ export const NetworkItem: FC<NetworkItem> = ({
   return (
     <AppTouchable
       onPress={() => onPress(id)}
-      width={'100%'}
+      width="100%"
       borderRadius={8}
       borderWidth={1}
       paddingVertical={10}
-      flexDirection={'row'}
-      borderColor={colors.inputBorderColor}>
+      flexDirection="row"
+      borderColor={colors.inputBorderColor}
+    >
       <AppView paddingHorizontal={10}>
-        <AppIcon name={'Dollar'} color={colors.white} />
+        <AppIcon name="Dollar" color={colors.white} />
       </AppView>
       <AppView flex={1}>
-        <AppText textStyle={'regular_14_20'} flexShrink={1}>
+        <AppText textStyle="regular_14_20" flexShrink={1}>
           {title} <AppText color={colors.inputLabelColor}>(TRC20)</AppText>
         </AppText>
-        <AppText color={colors.inputLabelColor} textStyle={'regular_12_18'}>
+        <AppText color={colors.inputLabelColor} textStyle="regular_12_18">
           {subTitle}
         </AppText>
       </AppView>
@@ -56,8 +56,8 @@ export const NetworksModalContent: FC<{
   const { closeBottomDrawer } = useAppBottomDrawer();
   const { colors } = useAppTheme();
 
-  const availableNetworks: NetworkItem[] = useMemo(() => {
-    return [
+  const availableNetworks: NetworkItem[] = useMemo(
+    () => [
       {
         id: 'Tron (TRC20)',
         title: 'Tron (TRC20)',
@@ -76,33 +76,33 @@ export const NetworksModalContent: FC<{
           closeBottomDrawer();
         },
       },
-    ];
-  }, [closeBottomDrawer, item, onPress]);
+    ],
+    [closeBottomDrawer, item, onPress],
+  );
 
   return (
-    <>
-      <AppView gap={10}>
-        {availableNetworks.map(network => (
-          <NetworkItem key={network.id} {...network} />
-        ))}
-        <AppView
-          marginTop={15}
-          flexDirection={'row'}
-          padding={10}
-          borderWidth={1}
-          borderRadius={8}
-          borderColor={colors.inputBorderColor}>
-          <AppIcon
-            marginRight={10}
-            name={'Dollar'}
-            color={colors.inputLabelColor}
-          />
-          <AppText flexShrink={1}>
-            Please note that only supported networks on ALEMX platform are
-            shown, if you deposit via another network your assets may be lost.
-          </AppText>
-        </AppView>
+    <AppView gap={10}>
+      {availableNetworks.map((network) => (
+        <NetworkItem key={network.id} {...network} />
+      ))}
+      <AppView
+        marginTop={15}
+        flexDirection="row"
+        padding={10}
+        borderWidth={1}
+        borderRadius={8}
+        borderColor={colors.inputBorderColor}
+      >
+        <AppIcon
+          marginRight={10}
+          name="Dollar"
+          color={colors.inputLabelColor}
+        />
+        <AppText flexShrink={1}>
+          Please note that only supported networks on ALEMX platform are shown,
+          if you deposit via another network your assets may be lost.
+        </AppText>
       </AppView>
-    </>
+    </AppView>
   );
 };

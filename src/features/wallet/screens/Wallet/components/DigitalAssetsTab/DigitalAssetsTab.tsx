@@ -1,23 +1,22 @@
 import { AppIcon, AppText, AppView, useAppBottomDrawer } from '@app/components';
-import { AccountValue } from '@app/features/wallet/screens/Wallet/components/AccountValue/AccountValue.tsx';
+import { AccountValue } from '@app/features/wallet/screens/Wallet/components/AccountValue/AccountValuex';
 import { useAppTheme } from '@app/theme';
 import { useCallback, useEffect } from 'react';
-import { SettingsModalContent } from '@app/features/wallet/modals/SettingsModalContent/SettingsModalContent.tsx';
+import { SettingsModalContent } from '@app/features/wallet/modals/SettingsModalContent/SettingsModalContentx';
 import {
   getUnifiedBalanceThunk,
   getUserWalletsThunk,
-} from '@app/features/wallet/redux/thunks.ts';
+} from '@app/features/wallet/redux/thunks';
 import { useAppDispatch } from '@app/redux';
 import {
   ModifiedWallet,
   WalletsList,
-} from '@app/features/wallet/components/WalletsList/WalletsList.tsx';
-
+} from '@app/features/wallet/components/WalletsList/WalletsListx';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { WalletParamList } from '@app/features/wallet/navigation/types.ts';
-import { WalletRoute } from '@app/features/wallet/navigation/constants.ts';
+import { WalletParamList } from '@app/features/wallet/navigation/types';
+import { WalletRoute } from '@app/features/wallet/navigation/constants';
 
-export const DigitalAssetsTab = () => {
+export function DigitalAssetsTab() {
   const { colors } = useAppTheme();
   const { openBottomDrawer } = useAppBottomDrawer();
   const { navigate } = useNavigation<NavigationProp<WalletParamList>>();
@@ -43,8 +42,8 @@ export const DigitalAssetsTab = () => {
   }, [navigate]);
 
   useEffect(() => {
-    dispatch(getUserWalletsThunk());
-    dispatch(getUnifiedBalanceThunk());
+    void dispatch(getUserWalletsThunk());
+    void dispatch(getUnifiedBalanceThunk());
   }, [dispatch]);
 
   return (
@@ -52,15 +51,16 @@ export const DigitalAssetsTab = () => {
       <AccountValue />
       <AppView
         marginVertical={15}
-        flexDirection={'row'}
-        alignItems={'center'}
-        justifyContent={'space-between'}>
-        <AppText textStyle={'regular_12_18'} color={colors.inputLabelColor}>
+        flexDirection="row"
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        <AppText textStyle="regular_12_18" color={colors.inputLabelColor}>
           Cryptocurrencies
         </AppText>
         <AppIcon
           onPress={onOpenSettings}
-          name={'Settings'}
+          name="Settings"
           color={colors.inputLabelColor}
         />
       </AppView>
@@ -73,4 +73,4 @@ export const DigitalAssetsTab = () => {
       />
     </AppView>
   );
-};
+}

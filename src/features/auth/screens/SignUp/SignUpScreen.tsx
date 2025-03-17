@@ -1,7 +1,7 @@
 import { FC, useCallback, useMemo } from 'react';
-import { UnauthorizedRoute } from '@app/features/auth/navigation/constants.ts';
+import { UnauthorizedRoute } from '@app/features/auth/navigation/constants';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { UnauthorizedParamList } from '@app/features/auth/navigation/types.ts';
+import { UnauthorizedParamList } from '@app/features/auth/navigation/types';
 import {
   AppIcon,
   AppInput,
@@ -11,17 +11,17 @@ import {
 } from '@app/components';
 import { useAppTheme } from '@app/theme';
 import { FormikConfig } from 'formik';
-import { registerThunk } from '@app/features/auth/redux/thunks.ts';
+import { registerThunk } from '@app/features/auth/redux/thunks';
 import { useForm } from '@app/form';
 import { isThunkPayload, useAppDispatch } from '@app/redux';
 import {
   getSignUpFormInitialValues,
   useSignUpFormValidation,
-} from '@app/features/auth/screens/SignUp/form.ts';
-import { SignUpFormValues } from '@app/features/auth/screens/SignUp/types.ts';
-import { AppButton } from '@app/components/AppButton/AppButton.tsx';
+} from '@app/features/auth/screens/SignUp/form';
+import { SignUpFormValues } from '@app/features/auth/screens/SignUp/types';
+import { AppButton } from '@app/components/AppButton/AppButtonx';
 import { useSelector } from 'react-redux';
-import { selectIsLoadingAuth } from '@app/features/auth/redux/selectors.ts';
+import { selectIsLoadingAuth } from '@app/features/auth/redux/selectors';
 
 export const SignUpScreen: FC = () => {
   const { navigate } = useNavigation<NavigationProp<UnauthorizedParamList>>();
@@ -55,42 +55,42 @@ export const SignUpScreen: FC = () => {
 
   return (
     <AppScreen withHeader={false}>
-      <AppView gap={20} flex={1} justifyContent={'center'}>
+      <AppView gap={20} flex={1} justifyContent="center">
         <AppInput
           {...fields.username}
-          leftContent={<AppIcon name={'User'} color={colors.inputItemColor} />}
-          placeholder={'Username'}
+          leftContent={<AppIcon name="User" color={colors.inputItemColor} />}
+          placeholder="Username"
         />
         <AppInput
           {...fields.email}
-          leftContent={
-            <AppIcon name={'Message'} color={colors.inputItemColor} />
-          }
-          placeholder={'Email'}
+          leftContent={<AppIcon name="Message" color={colors.inputItemColor} />}
+          placeholder="Email"
         />
         <AppInput
           {...fields.password}
-          leftContent={<AppIcon name={'Lock'} color={colors.inputItemColor} />}
-          placeholder={'Password'}
+          leftContent={<AppIcon name="Lock" color={colors.inputItemColor} />}
+          placeholder="Password"
           secureTextEntry
         />
         <AppInput
           {...fields.confirmPassword}
-          leftContent={<AppIcon name={'Lock'} color={colors.inputItemColor} />}
-          placeholder={'Confirm Password'}
+          leftContent={<AppIcon name="Lock" color={colors.inputItemColor} />}
+          placeholder="Confirm Password"
           secureTextEntry
         />
-        <AppView gap={5} flexDirection={'row'} justifyContent={'center'}>
+        <AppView gap={5} flexDirection="row" justifyContent="center">
           <AppText
             color={colors.inputItemColor}
-            textAlign={'center'}
-            textStyle={'regular_12_18'}>
+            textAlign="center"
+            textStyle="regular_12_18"
+          >
             Already have an account?
           </AppText>
           <AppText
             onPress={signInNavigateHandler}
             color={colors.buttonPrimary}
-            textStyle={'medium_12_18'}>
+            textStyle="medium_12_18"
+          >
             Login
           </AppText>
         </AppView>
@@ -98,7 +98,7 @@ export const SignUpScreen: FC = () => {
       <AppButton
         isLoading={isLoading}
         disabled={!formik.isValid}
-        title={'REGISTER'}
+        title="REGISTER"
         onPress={formik.submitForm}
       />
     </AppScreen>

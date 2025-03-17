@@ -1,16 +1,14 @@
 import React, { FC } from 'react';
+import { AppText, AppTouchable, AppIcon } from '@app/components';
 
-import { AppText } from '@app/components';
-import { AppTouchable } from '@app/components';
 import { AppActivityIndicator } from '../AppActivityIndicator/AppActivityIndicator';
-import { AppIcon } from '@app/components';
 
 import { AppButtonProps } from './types';
 import { useAppButton } from './useAppButton';
 
 const iconMargin = 5;
 
-export const AppButton: FC<AppButtonProps> = React.memo(props => {
+export const AppButton: FC<AppButtonProps> = React.memo((props) => {
   const {
     title,
     disabled,
@@ -32,7 +30,8 @@ export const AppButton: FC<AppButtonProps> = React.memo(props => {
       justifyContent="center"
       alignItems="center"
       flexDirection="row"
-      {...props}>
+      {...props}
+    >
       {leftIcon && (
         <AppIcon
           name={leftIcon}

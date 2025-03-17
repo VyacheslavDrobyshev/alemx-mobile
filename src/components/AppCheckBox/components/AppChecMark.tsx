@@ -15,7 +15,8 @@ export const AppCheckMark: FC<{ isChecked: boolean | undefined }> = ({
       justifyContent="center"
       {...checkBox.box}
       width={checkBox.box.height}
-      {...(isChecked ? checkBox.checked : checkBox.unchecked)}>
+      {...(isChecked ? checkBox.checked : checkBox.unchecked)}
+    >
       {isChecked && <AppIcon name="Check" stroke={checkBox.icon.color} />}
     </AppView>
   );

@@ -69,26 +69,27 @@ export function useForm<FV extends FormikValues>({
   const setValueAndValidate = useCallback(
     async <K extends keyof FV>(name: K, value: FV[K]) => {
       await setFieldValue(name as string, value);
-      validateField(name as string);
+      await validateField(name as string);
     },
     [setFieldValue, validateField],
   );
 
   const changedFields = useMemo<{ [key in keyof FV]?: boolean }>(
     () =>
-      Object.entries(fields).reduce((acc, [key, field]) => {
-        return {
+      Object.entries(fields).reduce(
+        (acc, [key, field]) => ({
           ...acc,
           ...(!ignoredFields?.includes(key)
             ? { [key]: field.value !== config.initialValues[key] }
             : {}),
-        };
-      }, {} as { [key in keyof FV]?: boolean }),
+        }),
+        {} as { [key in keyof FV]?: boolean },
+      ),
     [config.initialValues, fields, ignoredFields],
   );
 
   const hasChanges = useMemo(
-    () => Object.values(changedFields).some(v => v),
+    () => Object.values(changedFields).some((v) => v),
     [changedFields],
   );
 

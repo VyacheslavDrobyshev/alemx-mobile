@@ -1,19 +1,17 @@
 import { FC, useCallback, useState } from 'react';
 import { AppIcon, AppInput, AppScreen } from '@app/components';
-
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { WalletParamList } from '@app/features/wallet/navigation/types.ts';
-import { WalletRoute } from '@app/features/wallet/navigation/constants.ts';
-import { UserData } from '@app/features/wallet/redux/types.ts';
+import { WalletParamList } from '@app/features/wallet/navigation/types';
+import { WalletRoute } from '@app/features/wallet/navigation/constants';
+import { UserData } from '@app/features/wallet/redux/types';
 import { useAppTheme } from '@app/theme';
-
-import { UsersList } from '@app/features/wallet/components/UsersList/UsersList.tsx';
+import { UsersList } from '@app/features/wallet/components/UsersList/UsersList';
 
 export const TransferUserScreen: FC = () => {
   const { navigate } = useNavigation<NavigationProp<WalletParamList>>();
   const { colors } = useAppTheme();
   const onPress = useCallback(
-    async (user: UserData) => {
+    (user: UserData) => {
       navigate(WalletRoute.TransferAsset, { user });
     },
     [navigate],
@@ -22,11 +20,11 @@ export const TransferUserScreen: FC = () => {
   const [search, setSearch] = useState('');
 
   return (
-    <AppScreen title={'Transfer'} noScroll>
+    <AppScreen title="Transfer" noScroll>
       <AppInput
-        placeholder={'Search coins'}
+        placeholder="Search coins"
         rightContent={
-          !search && <AppIcon name={'Search'} color={colors.inputLabelColor} />
+          !search && <AppIcon name="Search" color={colors.inputLabelColor} />
         }
         value={search}
         withClear={!!search}

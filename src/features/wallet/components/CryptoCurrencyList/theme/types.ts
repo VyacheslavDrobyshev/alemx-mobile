@@ -1,4 +1,4 @@
-import { AppColorValue } from '@app/theme/types.ts';
+import { AppColorValue } from '@app/theme/types';
 
 export type AppScreenTheme = {
   contentContainerStyle: {

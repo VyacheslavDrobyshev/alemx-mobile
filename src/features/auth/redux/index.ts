@@ -13,28 +13,28 @@ const slice = createSlice({
   name: 'auth',
   initialState: initialPersistState,
   reducers: {},
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder.addCase(loginThunk.fulfilled, (state, { payload }) => {
       state.accessToken = payload.accessToken;
       state.isLoading = false;
     });
-    builder.addCase(loginThunk.pending, state => {
+    builder.addCase(loginThunk.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(loginThunk.rejected, state => {
+    builder.addCase(loginThunk.rejected, (state) => {
       state.isLoading = false;
     });
     builder.addCase(registerThunk.fulfilled, (state, { payload }) => {
       state.accessToken = payload.accessToken;
       state.isLoading = false;
     });
-    builder.addCase(registerThunk.pending, state => {
+    builder.addCase(registerThunk.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(registerThunk.rejected, state => {
+    builder.addCase(registerThunk.rejected, (state) => {
       state.isLoading = false;
     });
-    builder.addCase(logoutThunk.fulfilled, state => {
+    builder.addCase(logoutThunk.fulfilled, (state) => {
       state.accessToken = null;
     });
   },

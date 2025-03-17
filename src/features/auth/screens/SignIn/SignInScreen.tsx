@@ -7,21 +7,21 @@ import {
   AppView,
 } from '@app/components';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { UnauthorizedRoute } from '@app/features/auth/navigation/constants.ts';
-import { UnauthorizedParamList } from '@app/features/auth/navigation/types.ts';
+import { UnauthorizedRoute } from '@app/features/auth/navigation/constants';
+import { UnauthorizedParamList } from '@app/features/auth/navigation/types';
 import { useAppTheme } from '@app/theme';
 import { useForm } from '@app/form';
 import { FormikConfig } from 'formik';
-import { SignInFormValues } from '@app/features/auth/screens/SignIn/types.ts';
+import { SignInFormValues } from '@app/features/auth/screens/SignIn/types';
 import {
   getSignInFormInitialValues,
   useSignInFormValidation,
-} from '@app/features/auth/screens/SignIn/form.ts';
-import { AppButton } from '@app/components/AppButton/AppButton.tsx';
+} from '@app/features/auth/screens/SignIn/form';
+import { AppButton } from '@app/components/AppButton/AppButtonx';
 import { isThunkPayload, useAppDispatch } from '@app/redux';
-import { loginThunk } from '@app/features/auth/redux/thunks.ts';
+import { loginThunk } from '@app/features/auth/redux/thunks';
 import { useSelector } from 'react-redux';
-import { selectIsLoadingAuth } from '@app/features/auth/redux/selectors.ts';
+import { selectIsLoadingAuth } from '@app/features/auth/redux/selectors';
 
 export const SignInScreen: FC = () => {
   const { navigate } = useNavigation<NavigationProp<UnauthorizedParamList>>();
@@ -54,31 +54,31 @@ export const SignInScreen: FC = () => {
 
   return (
     <AppScreen withHeader={false}>
-      <AppView gap={20} flex={1} justifyContent={'center'}>
+      <AppView gap={20} flex={1} justifyContent="center">
         <AppInput
           {...fields.email}
-          leftContent={
-            <AppIcon name={'Message'} color={colors.inputItemColor} />
-          }
-          placeholder={'Email'}
+          leftContent={<AppIcon name="Message" color={colors.inputItemColor} />}
+          placeholder="Email"
         />
         <AppInput
           {...fields.password}
-          leftContent={<AppIcon name={'Lock'} color={colors.inputItemColor} />}
-          placeholder={'Password'}
+          leftContent={<AppIcon name="Lock" color={colors.inputItemColor} />}
+          placeholder="Password"
           secureTextEntry
         />
-        <AppView gap={5} flexDirection={'row'} justifyContent={'center'}>
+        <AppView gap={5} flexDirection="row" justifyContent="center">
           <AppText
             color={colors.inputItemColor}
-            textAlign={'center'}
-            textStyle={'regular_12_18'}>
+            textAlign="center"
+            textStyle="regular_12_18"
+          >
             Don't have an account yet?
           </AppText>
           <AppText
             onPress={signUpNavigateHandler}
             color={colors.buttonPrimary}
-            textStyle={'medium_12_18'}>
+            textStyle="medium_12_18"
+          >
             Create a new one
           </AppText>
         </AppView>
@@ -86,7 +86,7 @@ export const SignInScreen: FC = () => {
       <AppButton
         isLoading={isLoading}
         disabled={!formik.isValid}
-        title={'LOGIN'}
+        title="LOGIN"
         onPress={formik.submitForm}
       />
     </AppScreen>

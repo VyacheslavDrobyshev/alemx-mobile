@@ -1,16 +1,16 @@
 import { object, string } from 'yup';
 import { useMemo } from 'react';
+import { emailRegex } from '@app/features/auth/constants';
 
 import { SignInFormValues } from './types';
-import { emailRegex } from '@app/features/auth/constants.ts';
 
 export const getSignInFormInitialValues = (): SignInFormValues => ({
   email: '',
   password: '',
 });
 
-export const useSignInFormValidation = () => {
-  return useMemo(
+export const useSignInFormValidation = () =>
+  useMemo(
     () =>
       object().shape({
         email: string()
@@ -20,4 +20,3 @@ export const useSignInFormValidation = () => {
       }),
     [],
   );
-};

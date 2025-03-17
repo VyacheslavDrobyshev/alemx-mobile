@@ -1,19 +1,18 @@
 import { AppText, AppView } from '@app/components';
 import { ListRenderItem, SectionList } from 'react-native';
 import { FC, useCallback } from 'react';
-import { AssetsData } from '@app/features/wallet/redux/types.ts';
+import { AssetsData } from '@app/features/wallet/redux/types';
 import { useAppTheme } from '@app/theme';
-
-import { CryptoCurrencyItem } from '@app/features/wallet/components/CryptoCurrencyList/components/CryptoCurrencyItem/CryptoCurrencyItem.tsx';
+import { CryptoCurrencyItem } from '@app/features/wallet/components/CryptoCurrencyList/components/CryptoCurrencyItem/CryptoCurrencyItemx';
 import { useSelector } from 'react-redux';
 import {
   selectAssets,
   selectNextAssetCursor,
-} from '@app/features/wallet/redux/selectors.ts';
+} from '@app/features/wallet/redux/selectors';
 import { useAppDispatch } from '@app/redux';
-import { getAssetsThunk } from '@app/features/wallet/redux/thunks.ts';
-import { paginationLimit } from '@app/features/wallet/screens/Wallet/constants.ts';
-import { EmptyListPlaceholder } from '@app/features/wallet/components/EmptyListPlaceholder/EmptyListPlaceholder.tsx';
+import { getAssetsThunk } from '@app/features/wallet/redux/thunks';
+import { paginationLimit } from '@app/features/wallet/screens/Wallet/constants';
+import { EmptyListPlaceholder } from '@app/features/wallet/components/EmptyListPlaceholder/EmptyListPlaceholderx';
 
 export const CryptoCurrencyList: FC<{
   onPress?: (item: AssetsData) => void;
@@ -43,7 +42,7 @@ export const CryptoCurrencyList: FC<{
 
       return Object.keys(grouped)
         .sort()
-        .map(letter => ({
+        .map((letter) => ({
           title: letter,
           data: grouped[letter],
         }));
@@ -55,7 +54,7 @@ export const CryptoCurrencyList: FC<{
 
   const onLoadMore = useCallback(() => {
     if (nextCursor) {
-      dispatch(
+      void dispatch(
         getAssetsThunk({
           limit: paginationLimit,
           cursor: nextCursor,
@@ -66,9 +65,7 @@ export const CryptoCurrencyList: FC<{
   }, [dispatch, nextCursor, search]);
 
   const renderItem = useCallback<ListRenderItem<AssetsData>>(
-    ({ item }) => {
-      return <CryptoCurrencyItem onPress={onPress} item={item} />;
-    },
+    ({ item }) => <CryptoCurrencyItem onPress={onPress} item={item} />,
     [onPress],
   );
 
@@ -76,10 +73,10 @@ export const CryptoCurrencyList: FC<{
     <AppView flex={1}>
       <SectionList
         sections={sections}
-        keyExtractor={item =>
+        keyExtractor={(item) =>
           `${item.id}/${item.name}/${item.symbol}/${item.networkId}`
         }
-        ListEmptyComponent={<EmptyListPlaceholder title={'No assets found.'} />}
+        ListEmptyComponent={<EmptyListPlaceholder title="No assets found." />}
         contentContainerStyle={contentContainerStyle}
         showsVerticalScrollIndicator={false}
         renderItem={renderItem}
@@ -88,7 +85,8 @@ export const CryptoCurrencyList: FC<{
           <AppText
             marginVertical={10}
             color={colors.inputLabelColor}
-            textStyle={'regular_12_18'}>
+            textStyle="regular_12_18"
+          >
             {title}
           </AppText>
         )}

@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { useAppTheme } from '@app/theme';
-
 import { AppText } from '@app/components';
+
 import { AppTextProps } from '../AppText/types';
 
 export const AppErrorText: FC<AppTextProps> = ({
@@ -16,7 +16,8 @@ export const AppErrorText: FC<AppTextProps> = ({
       color={theme.input.errorMessage.color}
       textStyle={textStyle ?? 'regular_12_18'}
       marginTop={3}
-      {...rest}>
+      {...rest}
+    >
       {children}
     </AppText>
   ) : null;

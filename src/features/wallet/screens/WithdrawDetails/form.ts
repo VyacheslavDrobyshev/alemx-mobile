@@ -1,15 +1,15 @@
 import { number, object, string } from 'yup';
 import { useMemo } from 'react';
 
-import { WithdrawFormValues } from './types.ts';
+import { WithdrawFormValues } from './types';
 
 export const getWithdrawFormInitialValues = (): WithdrawFormValues => ({
   address: '',
   amount: '',
 });
 
-export const useWithdrawFormValidation = () => {
-  return useMemo(
+export const useWithdrawFormValidation = () =>
+  useMemo(
     () =>
       object().shape({
         address: string().required('Please enter receiving address'),
@@ -20,4 +20,3 @@ export const useWithdrawFormValidation = () => {
       }),
     [],
   );
-};

@@ -2,7 +2,7 @@ import {
   LevelFee,
   TransactionType,
   WalletSettingsId,
-} from '@app/features/wallet/screens/Wallet/constants.ts';
+} from '@app/features/wallet/screens/Wallet/constants';
 
 export type PaginationParams = {
   limit: number;
@@ -239,6 +239,6 @@ export type WithdrawalTransaction = {
 };
 
 export type TransferTransactionDto = {
-  transactions: Array<UnionTransaction>;
+  transactions: UnionTransaction[];
   next_cursor: number;
 };

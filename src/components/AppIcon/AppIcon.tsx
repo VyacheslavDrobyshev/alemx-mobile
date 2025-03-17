@@ -7,7 +7,7 @@ import { useSpacingStyles } from '../AppView/useSpacingStyles';
 import { appIcons } from './constants';
 import { AppIconName, AppIconProps } from './types';
 
-export const AppIcon: FC<AppIconProps> = props => {
+export const AppIcon: FC<AppIconProps> = (props) => {
   const { name, height, width, fill, hitSlopValue, onPress, ...restProps } =
     props;
   const { box } = useSpacingStyles(restProps);

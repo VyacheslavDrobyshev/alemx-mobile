@@ -6,22 +6,22 @@ import {
 } from '@app/components';
 import { useAppTheme } from '@app/theme';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { WalletParamList } from '@app/features/wallet/navigation/types.ts';
-import { accountValueButtonsList } from '@app/features/wallet/screens/Wallet/components/AccountValue/constants.tsx';
+import { WalletParamList } from '@app/features/wallet/navigation/types';
+import { accountValueButtonsList } from '@app/features/wallet/screens/Wallet/components/AccountValue/constants';
 import { useSelector } from 'react-redux';
 import {
   selectIsUnifiedBalanceLoading,
   selectUnifiedBalance,
-} from '@app/features/wallet/redux/selectors.ts';
-import { formatNumber } from '@app/utils/number.ts';
+} from '@app/features/wallet/redux/selectors';
+import { formatNumber } from '@app/utils/number';
 import { useCallback, useMemo } from 'react';
-import { SelectMethodModalContent } from '@app/features/wallet/modals/SelectMethodModalContent/SelectMethodModalContent.tsx';
-import { AccountValueButtonsId } from '@app/features/wallet/screens/Wallet/components/AccountValue/types.ts';
-import { SelectMethodModalItem } from '@app/features/wallet/modals/SelectMethodModalContent/types.ts';
-import { WalletRoute } from '@app/features/wallet/navigation/constants.ts';
-import { AppActivityIndicator } from '@app/components/AppActivityIndicator/AppActivityIndicator.tsx';
+import { SelectMethodModalContent } from '@app/features/wallet/modals/SelectMethodModalContent/SelectMethodModalContent';
+import { AccountValueButtonsId } from '@app/features/wallet/screens/Wallet/components/AccountValue/types';
+import { SelectMethodModalItem } from '@app/features/wallet/modals/SelectMethodModalContent/types';
+import { WalletRoute } from '@app/features/wallet/navigation/constants';
+import { AppActivityIndicator } from '@app/components/AppActivityIndicator/AppActivityIndicator';
 
-export const AccountValue = () => {
+export function AccountValue() {
   const { colors } = useAppTheme();
   const { navigate } = useNavigation<NavigationProp<WalletParamList>>();
   const unifiedBalance = useSelector(selectUnifiedBalance);
@@ -38,7 +38,7 @@ export const AccountValue = () => {
       openBottomDrawer({
         body: <SelectMethodModalContent items={items} />,
         closeOnBackdropPress: true,
-        title: title,
+        title,
       });
     },
     [openBottomDrawer],
@@ -63,7 +63,7 @@ export const AccountValue = () => {
                 title: 'Fiat',
                 subtitle:
                   'Deposit cash to your wallet with bank transfer or using a credit card.',
-                action: () => {},
+                action: () => navigate(WalletRoute.Deposit),
               },
             ],
           });
@@ -84,7 +84,7 @@ export const AccountValue = () => {
                 title: 'Credit card',
                 subtitle:
                   'Withdraw cash to any credit card from any bank in the world.',
-                action: () => {},
+                action: () => navigate(WalletRoute.Deposit),
               },
               {
                 icon: 'Transfer',
@@ -118,29 +118,29 @@ export const AccountValue = () => {
       height={173}
       borderWidth={1}
       borderColor={colors.inputBorderColor}
-      overflow={'hidden'}
-      width={'100%'}>
+      overflow="hidden"
+      width="100%">
       <AppView paddingHorizontal={15} flex={1}>
         <AppView
           flex={1}
-          flexDirection={'row'}
-          alignItems={'center'}
-          justifyContent={'space-between'}>
-          <AppText textStyle={'regular_12_18'} color={colors.inputLabelColor}>
+          flexDirection="row"
+          alignItems="center"
+          justifyContent="space-between">
+          <AppText textStyle="regular_12_18" color={colors.inputLabelColor}>
             VOLUME
           </AppText>
           {isUnifiedBalanceLoading ? (
-            <AppActivityIndicator size={'small'} absoluteFill />
+            <AppActivityIndicator size="small" absoluteFill />
           ) : (
             <AppText
-              textStyle={'regular_12_18'}
+              textStyle="regular_12_18"
               color={colors.inputLabelColor}>{`${assetsCount} ASSETS`}</AppText>
           )}
         </AppView>
-        <AppView justifyContent={'center'} flex={1}>
-          <AppText textStyle={'medium_26_32'}>
+        <AppView justifyContent="center" flex={1}>
+          <AppText textStyle="medium_26_32">
             {isUnifiedBalanceLoading ? (
-              <AppActivityIndicator size={'small'} absoluteFill />
+              <AppActivityIndicator size="small" absoluteFill />
             ) : (
               formatNumber(unifiedBalance?.totalBalanceUsd ?? 0, 'currency')
             )}
@@ -150,15 +150,15 @@ export const AccountValue = () => {
       <AppView
         borderTopWidth={1}
         borderTopColor={colors.inputBorderColor}
-        flexDirection={'row'}
-        justifyContent={'space-evenly'}
-        alignItems={'center'}
+        flexDirection="row"
+        justifyContent="space-evenly"
+        alignItems="center"
         height={68}>
         {accountValueButtonsList.map(({ button, title, id }) => (
           <AppTouchable
             onPress={() => onPressHandler(id)}
             flex={1}
-            alignItems={'center'}
+            alignItems="center"
             key={title}>
             {button}
             <AppText>{title}</AppText>
@@ -167,4 +167,4 @@ export const AccountValue = () => {
       </AppView>
     </AppView>
   );
-};
+}

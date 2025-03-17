@@ -1,4 +1,4 @@
-import { TransactionType } from '@app/features/wallet/screens/Wallet/constants.ts';
+import { TransactionType } from '@app/features/wallet/screens/Wallet/constants';
 import {
   AppAssetsDto,
   AppCreateWalletParams,
@@ -10,43 +10,49 @@ import {
   AppWithdrawParams,
   PaginationParams,
   TransferTransactionDto,
-} from '@app/features/wallet/redux/types.ts';
-import { default as axios } from '@app/api/interceptor.ts';
+} from '@app/features/wallet/redux/types';
+import { instance } from '@app/api/interceptor';
 
 export const getUserWalletsApi = async () => {
-  const response = await axios.get<AppUserWalletsDto[]>('user/wallets');
+  const response = await instance.get<AppUserWalletsDto[]>('user/wallets');
   return response.data;
 };
 
 export const getDepositWalletsApi = async () => {
-  const response = await axios.get<AppUserWalletsDto[]>('user/deposit-wallets');
+  const response = await instance.get<AppUserWalletsDto[]>(
+    'user/deposit-wallets',
+  );
   return response.data;
 };
 
 export const createUserWalletApi = async ({
   assetsIds,
 }: AppCreateWalletParams) => {
-  const response = await axios.post('/user/wallets', { assetsIds });
+  const response = await instance.post<AppCreateWalletParams>('/user/wallets', {
+    assetsIds,
+  });
   return response.data;
 };
 
 export const getUserUnifiedBalanceApi = async () => {
-  const response = await axios.get<AppUserUnifiedBalanceDto>(
+  const response = await instance.get<AppUserUnifiedBalanceDto>(
     'user/unified-balance',
   );
   return response.data;
 };
 
 export const getTransactionFeeApi = async (params: AppWithdrawParams) => {
-  const response = await axios.post<AppFeeDto>(
+  const response = await instance.post<AppFeeDto>(
     'transaction/withdrawal/estimate-fee',
     params,
   );
   return response.data;
 };
 
-export const getValidateAmountApi = async (params: AppWithdrawParams) => {
-  const response = await axios.post(
+export const getValidateAmountApi = async (
+  params: AppWithdrawParams,
+): Promise<void> => {
+  const response = await instance.post<void>(
     'transaction/withdrawal/validate-amount',
     params,
   );
@@ -54,29 +60,29 @@ export const getValidateAmountApi = async (params: AppWithdrawParams) => {
 };
 
 export const createWithdrawApi = async (params: AppWithdrawParams) => {
-  const response = await axios.post<void>('user/make-withdraw', params);
+  const response = await instance.post<void>('user/make-withdraw', params);
   return response.data;
 };
 
 export const createTransferApi = async (params: AppTransferParams) => {
-  const response = await axios.post<void>('user/make-transfer', params);
+  const response = await instance.post<void>('user/make-transfer', params);
   return response.data;
 };
 
 export const getAssetsApi = async (params: PaginationParams) => {
-  const response = await axios.get<AppAssetsDto>('/assets', { params });
+  const response = await instance.get<AppAssetsDto>('/assets', { params });
   return response.data;
 };
 
 export const getUsersApi = async (params: PaginationParams) => {
-  const response = await axios.get<AppUsersDto>('/users/all', { params });
+  const response = await instance.get<AppUsersDto>('/users/all', { params });
   return response.data;
 };
 
 export const getTransactionsApi = async (
   params: PaginationParams & { transaction_type: TransactionType },
 ) => {
-  const response = await axios.get<TransferTransactionDto>(
+  const response = await instance.get<TransferTransactionDto>(
     '/user/transactions',
     {
       params,

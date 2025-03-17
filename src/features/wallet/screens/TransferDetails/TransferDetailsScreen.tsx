@@ -7,32 +7,29 @@ import {
   AppTouchable,
   AppView,
 } from '@app/components';
-
 import {
   NavigationProp,
   RouteProp,
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
-import { WalletParamList } from '@app/features/wallet/navigation/types.ts';
-import { WalletRoute } from '@app/features/wallet/navigation/constants.ts';
+import { WalletParamList } from '@app/features/wallet/navigation/types';
+import { WalletRoute } from '@app/features/wallet/navigation/constants';
 import { useAppTheme } from '@app/theme';
-import { AssetsData } from '@app/features/wallet/redux/types.ts';
+import { AssetsData } from '@app/features/wallet/redux/types';
 import { FormikConfig } from 'formik';
-
 import { useForm } from '@app/form';
-import { AppButton } from '@app/components/AppButton/AppButton.tsx';
+import { AppButton } from '@app/components/AppButton/AppButton';
 import { createTransferApi } from '@app/features/wallet/api';
-
-import { useAppToast } from '@app/components/AppToast/useAppToast.ts';
-import { LevelFee } from '@app/features/wallet/screens/Wallet/constants.ts';
-import { formatNumber } from '@app/utils/number.ts';
+import { useAppToast } from '@app/components/AppToast/useAppToast';
+import { LevelFee } from '@app/features/wallet/screens/Wallet/constants';
+import { formatNumber } from '@app/utils/number';
 import {
   getTransferFormInitialValues,
   useTransferFormValidation,
-} from '@app/features/wallet/screens/TransferDetails/form.ts';
-import { TransferFormValues } from '@app/features/wallet/screens/TransferDetails/types.ts';
-import { AppImage } from '@app/components/AppImage/AppImage.tsx';
+} from '@app/features/wallet/screens/TransferDetails/form';
+import { TransferFormValues } from '@app/features/wallet/screens/TransferDetails/types';
+import { AppImage } from '@app/components/AppImage/AppImage';
 
 const InputAmountRightContent: FC<{
   item: AssetsData;
@@ -97,30 +94,31 @@ export const TransferDetailsScreen: FC = () => {
   });
 
   return (
-    <AppScreen isLoading={isLoading} title={'Transfer'} noScroll>
+    <AppScreen isLoading={isLoading} title="Transfer" noScroll>
       <AppView flex={1}>
         <AppInput
           editable={false}
           value={user.username}
           leftContent={
             <AppView
-              justifyContent={'center'}
-              alignItems={'center'}
+              justifyContent="center"
+              alignItems="center"
               height={30}
               width={30}
               borderRadius={30}
-              backgroundColor={colors.buttonPrimary}>
+              backgroundColor={colors.buttonPrimary}
+            >
               <AppText>{user.username.slice(0, 1).toUpperCase()}</AppText>
             </AppView>
           }
           rightContent={
             <AppIcon
               onPress={() => navigate(WalletRoute.TransferUser)}
-              name={'ChevronRight'}
+              name="ChevronRight"
               color={colors.white}
             />
           }
-          title={'To'}
+          title="To"
         />
         <AppInput
           editable={false}
@@ -128,25 +126,25 @@ export const TransferDetailsScreen: FC = () => {
           leftContent={
             <AppImage height={30} width={30} uri={item.cryptoAsset.image} />
           }
-          title={'Coin'}
+          title="Coin"
           rightContent={
             <AppIcon
               onPress={goBack}
-              name={'ChevronRight'}
+              name="ChevronRight"
               color={colors.white}
             />
           }
         />
         <AppInput
-          placeholder={'Paste amount'}
-          title={'Amount'}
+          placeholder="Paste amount"
+          title="Amount"
           {...fields.amount}
           rightContent={
             <InputAmountRightContent
               onPress={() =>
                 fields.amount.setValue(item.balancesByAsset?.balance ?? '')
               }
-              item={item!.cryptoAsset}
+              item={item.cryptoAsset}
             />
           }
         />
@@ -160,7 +158,7 @@ export const TransferDetailsScreen: FC = () => {
 
       <AppButton
         disabled={!formik.isValid}
-        title={'SUBMIT'}
+        title="SUBMIT"
         onPress={formik.submitForm}
       />
     </AppScreen>

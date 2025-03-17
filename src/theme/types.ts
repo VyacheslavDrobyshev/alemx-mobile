@@ -1,6 +1,6 @@
-import { coreTheme } from './constants';
 import { ObjectValues } from '@app/types';
 
+import { coreTheme } from './constants';
 import { darkThemeColors, lightThemeColors } from './colors';
 
 type ComponentThemes = typeof coreTheme;

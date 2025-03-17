@@ -6,37 +6,34 @@ import {
   AppTouchable,
   AppView,
 } from '@app/components';
-
 import {
   NavigationProp,
   RouteProp,
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
-import { WalletParamList } from '@app/features/wallet/navigation/types.ts';
-import { WalletRoute } from '@app/features/wallet/navigation/constants.ts';
+import { WalletParamList } from '@app/features/wallet/navigation/types';
+import { WalletRoute } from '@app/features/wallet/navigation/constants';
 import { useAppTheme } from '@app/theme';
-import { AssetsData } from '@app/features/wallet/redux/types.ts';
+import { AssetsData, AppWithdrawError } from '@app/features/wallet/redux/types';
 import { FormikConfig } from 'formik';
 import * as _ from 'lodash';
-
 import { useForm } from '@app/form';
-import { WithdrawFormValues } from '@app/features/wallet/screens/WithdrawDetails/types.ts';
+import { WithdrawFormValues } from '@app/features/wallet/screens/WithdrawDetails/types';
 import {
   getWithdrawFormInitialValues,
   useWithdrawFormValidation,
-} from '@app/features/wallet/screens/WithdrawDetails/form.ts';
-import { AppButton } from '@app/components/AppButton/AppButton.tsx';
+} from '@app/features/wallet/screens/WithdrawDetails/form';
+import { AppButton } from '@app/components/AppButton/AppButton';
 import {
   createWithdrawApi,
   getTransactionFeeApi,
   getValidateAmountApi,
 } from '@app/features/wallet/api';
 import { AxiosError } from 'axios';
-import { AppWithdrawError } from '@app/features/wallet/redux/types.ts';
-import { useAppToast } from '@app/components/AppToast/useAppToast.ts';
-import { LevelFee } from '@app/features/wallet/screens/Wallet/constants.ts';
-import { formatNumber } from '@app/utils/number.ts';
+import { useAppToast } from '@app/components/AppToast/useAppToast';
+import { LevelFee } from '@app/features/wallet/screens/Wallet/constants';
+import { formatNumber } from '@app/utils/number';
 
 const InputAmountRightContent: FC<{
   item: AssetsData;
@@ -151,7 +148,7 @@ export const WithdrawDetailsScreen: FC = () => {
   useEffect(() => {
     const debouncedValidateAmount = _.debounce(validateAmount, 500);
     if (fields.amount.isValid && fields.address.isValid) {
-      debouncedValidateAmount();
+      void debouncedValidateAmount();
     }
     return () => {
       debouncedValidateAmount.cancel();
@@ -162,28 +159,25 @@ export const WithdrawDetailsScreen: FC = () => {
     <AppScreen
       isLoading={isLoading}
       title={`Withdraw ${item?.cryptoAsset.symbol}`}
-      noScroll>
+      noScroll
+    >
       <AppView flex={1}>
         <AppInput
-          placeholder={'Paste receiving address'}
-          title={'Address'}
+          placeholder="Paste receiving address"
+          title="Address"
           {...fields.address}
         />
+        <AppInput editable={false} title="Network" value={item.network.name} />
         <AppInput
-          editable={false}
-          title={'Network'}
-          value={item.network.name}
-        />
-        <AppInput
-          placeholder={'Paste amount'}
-          title={'Withdraw amount'}
+          placeholder="Paste amount"
+          title="Withdraw amount"
           {...fields.amount}
           rightContent={
             <InputAmountRightContent
               onPress={() =>
                 fields.amount.setValue(item.balancesByAsset?.balance ?? '')
               }
-              item={item!.cryptoAsset}
+              item={item.cryptoAsset}
             />
           }
         />
@@ -195,15 +189,15 @@ export const WithdrawDetailsScreen: FC = () => {
         </AppText>
       </AppView>
       <AppView marginVertical={10}>
-        <AppView flexDirection={'row'} justifyContent={'space-between'}>
+        <AppView flexDirection="row" justifyContent="space-between">
           <AppText color={colors.inputLabelColor}>Network fee</AppText>
           <AppText>{`${formatNumber(fee, undefined, 7, 7)} ${
             item.cryptoAsset.symbol
           }`}</AppText>
         </AppView>
-        <AppView flexDirection={'row'} justifyContent={'space-between'}>
+        <AppView flexDirection="row" justifyContent="space-between">
           <AppText color={colors.inputLabelColor}>Receive Amount</AppText>
-          <AppText textStyle={'medium_14_20'}>{`${formatNumber(
+          <AppText textStyle="medium_14_20">{`${formatNumber(
             +fields.amount.value - fee,
             undefined,
             6,
@@ -214,7 +208,7 @@ export const WithdrawDetailsScreen: FC = () => {
 
       <AppButton
         disabled={!formik.isValid}
-        title={'SUBMIT'}
+        title="SUBMIT"
         onPress={formik.submitForm}
       />
     </AppScreen>

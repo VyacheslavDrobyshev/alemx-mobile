@@ -1,4 +1,10 @@
-import { AppUserWalletsState, WalletSettings } from './types.ts';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {
+  TransactionType,
+  walletSettings,
+} from '@app/features/wallet/screens/Wallet/constants';
+import { logoutThunk } from '@app/features/auth/redux/thunks';
+
 import {
   getAssetsThunk,
   getDepositWalletsThunk,
@@ -6,13 +12,8 @@ import {
   getUnifiedBalanceThunk,
   getUsersThunk,
   getUserWalletsThunk,
-} from './thunks.ts';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {
-  TransactionType,
-  walletSettings,
-} from '@app/features/wallet/screens/Wallet/constants.ts';
-import { logoutThunk } from '@app/features/auth/redux/thunks.ts';
+} from './thunks';
+import { AppUserWalletsState, WalletSettings } from './types';
 
 const initialPersistState: AppUserWalletsState = {
   wallets: [],
@@ -26,7 +27,7 @@ const initialPersistState: AppUserWalletsState = {
     next_cursor: 1,
   },
   isAssetsLoading: false,
-  walletSettings: walletSettings,
+  walletSettings,
   users: {
     data: [],
     next_cursor: 1,
@@ -52,15 +53,15 @@ const slice = createSlice({
       state.walletSettings = payload;
     },
   },
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder.addCase(getUserWalletsThunk.fulfilled, (state, { payload }) => {
       state.isWalletsLoading = false;
       state.wallets = payload;
     });
-    builder.addCase(getUserWalletsThunk.rejected, state => {
+    builder.addCase(getUserWalletsThunk.rejected, (state) => {
       state.isWalletsLoading = false;
     });
-    builder.addCase(getUserWalletsThunk.pending, state => {
+    builder.addCase(getUserWalletsThunk.pending, (state) => {
       state.isWalletsLoading = true;
     });
 
@@ -68,10 +69,10 @@ const slice = createSlice({
       state.isDepositWalletsLoading = false;
       state.depositWallets = payload;
     });
-    builder.addCase(getDepositWalletsThunk.rejected, state => {
+    builder.addCase(getDepositWalletsThunk.rejected, (state) => {
       state.isDepositWalletsLoading = false;
     });
-    builder.addCase(getDepositWalletsThunk.pending, state => {
+    builder.addCase(getDepositWalletsThunk.pending, (state) => {
       state.isDepositWalletsLoading = true;
     });
 
@@ -84,10 +85,10 @@ const slice = createSlice({
       }
       state.assets.next_cursor = payload.next_cursor;
     });
-    builder.addCase(getAssetsThunk.rejected, state => {
+    builder.addCase(getAssetsThunk.rejected, (state) => {
       state.isAssetsLoading = false;
     });
-    builder.addCase(getAssetsThunk.pending, state => {
+    builder.addCase(getAssetsThunk.pending, (state) => {
       state.isAssetsLoading = true;
     });
 
@@ -100,10 +101,10 @@ const slice = createSlice({
       }
       state.users.next_cursor = payload.next_cursor;
     });
-    builder.addCase(getUsersThunk.rejected, state => {
+    builder.addCase(getUsersThunk.rejected, (state) => {
       state.isUsersLoading = false;
     });
-    builder.addCase(getUsersThunk.pending, state => {
+    builder.addCase(getUsersThunk.pending, (state) => {
       state.isUsersLoading = true;
     });
 
@@ -111,10 +112,10 @@ const slice = createSlice({
       state.isUnifiedBalanceLoading = false;
       state.unifiedBalance = payload;
     });
-    builder.addCase(getUnifiedBalanceThunk.rejected, state => {
+    builder.addCase(getUnifiedBalanceThunk.rejected, (state) => {
       state.isUnifiedBalanceLoading = false;
     });
-    builder.addCase(getUnifiedBalanceThunk.pending, state => {
+    builder.addCase(getUnifiedBalanceThunk.pending, (state) => {
       state.isUnifiedBalanceLoading = true;
     });
 
@@ -126,14 +127,14 @@ const slice = createSlice({
           payload.transactions;
       },
     );
-    builder.addCase(getTransactionsThunk.rejected, state => {
+    builder.addCase(getTransactionsThunk.rejected, (state) => {
       state.isTransactionsLoading = false;
     });
-    builder.addCase(getTransactionsThunk.pending, state => {
+    builder.addCase(getTransactionsThunk.pending, (state) => {
       state.isTransactionsLoading = true;
     });
 
-    builder.addCase(logoutThunk.fulfilled, state => {
+    builder.addCase(logoutThunk.fulfilled, (state) => {
       state.assets = initialPersistState.assets;
       state.wallets = initialPersistState.wallets;
       state.unifiedBalance = initialPersistState.unifiedBalance;

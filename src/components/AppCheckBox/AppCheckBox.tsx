@@ -1,15 +1,12 @@
 import React, { FC, isValidElement } from 'react';
 import { useAppTheme } from '@app/theme';
-
-import { AppTouchable } from '@app/components';
-import { AppView } from '@app/components';
-import { AppErrorText } from '@app/components';
+import { AppTouchable, AppView, AppErrorText } from '@app/components';
 
 import { AppCheckBoxProps } from './types';
 import { AppCheckMark } from './components/AppChecMark';
 import { AppCheckBoxText } from './components/AppCheckBoxText';
 
-export const AppCheckBox: FC<AppCheckBoxProps> = props => {
+export const AppCheckBox: FC<AppCheckBoxProps> = (props) => {
   const {
     value,
     children,
@@ -30,7 +27,8 @@ export const AppCheckBox: FC<AppCheckBoxProps> = props => {
           {...viewProps}
           marginBottom={error ? 0 : marginBottom}
           onPress={onPress}
-          disabled={disabled}>
+          disabled={disabled}
+        >
           <AppCheckMark isChecked={value} />
         </AppTouchable>
 
@@ -45,7 +43,8 @@ export const AppCheckBox: FC<AppCheckBoxProps> = props => {
 
       <AppErrorText
         marginLeft={checkBox.box.height + checkBox.box.marginRight}
-        marginBottom={marginBottom}>
+        marginBottom={marginBottom}
+      >
         {error}
       </AppErrorText>
     </AppView>

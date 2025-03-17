@@ -1,11 +1,11 @@
-import { AppTab } from '@app/components/AppTab/AppTab.tsx';
+import { AppTab } from '@app/components/AppTab/AppTab';
 import { AppText, AppView } from '@app/components';
 import { ListRenderItem, SectionList } from 'react-native';
 import {
   paginationLimit,
   TransactionType,
-} from '@app/features/wallet/screens/Wallet/constants.ts';
-import { DepositItem } from '@app/features/wallet/components/HistoryTabContent/components/DepositItem/DepositItem.tsx';
+} from '@app/features/wallet/screens/Wallet/constants';
+import { DepositItem } from '@app/features/wallet/components/HistoryTabContent/components/DepositItem/DepositItem';
 import {
   CryptoAssetTransaction,
   DepositTransaction,
@@ -13,23 +13,23 @@ import {
   TransferTransaction,
   UnionTransaction,
   WithdrawalTransaction,
-} from '@app/features/wallet/redux/types.ts';
-import { EmptyListPlaceholder } from '@app/features/wallet/components/EmptyListPlaceholder/EmptyListPlaceholder.tsx';
-import { WithdrawalItem } from '@app/features/wallet/components/HistoryTabContent/components/WithdrawalItem/WithdrawalItem.tsx';
-import { TransferItem } from '@app/features/wallet/components/HistoryTabContent/components/TransferItem/TransferItem.tsx';
-import { SwapItem } from '@app/features/wallet/components/HistoryTabContent/components/SwapItem/SwapItem.tsx';
+} from '@app/features/wallet/redux/types';
+import { EmptyListPlaceholder } from '@app/features/wallet/components/EmptyListPlaceholder/EmptyListPlaceholder';
+import { WithdrawalItem } from '@app/features/wallet/components/HistoryTabContent/components/WithdrawalItem/WithdrawalItem';
+import { TransferItem } from '@app/features/wallet/components/HistoryTabContent/components/TransferItem/TransferItem';
+import { SwapItem } from '@app/features/wallet/components/HistoryTabContent/components/SwapItem/SwapItem';
 import React, { FC, useCallback } from 'react';
-import { getTransactionsThunk } from '@app/features/wallet/redux/thunks.ts';
+import { getTransactionsThunk } from '@app/features/wallet/redux/thunks';
 import { useAppDispatch } from '@app/redux';
 import { useSelector } from 'react-redux';
 import {
   selectIsTransactionsLoading,
   selectTransactionsByType,
-} from '@app/features/wallet/redux/selectors.ts';
+} from '@app/features/wallet/redux/selectors';
 import { useAppTheme } from '@app/theme';
-import { transactionHistoryTabs } from '@app/features/wallet/screens/WalletDetails/constants.ts';
-import { AppActivityIndicator } from '@app/components/AppActivityIndicator/AppActivityIndicator.tsx';
-import { groupTransactionsByDate } from '@app/features/wallet/components/HistoryTabContent/components/utils.ts';
+import { transactionHistoryTabs } from '@app/features/wallet/screens/WalletDetails/constants';
+import { AppActivityIndicator } from '@app/components/AppActivityIndicator/AppActivityIndicator';
+import { groupTransactionsByDate } from '@app/features/wallet/components/HistoryTabContent/components/utils';
 
 export type HistoryTabContentProps = {
   assetSymbol?: string;
@@ -51,9 +51,7 @@ export const HistoryList: FC<HistoryTabContentProps> = ({
 
   const filteredFunction = <T extends { crypto_asset: CryptoAssetTransaction }>(
     el: T,
-  ): boolean => {
-    return assetSymbol ? el.crypto_asset.symbol === assetSymbol : true;
-  };
+  ): boolean => (assetSymbol ? el.crypto_asset.symbol === assetSymbol : true);
 
   const sections = groupTransactionsByDate(
     transactions[transactionType].filter(filteredFunction),
@@ -75,16 +73,13 @@ export const HistoryList: FC<HistoryTabContentProps> = ({
             <AppText
               color={colors.inputItemColor}
               marginBottom={5}
-              marginTop={10}>
+              marginTop={10}
+            >
               {title}
             </AppText>
           )}
           ListEmptyComponent={
-            <EmptyListPlaceholder
-              title={
-                'You have no deposits yet. All your deposits will be displayed here.'
-              }
-            />
+            <EmptyListPlaceholder title="You have no deposits yet. All your deposits will be displayed here." />
           }
         />
       )}

@@ -1,18 +1,15 @@
 import { FC } from 'react';
 import { AppScreen } from '@app/components';
-
 import { AppTab } from '@app/components/AppTab/AppTab';
-import { DigitalAssetsTab } from '@app/features/wallet/screens/Wallet/components/DigitalAssetsTab/DigitalAssetsTab.tsx';
-import { BankCardsTab } from '@app/features/wallet/screens/Wallet/components/BankCardsTab/BankCardsTab.tsx';
-import { walletTabs } from '@app/features/wallet/screens/Wallet/constants.ts';
+import { DigitalAssetsTab } from '@app/features/wallet/screens/Wallet/components/DigitalAssetsTab/DigitalAssetsTabx';
+import { BankCardsTab } from '@app/features/wallet/screens/Wallet/components/BankCardsTab/BankCardsTabx';
+import { walletTabs } from '@app/features/wallet/screens/Wallet/constants';
 
-export const WalletScreen: FC = () => {
-  return (
-    <AppScreen withBottomTabs title={'Wallet'} noScroll>
-      <AppTab tabs={walletTabs}>
-        <DigitalAssetsTab />
-        <BankCardsTab />
-      </AppTab>
-    </AppScreen>
-  );
-};
+export const WalletScreen: FC = () => (
+  <AppScreen withBottomTabs title="Wallet" noScroll>
+    <AppTab tabs={walletTabs}>
+      <DigitalAssetsTab />
+      <BankCardsTab />
+    </AppTab>
+  </AppScreen>
+);

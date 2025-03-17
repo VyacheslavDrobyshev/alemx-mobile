@@ -1,4 +1,5 @@
-const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
+// eslint-disable-next-line import/no-unresolved
+import { getDefaultConfig, mergeConfig } from '@react-native/metro-config';
 
 const defaultConfig = getDefaultConfig(__dirname);
 const { assetExts, sourceExts } = defaultConfig.resolver;
@@ -14,10 +15,10 @@ const config = {
     babelTransformerPath: require.resolve('react-native-svg-transformer'),
   },
   resolver: {
-    assetExts: assetExts.filter(ext => ext !== 'svg'),
+    assetExts: assetExts.filter((ext) => ext !== 'svg'),
     sourceExts: [...sourceExts, 'svg'],
   },
   assets: ['./assets/fonts'],
 };
 
-module.exports = mergeConfig(defaultConfig, config);
+export default mergeConfig(defaultConfig, config);

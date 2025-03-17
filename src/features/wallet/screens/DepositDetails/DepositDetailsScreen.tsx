@@ -7,7 +7,6 @@ import {
   AppView,
 } from '@app/components';
 import Clipboard from '@react-native-clipboard/clipboard';
-
 import QRCode from 'react-native-qrcode-svg';
 import {
   NavigationProp,
@@ -15,11 +14,11 @@ import {
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
-import { WalletParamList } from '@app/features/wallet/navigation/types.ts';
-import { WalletRoute } from '@app/features/wallet/navigation/constants.ts';
+import { WalletParamList } from '@app/features/wallet/navigation/types';
+import { WalletRoute } from '@app/features/wallet/navigation/constants';
 import { useAppTheme } from '@app/theme';
-import { useAppToast } from '@app/components/AppToast/useAppToast.ts';
-import { AppIconName } from '@app/components/AppIcon/types.ts';
+import { useAppToast } from '@app/components/AppToast/useAppToast';
+import { AppIconName } from '@app/components/AppIcon/types';
 
 export const DepositDetailsScreen: FC = () => {
   const {
@@ -64,13 +63,14 @@ export const DepositDetailsScreen: FC = () => {
         minHeight={150}
         minWidth={150}
         borderRadius={8}
-        alignSelf={'center'}
+        alignSelf="center"
         backgroundColor={colors.white}
         marginVertical={20}
-        padding={10}>
+        padding={10}
+      >
         {item?.address && (
           <QRCode
-            ecl={'H'}
+            ecl="H"
             logo={item?.cryptoAsset.image}
             logoSize={30}
             size={150}
@@ -81,34 +81,38 @@ export const DepositDetailsScreen: FC = () => {
         )}
       </AppView>
       <AppView
-        width={'100%'}
+        width="100%"
         backgroundColor={colors.primaryLightColor}
         paddingHorizontal={15}
-        borderRadius={8}>
+        borderRadius={8}
+      >
         <AppView gap={1} backgroundColor={colors.inputBorderColor}>
-          {itemsList.map(element => (
+          {itemsList.map((element) => (
             <AppView
               key={element.value}
               backgroundColor={colors.primaryLightColor}
               paddingVertical={15}
-              justifyContent={'space-between'}
-              alignItems={'center'}
-              flexDirection={'row'}>
-              <AppView width={'80%'} justifyContent={'space-between'}>
+              justifyContent="space-between"
+              alignItems="center"
+              flexDirection="row"
+            >
+              <AppView width="80%" justifyContent="space-between">
                 <AppText
-                  textStyle={'regular_12_18'}
-                  color={colors.inputLabelColor}>
+                  textStyle="regular_12_18"
+                  color={colors.inputLabelColor}
+                >
                   {element.title}
                 </AppText>
-                <AppText textStyle={'regular_14_20'}>{element.value}</AppText>
+                <AppText textStyle="regular_14_20">{element.value}</AppText>
               </AppView>
               <AppTouchable
                 borderWidth={1}
                 borderColor={colors.buttonPrimary}
                 borderRadius={8}
                 padding={5}
-                onPress={element.onPress}>
-                <AppIcon height={24} name={element.icon} color={'white'} />
+                onPress={element.onPress}
+              >
+                <AppIcon height={24} name={element.icon} color="white" />
               </AppTouchable>
             </AppView>
           ))}
@@ -117,15 +121,13 @@ export const DepositDetailsScreen: FC = () => {
       <AppView
         marginTop={15}
         marginBottom={10}
-        flexDirection={'row'}
-        justifyContent={'space-between'}>
-        <AppText color={colors.inputLabelColor} textStyle={'regular_12_18'}>
+        flexDirection="row"
+        justifyContent="space-between"
+      >
+        <AppText color={colors.inputLabelColor} textStyle="regular_12_18">
           Minimum deposit
         </AppText>
-        <AppText
-          textStyle={
-            'regular_12_18'
-          }>{`>0.01 ${item?.cryptoAsset.symbol}`}</AppText>
+        <AppText textStyle="regular_12_18">{`>0.01 ${item?.cryptoAsset.symbol}`}</AppText>
       </AppView>
       <AppText color={colors.inputErrorColor}>
         *Do not transact with Sanctioned Entities

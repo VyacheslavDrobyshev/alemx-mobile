@@ -1,14 +1,14 @@
 import { number, object } from 'yup';
 import { useMemo } from 'react';
 
-import { TransferFormValues } from './types.ts';
+import { TransferFormValues } from './types';
 
 export const getTransferFormInitialValues = (): TransferFormValues => ({
   amount: '',
 });
 
-export const useTransferFormValidation = () => {
-  return useMemo(
+export const useTransferFormValidation = () =>
+  useMemo(
     () =>
       object().shape({
         amount: number()
@@ -18,4 +18,3 @@ export const useTransferFormValidation = () => {
       }),
     [],
   );
-};

@@ -1,15 +1,14 @@
 import axios from 'axios';
-
 import { store } from '@app/redux/store';
+import { logoutThunk } from '@app/features/auth/redux/thunks';
 
-import { logoutThunk } from '@app/features/auth/redux/thunks.ts';
 export const instance = axios.create({
   baseURL: 'https://api.alemx.dev-page.site',
 });
 
 let reqInt: null | number = null;
 
-reqInt = instance.interceptors.request.use(async config => {
+reqInt = instance.interceptors.request.use((config) => {
   const accessToken = store.getState().auth?.accessToken;
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
@@ -18,12 +17,10 @@ reqInt = instance.interceptors.request.use(async config => {
 });
 
 instance.interceptors.response.use(
-  async config => {
-    return config;
-  },
-  async error => {
+  (config) => config,
+  (error) => {
     if (error.response?.data.message === 'refresh token is expired') {
-      store.dispatch(logoutThunk());
+      void store.dispatch(logoutThunk());
       return;
     }
     return Promise.reject(error);

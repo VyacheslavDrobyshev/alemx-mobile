@@ -6,7 +6,7 @@ import { useSpacingStyles } from '../AppView/useSpacingStyles';
 import { AppImageProps } from './types';
 import { isRequireSourceProps } from './utils';
 
-export const AppImage: FC<AppImageProps> = props => {
+export const AppImage: FC<AppImageProps> = (props) => {
   const { style, width, height, ...rest } = props;
 
   const { box } = useSpacingStyles(props);

@@ -1,4 +1,5 @@
 import { useAppThemedStyles } from '@app/theme';
+
 import { useSpacingStyles } from '../AppView/useSpacingStyles';
 
 import { defaultTextStyle } from './theme';

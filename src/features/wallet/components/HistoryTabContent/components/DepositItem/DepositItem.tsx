@@ -1,13 +1,13 @@
 import { FC, useCallback, useMemo } from 'react';
-import { DepositTransaction } from '@app/features/wallet/redux/types.ts';
+import { DepositTransaction } from '@app/features/wallet/redux/types';
 import { AppIcon, AppText, AppTouchable, AppView } from '@app/components';
 import { useAppTheme } from '@app/theme';
-import { formatNumber } from '@app/utils/number.ts';
+import { formatNumber } from '@app/utils/number';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { WalletParamList } from '@app/features/wallet/navigation/types.ts';
+import { WalletParamList } from '@app/features/wallet/navigation/types';
 import dayjs from 'dayjs';
-import { WalletRoute } from '@app/features/wallet/navigation/constants.ts';
-import { TransactionDetailsHeader } from '@app/features/wallet/components/HistoryTabContent/components/TransactionDetailsHeader/TransactionDetailsHeader.tsx';
+import { WalletRoute } from '@app/features/wallet/navigation/constants';
+import { TransactionDetailsHeader } from '@app/features/wallet/components/HistoryTabContent/components/TransactionDetailsHeader/TransactionDetailsHeader';
 
 const sender = 'djbsdnkniufids';
 
@@ -15,14 +15,15 @@ export const DepositItem: FC<{ item: DepositTransaction }> = ({ item }) => {
   const { colors } = useAppTheme();
   const { navigate } = useNavigation<NavigationProp<WalletParamList>>();
 
-  const renderedRows = useMemo(() => {
-    return {
+  const renderedRows = useMemo(
+    () => ({
       'Transaction type': 'Receive',
       'Asset type': 'Crypto',
       Sender: sender,
       Date: dayjs(item.created_at).format('MMM DD, YYYY [at] HH:MM'),
-    };
-  }, [item.created_at]);
+    }),
+    [item.created_at],
+  );
 
   const onPress = useCallback(() => {
     navigate(WalletRoute.TransactionDetails, {
@@ -42,42 +43,44 @@ export const DepositItem: FC<{ item: DepositTransaction }> = ({ item }) => {
       padding={10}
       borderRadius={8}
       borderWidth={1}
-      flexDirection={'row'}
-      alignItems={'center'}
-      borderColor={colors.inputBorderColor}>
+      flexDirection="row"
+      alignItems="center"
+      borderColor={colors.inputBorderColor}
+    >
       <AppIcon
         marginRight={10}
-        name={'ArrowDown'}
+        name="ArrowDown"
         color={colors.inputLabelColor}
       />
       <AppView flex={1}>
-        <AppView flexDirection={'row'}>
-          <AppText textStyle={'medium_14_20'}>Receive</AppText>
+        <AppView flexDirection="row">
+          <AppText textStyle="medium_14_20">Receive</AppText>
           <AppView
-            alignSelf={'center'}
+            alignSelf="center"
             marginHorizontal={5}
             height={4}
             width={4}
             borderRadius={4}
             backgroundColor={colors.inputItemColor}
           />
-          <AppText textStyle={'medium_14_20'}>Crypto</AppText>
+          <AppText textStyle="medium_14_20">Crypto</AppText>
         </AppView>
         <AppText
-          ellipsizeMode={'middle'}
+          ellipsizeMode="middle"
           width={100}
           numberOfLines={1}
-          textStyle={'regular_12_18'}>
+          textStyle="regular_12_18"
+        >
           <AppText color={colors.inputLabelColor}>From</AppText>{' '}
           <AppText color={colors.inputLabelColor}>{sender}</AppText>
-          {/*  todo change to value from BE*/}
+          {/*  todo change to value from BE */}
         </AppText>
       </AppView>
-      <AppView alignItems={'flex-end'}>
-        <AppText textStyle={'medium_14_20'} color={colors.positiveStatus}>
+      <AppView alignItems="flex-end">
+        <AppText textStyle="medium_14_20" color={colors.positiveStatus}>
           +{item.amount} {item.crypto_asset?.symbol}
         </AppText>
-        <AppText textStyle={'regular_12_18'} color={colors.inputLabelColor}>
+        <AppText textStyle="regular_12_18" color={colors.inputLabelColor}>
           ={formatNumber(item.amount_usd ?? 0, 'currency')}
         </AppText>
       </AppView>

@@ -2,13 +2,13 @@ import { AppView } from '@app/components';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAppTheme } from '@app/theme';
 import { FC } from 'react';
-import { AppScreenProps } from '@app/components/AppScreen/types.ts';
+import { AppScreenProps } from '@app/components/AppScreen/types';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-
-import { HeaderComponent } from '@app/components/AppScreen/components/HeaderComponent.tsx';
+import { HeaderComponent } from '@app/components/AppScreen/components/HeaderComponent';
 import { StyleSheet } from 'react-native';
-import absoluteFillObject = StyleSheet.absoluteFillObject;
-import { AppActivityIndicator } from '@app/components/AppActivityIndicator/AppActivityIndicator.tsx';
+import { AppActivityIndicator } from '@app/components/AppActivityIndicator/AppActivityIndicator';
+
+const { absoluteFillObject } = StyleSheet;
 
 export const AppScreen: FC<AppScreenProps> = ({
   children,
@@ -46,8 +46,8 @@ export const AppScreen: FC<AppScreenProps> = ({
         <AppView
           {...absoluteFillObject}
           backgroundColor={colors.modalOverlay}
-          alignItems={'center'}
-          justifyContent={'center'}>
+          alignItems="center"
+          justifyContent="center">
           <AppActivityIndicator />
         </AppView>
       )}

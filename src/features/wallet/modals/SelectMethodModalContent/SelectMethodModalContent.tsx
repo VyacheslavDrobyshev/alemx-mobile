@@ -1,6 +1,5 @@
 import { useAppTheme } from '@app/theme';
 import { FC, useCallback } from 'react';
-
 import {
   AppIcon,
   AppText,
@@ -8,11 +7,10 @@ import {
   AppView,
   useAppBottomDrawer,
 } from '@app/components';
-
 import {
   SelectMethodModalContentProps,
   SelectMethodModalItem,
-} from '@app/features/wallet/modals/SelectMethodModalContent/types.ts';
+} from '@app/features/wallet/modals/SelectMethodModalContent/types';
 
 const ModalItem: FC<SelectMethodModalItem> = ({
   icon,
@@ -30,27 +28,28 @@ const ModalItem: FC<SelectMethodModalItem> = ({
 
   return (
     <AppTouchable
-      flexDirection={'row'}
+      flexDirection="row"
       padding={10}
       borderRadius={8}
       onPress={onPress}
       height={80}
-      width={'100%'}
+      width="100%"
       borderColor={colors.inputBorderColor}
-      overflow={'hidden'}
+      overflow="hidden"
       backgroundColor={colors.primaryLightColor}
-      borderWidth={1}>
+      borderWidth={1}
+    >
       <AppIcon marginRight={10} name={icon} color={colors.white} />
-      <AppView justifyContent={'space-between'} flex={1}>
-        <AppText textStyle={'medium_14_20'}>{title}</AppText>
-        <AppText textStyle={'regular_12_18'} color={colors.inputLabelColor}>
+      <AppView justifyContent="space-between" flex={1}>
+        <AppText textStyle="medium_14_20">{title}</AppText>
+        <AppText textStyle="regular_12_18" color={colors.inputLabelColor}>
           {subtitle}
         </AppText>
       </AppView>
       <AppIcon
         marginLeft={10}
-        alignSelf={'center'}
-        name={'ChevronRight'}
+        alignSelf="center"
+        name="ChevronRight"
         color={colors.inputLabelColor}
       />
     </AppTouchable>
@@ -59,14 +58,10 @@ const ModalItem: FC<SelectMethodModalItem> = ({
 
 export const SelectMethodModalContent: FC<SelectMethodModalContentProps> = ({
   items,
-}) => {
-  return (
-    <>
-      <AppView marginBottom={30} gap={10} justifyContent={'space-between'}>
-        {items.map(item => (
-          <ModalItem key={item.title} {...item} />
-        ))}
-      </AppView>
-    </>
-  );
-};
+}) => (
+  <AppView marginBottom={30} gap={10} justifyContent="space-between">
+    {items.map((item) => (
+      <ModalItem key={item.title} {...item} />
+    ))}
+  </AppView>
+);

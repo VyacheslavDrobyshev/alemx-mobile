@@ -4,6 +4,7 @@ import { AppView } from '@app/components/AppView/AppView';
 import { WithElementChildren } from '@app/types';
 import { useSelector } from 'react-redux';
 import { selectAccessToken } from '@app/features/auth/redux/selectors';
+import { AppDialog, AppBottomDrawer } from '@app/components';
 
 import { AppModalContext } from './contexts';
 import { AppModalContextType, AppModalVariantsProps } from './types';
@@ -13,8 +14,6 @@ import {
   isAppModalContainerProps,
 } from './utils';
 import { AppModalType } from './constants';
-import { AppDialog } from '@app/components';
-import { AppBottomDrawer } from '@app/components';
 import { AppModalContainer } from './components/AppModalContainer/AppModalContainer';
 
 export const AppModalProvider: FC<WithElementChildren> = ({ children }) => {
@@ -22,7 +21,7 @@ export const AppModalProvider: FC<WithElementChildren> = ({ children }) => {
   const isAuthenticated = useSelector(selectAccessToken);
 
   const closeModal = useCallback<AppModalContextType['closeModal']>(() => {
-    setModalProps(currentModals => currentModals.slice(0, -1));
+    setModalProps((currentModals) => currentModals.slice(0, -1));
   }, []);
   const closeAllModals = useCallback<
     AppModalContextType['closeAllModals']
@@ -30,19 +29,22 @@ export const AppModalProvider: FC<WithElementChildren> = ({ children }) => {
     setModalProps([]);
   }, []);
 
-  const openDialog = useCallback<AppModalContextType['openDialog']>(dialog => {
-    setTimeout(() => {
-      setModalProps(currentModals => [
-        ...currentModals,
-        { ...dialog, type: AppModalType.Dialog },
-      ]);
-    });
-  }, []);
+  const openDialog = useCallback<AppModalContextType['openDialog']>(
+    (dialog) => {
+      setTimeout(() => {
+        setModalProps((currentModals) => [
+          ...currentModals,
+          { ...dialog, type: AppModalType.Dialog },
+        ]);
+      });
+    },
+    [],
+  );
 
   const openBottomDrawer = useCallback<AppModalContextType['openBottomDrawer']>(
-    dialog => {
+    (dialog) => {
       setTimeout(() => {
-        setModalProps(currentModals => [
+        setModalProps((currentModals) => [
           ...currentModals,
           { ...dialog, type: AppModalType.BottomDrawer, closeModal },
         ]);
@@ -53,9 +55,9 @@ export const AppModalProvider: FC<WithElementChildren> = ({ children }) => {
 
   const openModalContainer = useCallback<
     AppModalContextType['openModalContainer']
-  >(dialog => {
+  >((dialog) => {
     setTimeout(() => {
-      setModalProps(currentModals => [
+      setModalProps((currentModals) => [
         ...currentModals,
         { ...dialog, type: AppModalType.Container },
       ]);
@@ -98,7 +100,8 @@ export const AppModalProvider: FC<WithElementChildren> = ({ children }) => {
             animationType="fade"
             onRequestClose={closeModal}
             transparent
-            visible>
+            visible
+          >
             {isAppDialogProps(currentModalProps) && (
               <AppDialog {...currentModalProps} />
             )}

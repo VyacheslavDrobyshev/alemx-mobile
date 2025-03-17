@@ -1,15 +1,14 @@
 import React, { FC } from 'react';
 import { BlurView } from '@react-native-community/blur';
-
 import { StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { noop } from 'lodash';
 import { AppView } from '@app/components/AppView/AppView';
+import { AppBottomDrawerHeader } from '@app/components';
 
 import { AppBottomDrawerProps } from './types';
 import { useAppBottomDrawerComponent } from './useAppBottomDrawerComponent';
-import { AppBottomDrawerHeader } from '@app/components';
 
-export const AppBottomDrawer: FC<AppBottomDrawerProps> = props => {
+export const AppBottomDrawer: FC<AppBottomDrawerProps> = (props) => {
   const {
     theme,
     bottom,
@@ -40,7 +39,8 @@ export const AppBottomDrawer: FC<AppBottomDrawerProps> = props => {
         maxHeight={theme.drawer.container.maxHeight}
         minHeight={minHeight}
         paddingBottom={noBottomInset ? 0 : bottom || 30}
-        paddingHorizontal={theme.drawer.container.paddingHorizontal}>
+        paddingHorizontal={theme.drawer.container.paddingHorizontal}
+      >
         <>
           <AppBottomDrawerHeader
             title={title}

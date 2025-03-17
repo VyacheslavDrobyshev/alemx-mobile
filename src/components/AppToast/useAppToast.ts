@@ -6,16 +6,14 @@ export const useAppToast = () => {
   const context = useContext(AppToastContext);
 
   const showError = useCallback(
-    (message: string, autoHide = true) => {
-      return context.show({ message, type: 'error', autoHide });
-    },
+    (message: string, autoHide = true) =>
+      context.show({ message, type: 'error', autoHide }),
     [context],
   );
 
   const showSuccess = useCallback(
-    (message: string, autoHide = true) => {
-      return context.show({ message, type: 'success', autoHide });
-    },
+    (message: string, autoHide = true) =>
+      context.show({ message, type: 'success', autoHide }),
     [context],
   );
 

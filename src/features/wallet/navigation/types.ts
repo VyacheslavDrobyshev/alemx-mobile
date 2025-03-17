@@ -1,10 +1,8 @@
-import { WalletRoute } from './constants.ts';
-import {
-  AppUserWalletsDto,
-  UserData,
-} from '@app/features/wallet/redux/types.ts';
-import { ModifiedWallet } from '@app/features/wallet/components/WalletsList/WalletsList.tsx';
+import { AppUserWalletsDto, UserData } from '@app/features/wallet/redux/types';
+import { ModifiedWallet } from '@app/features/wallet/components/WalletsList/WalletsList';
 import { ReactElement } from 'react';
+
+import { WalletRoute } from './constants';
 
 export type WalletParamList = {
   [WalletRoute.Wallet]: undefined;

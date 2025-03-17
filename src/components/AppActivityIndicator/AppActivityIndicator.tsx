@@ -1,8 +1,8 @@
 import React, { FC, useMemo } from 'react';
 import { ActivityIndicator, StyleSheet } from 'react-native';
-
 import { useAppTheme } from '@app/theme';
 import { AppView } from '@app/components';
+
 import { AppViewProps } from '../AppView/types';
 
 import { AppActivityIndicatorProps } from './types';

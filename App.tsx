@@ -4,9 +4,9 @@ import { StatusBar } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import { persistedStore, store } from '@app/redux/store.ts';
+import { persistedStore, store } from '@app/redux/store';
 import { AppModalProvider } from '@app/components';
-import { AppToastProvider } from '@app/components/AppToast/AppToast.tsx';
+import { AppToastProvider } from '@app/components/AppToast/AppToast';
 
 function App(): React.JSX.Element {
   return (

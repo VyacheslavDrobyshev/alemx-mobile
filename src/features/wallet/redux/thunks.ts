@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
-import { createAppThunk } from '@app/redux/thunk.ts';
-import { TransactionType } from '@app/features/wallet/screens/Wallet/constants.ts';
+import { createAppThunk } from '@app/redux/thunk';
+import { TransactionType } from '@app/features/wallet/screens/Wallet/constants';
 import {
   AppAssetsDto,
   AppCreateWalletParams,
@@ -9,7 +9,7 @@ import {
   AppUserWalletsDto,
   PaginationParams,
   TransferTransactionDto,
-} from '@app/features/wallet/redux/types.ts';
+} from '@app/features/wallet/redux/types';
 import {
   createUserWalletApi,
   getAssetsApi,
@@ -19,7 +19,7 @@ import {
   getUserUnifiedBalanceApi,
   getUserWalletsApi,
 } from '@app/features/wallet/api';
-import { AppLoginError } from '@app/features/auth/redux/types.ts';
+import { AppLoginError } from '@app/features/auth/redux/types';
 
 export const getUserWalletsThunk = createAppThunk<AppUserWalletsDto[], void>(
   'auth/getUserWalletsThunk',
