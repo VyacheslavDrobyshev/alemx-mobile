@@ -113,7 +113,7 @@ end
 desc "Get unreleased changelogs"
 lane :get_changelog do
   submodule_changelog = read_changelog(
-    changelog_path: '../mobile-core/CHANGELOG.MD',
+    changelog_path: '../distribution/CHANGELOG.MD',
     section_identifier: '[Unreleased]',
   )
 

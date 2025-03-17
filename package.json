@@ -25,7 +25,8 @@
     "bump:build:ios": "cd distribution && bundle exec fastlane bump_build_number_ios && cd ..",
 
     "dev:android": "cd android && bundle exec fastlane ad",
-    "dev:ios": "cd ios && bundle exec fastlane ad"
+    "dev:ios": "cd ios && bundle exec fastlane ad",
+    "fb:login": "firebase login"
   },
   "dependencies": {
     "@react-native-clipboard/clipboard": "^1.16.2",
