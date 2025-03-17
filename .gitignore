@@ -34,6 +34,7 @@ local.properties
 *.keystore
 !debug.keystore
 .kotlin/
+keystore-secrets.json
 
 # node.js
 #
@@ -76,4 +77,3 @@ yarn-error.log
 
 #eslint
 .eslintcache
-./android/keystore-secrets.json
