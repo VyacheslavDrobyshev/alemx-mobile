@@ -46,9 +46,9 @@ platform :android do
     # remove this after aab published END
 
     firebase_app_distribution(
-      app: "1:580812062384:android:480648bf6d9d2fd4e44575",
+      app: "1:817627470050:android:44657b1f4ce59a9cc066bb",
       android_artifact_type: "APK",
-      groups: "internal-dev-team",
+      groups: "alemx-peiko",
       release_notes: get_changelog(),
     )
   end
