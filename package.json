@@ -26,7 +26,8 @@
 
     "dev:android": "cd android && bundle exec fastlane ad",
     "dev:ios": "cd ios && bundle exec fastlane ad",
-    "fb:login": "firebase login"
+    "fb:login": "firebase login",
+    "clean:android:cache": "rm -rf android/.cxx && rm -rf android/.gradle &&rm -rf android/app/.cxx && rm -rf android/app/.externalNativeBuild && rm -rf android/app/build && rm -rf android/build && rm -rf node_modules && rm -rf ~/.gradle/caches && rm -rf ~/.gradle/daemon && rm -rf ~/.gradle/native && rm -rf ~/.gradle/wrapper"
   },
   "dependencies": {
     "@react-native-clipboard/clipboard": "^1.16.2",
