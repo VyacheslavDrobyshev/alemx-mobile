@@ -6,4 +6,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
-- Your awesome new feature
+- Implemented - Deposit
+- Implemented - Withdrawal
+- Implemented - Transfer
