@@ -37,14 +37,13 @@ export const DepositDetailsScreen: FC = () => {
   const itemsList: {
     title: string;
     value: string;
-    icon: AppIconName;
+    icon?: AppIconName;
     onPress: () => void;
   }[] = useMemo(
     () => [
       {
         title: 'Network',
         value: item?.network.name ?? '',
-        icon: 'Switch',
         onPress: goBack,
       },
       {
@@ -66,8 +65,7 @@ export const DepositDetailsScreen: FC = () => {
         alignSelf="center"
         backgroundColor={colors.white}
         marginVertical={20}
-        padding={10}
-      >
+        padding={10}>
         {item?.address && (
           <QRCode
             ecl="H"
@@ -84,36 +82,34 @@ export const DepositDetailsScreen: FC = () => {
         width="100%"
         backgroundColor={colors.primaryLightColor}
         paddingHorizontal={15}
-        borderRadius={8}
-      >
+        borderRadius={8}>
         <AppView gap={1} backgroundColor={colors.inputBorderColor}>
-          {itemsList.map((element) => (
+          {itemsList.map(element => (
             <AppView
               key={element.value}
               backgroundColor={colors.primaryLightColor}
               paddingVertical={15}
               justifyContent="space-between"
               alignItems="center"
-              flexDirection="row"
-            >
+              flexDirection="row">
               <AppView width="80%" justifyContent="space-between">
                 <AppText
                   textStyle="regular_12_18"
-                  color={colors.inputLabelColor}
-                >
+                  color={colors.inputLabelColor}>
                   {element.title}
                 </AppText>
                 <AppText textStyle="regular_14_20">{element.value}</AppText>
               </AppView>
-              <AppTouchable
-                borderWidth={1}
-                borderColor={colors.buttonPrimary}
-                borderRadius={8}
-                padding={5}
-                onPress={element.onPress}
-              >
-                <AppIcon height={24} name={element.icon} color="white" />
-              </AppTouchable>
+              {!!element.icon && (
+                <AppTouchable
+                  borderWidth={1}
+                  borderColor={colors.buttonPrimary}
+                  borderRadius={8}
+                  padding={5}
+                  onPress={element.onPress}>
+                  <AppIcon height={24} name={element.icon} color="white" />
+                </AppTouchable>
+              )}
             </AppView>
           ))}
         </AppView>
@@ -122,8 +118,7 @@ export const DepositDetailsScreen: FC = () => {
         marginTop={15}
         marginBottom={10}
         flexDirection="row"
-        justifyContent="space-between"
-      >
+        justifyContent="space-between">
         <AppText color={colors.inputLabelColor} textStyle="regular_12_18">
           Minimum deposit
         </AppText>

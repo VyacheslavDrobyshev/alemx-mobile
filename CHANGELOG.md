@@ -11,4 +11,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Implemented - Transfer
 
 - Changed logic related to deposit flow
-- fixed user list item if user doesn't have username
+- Fixed user list item if user doesn't have username
+- Removed switch network button on deposit details screen
