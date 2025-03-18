@@ -45,7 +45,8 @@ export type AppUserWalletsDto = {
 };
 
 export type AssetBalance = {
-  assetId: string;
+  assetExternalId: string;
+  assetId: number;
   balance: string;
   assetName: string;
   assetSymbol: string;

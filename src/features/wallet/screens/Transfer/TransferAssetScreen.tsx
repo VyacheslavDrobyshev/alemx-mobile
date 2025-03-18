@@ -29,7 +29,7 @@ export const TransferAssetScreen: FC = () => {
 
   return (
     <AppScreen title="Transfer" noScroll>
-      <WalletsList withBalance onPress={onPress} />
+      <WalletsList hideZeroBalance withBalance onPress={onPress} />
     </AppScreen>
   );
 };
