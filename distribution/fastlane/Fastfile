@@ -102,7 +102,7 @@ end
 desc 'Save build number'
 lane :store_build_version do |options|
   sh("cd ../.. && git checkout -- ios && git checkout -- android")
-  current_version_code = android_get_version_name(gradle_file: "../android/app/build.gradle")
+  current_version_code = android_get_version_code(gradle_file: "../android/app/build.gradle")
   version_with_prefix = get_version_with_prefix()
   update_version_ios(variant: options[:prefix])
   update_version_android(variant: options[:prefix])
