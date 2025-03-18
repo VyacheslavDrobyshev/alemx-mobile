@@ -25,8 +25,7 @@ export function UserItem({
       flexDirection="row"
       alignItems="center"
       paddingHorizontal={itemContainer.paddingHorizontal}
-      backgroundColor={colors.primaryLightColor}
-    >
+      backgroundColor={colors.primaryLightColor}>
       <AppView
         alignItems="center"
         justifyContent="center"
@@ -34,19 +33,24 @@ export function UserItem({
         width={icon.width}
         borderRadius={icon.borderRadius}
         backgroundColor={colors.buttonPrimary}
-        marginRight={icon.marginRight}
-      >
+        marginRight={icon.marginRight}>
         <AppText textStyle="semi_bold_12_18">
           {item.username?.slice(0, 1).toUpperCase() || 'U'}
         </AppText>
       </AppView>
 
       <AppView flex={1}>
+        {!!item.username && (
+          <AppView flexDirection="row" justifyContent="space-between">
+            <AppText textStyle="medium_14_20">{item.username}</AppText>
+          </AppView>
+        )}
         <AppView flexDirection="row" justifyContent="space-between">
-          <AppText textStyle="medium_14_20">{item.username}</AppText>
-        </AppView>
-        <AppView flexDirection="row" justifyContent="space-between">
-          <AppText textStyle="regular_12_18">{item.email}</AppText>
+          <AppText
+            color={item.username ? colors.inputLabelColor : colors.white}
+            textStyle={item.username ? 'regular_12_18' : 'medium_14_20'}>
+            {item.email}
+          </AppText>
         </AppView>
       </AppView>
       <AppView />
