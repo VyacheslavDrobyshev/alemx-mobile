@@ -14,3 +14,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Fixed user list item if user doesn't have username
 - Removed switch network button on deposit details screen
 - Hide zero balanced coins on TransferAssetScreen
+- Added validation to transfer's input

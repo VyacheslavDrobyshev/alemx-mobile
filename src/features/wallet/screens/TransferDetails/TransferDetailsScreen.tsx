@@ -23,7 +23,6 @@ import { AppButton } from '@app/components/AppButton/AppButton';
 import { createTransferApi } from '@app/features/wallet/api';
 import { useAppToast } from '@app/components/AppToast/useAppToast';
 import { LevelFee } from '@app/features/wallet/screens/Wallet/constants';
-import { formatNumber } from '@app/utils/number';
 import {
   getTransferFormInitialValues,
   useTransferFormValidation,
@@ -83,7 +82,9 @@ export const TransferDetailsScreen: FC = () => {
     },
     [item.cryptoAsset.id, navigate, showError, user.id],
   );
-  const validationSchema = useTransferFormValidation();
+  const validationSchema = useTransferFormValidation(
+    Number(item.balancesByAsset?.balance),
+  );
 
   const initialValues = useMemo(() => getTransferFormInitialValues(), []);
 
@@ -106,8 +107,7 @@ export const TransferDetailsScreen: FC = () => {
               height={30}
               width={30}
               borderRadius={30}
-              backgroundColor={colors.buttonPrimary}
-            >
+              backgroundColor={colors.buttonPrimary}>
               <AppText>{user.username.slice(0, 1).toUpperCase()}</AppText>
             </AppView>
           }
@@ -149,10 +149,7 @@ export const TransferDetailsScreen: FC = () => {
           }
         />
         <AppText color={colors.inputLabelColor}>
-          Available:{' '}
-          <AppText>
-            {formatNumber(Number(item.balancesByAsset?.balance))}
-          </AppText>
+          Available: <AppText>{Number(item.balancesByAsset?.balance)}</AppText>
         </AppText>
       </AppView>
 
