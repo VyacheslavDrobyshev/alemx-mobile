@@ -68,6 +68,7 @@ export const DepositDetailsScreen: FC = () => {
         padding={10}>
         {item?.address && (
           <QRCode
+            backgroundColor={colors.white}
             ecl="H"
             logo={item?.cryptoAsset.image}
             logoSize={30}

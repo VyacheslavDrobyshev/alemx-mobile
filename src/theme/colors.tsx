@@ -33,9 +33,9 @@ export const lightThemeColors = {
 } as const;
 
 export const darkThemeColors = {
-  white: '#000000',
+  white: '#ffffff',
   whiteOverlay: '#ffffffaf',
-  black: '#ffffff',
+  black: '#000000',
   primary: '#191B2B',
   primaryLightColor: '#20233A',
 
