@@ -94,12 +94,17 @@ export const TransferDetailsScreen: FC = () => {
     onSubmit,
   });
 
+  const name = useMemo(
+    () => (user.username ? user.username : user.email),
+    [user],
+  );
+
   return (
     <AppScreen isLoading={isLoading} title="Transfer" noScroll>
       <AppView flex={1}>
         <AppInput
           editable={false}
-          value={user.username}
+          value={name}
           leftContent={
             <AppView
               justifyContent="center"
@@ -108,7 +113,7 @@ export const TransferDetailsScreen: FC = () => {
               width={30}
               borderRadius={30}
               backgroundColor={colors.buttonPrimary}>
-              <AppText>{user.username.slice(0, 1).toUpperCase()}</AppText>
+              <AppText>{name.slice(0, 1).toUpperCase()}</AppText>
             </AppView>
           }
           rightContent={

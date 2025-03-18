@@ -15,3 +15,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Removed switch network button on deposit details screen
 - Hide zero balanced coins on TransferAssetScreen
 - Added validation to transfer's input
+- Fixed crash on transfer

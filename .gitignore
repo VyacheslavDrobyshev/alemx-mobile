@@ -66,6 +66,9 @@ yarn-error.log
 
 # testing
 /coverage
+/src/__tests__
+*.spec.*
+*.test.*
 
 # Yarn
 .yarn/*
