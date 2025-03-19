@@ -26,3 +26,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
     build(4)
 - Added refresh control
+- Deposit UI issues LMX-76

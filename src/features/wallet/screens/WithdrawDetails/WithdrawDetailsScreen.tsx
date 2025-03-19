@@ -105,7 +105,7 @@ export const WithdrawDetailsScreen: FC = () => {
         feeLevel,
         receiverOneTimeAddress: fields.address.value,
       });
-      setFee(response[feeLevel].networkFee);
+      setFee(response[feeLevel.toLowerCase()].networkFee);
     } catch (e) {
       showError('Ups, something went wrong');
     }
@@ -159,8 +159,7 @@ export const WithdrawDetailsScreen: FC = () => {
     <AppScreen
       isLoading={isLoading}
       title={`Withdraw ${item?.cryptoAsset.symbol}`}
-      noScroll
-    >
+      noScroll>
       <AppView flex={1}>
         <AppInput
           placeholder="Paste receiving address"
@@ -191,17 +190,20 @@ export const WithdrawDetailsScreen: FC = () => {
       <AppView marginVertical={10}>
         <AppView flexDirection="row" justifyContent="space-between">
           <AppText color={colors.inputLabelColor}>Network fee</AppText>
-          <AppText>{`${formatNumber(fee, undefined, 7, 7)} ${
-            item.cryptoAsset.symbol
-          }`}</AppText>
+          <AppText>{`${formatNumber(
+            fee,
+            undefined,
+            1,
+            item.cryptoAsset.decimals ?? 7,
+          )} ${item.cryptoAsset.symbol}`}</AppText>
         </AppView>
         <AppView flexDirection="row" justifyContent="space-between">
           <AppText color={colors.inputLabelColor}>Receive Amount</AppText>
           <AppText textStyle="medium_14_20">{`${formatNumber(
             +fields.amount.value - fee,
             undefined,
-            6,
-            6,
+            1,
+            item.cryptoAsset.decimals ?? 7,
           )} ${item.cryptoAsset.symbol}`}</AppText>
         </AppView>
       </AppView>

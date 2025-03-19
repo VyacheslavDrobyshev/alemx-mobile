@@ -22,7 +22,7 @@ export const TransferUserScreen: FC = () => {
   return (
     <AppScreen title="Transfer" noScroll>
       <AppInput
-        placeholder="Search coins"
+        placeholder="Search user"
         rightContent={
           !search && <AppIcon name="Search" color={colors.inputLabelColor} />
         }

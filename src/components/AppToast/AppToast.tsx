@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { WithElementChildren } from '@app/types';
-import { AppIcon, AppView, AppText } from '@app/components';
+import { AppIcon, AppView, AppText, AppTouchable } from '@app/components';
 
 import { AppToastContext } from './context';
 import { useAppToastProvider } from './useAppToastProvider';
@@ -12,7 +12,8 @@ export const AppToastProvider: FC<WithElementChildren> = ({ children }) => {
     <AppToastContext.Provider value={value}>
       {children}
       {toast && toastProps && (
-        <AppView
+        <AppTouchable
+          onPress={value.hideAll}
           elevation={3}
           shadowColor="#000"
           shadowOffset={{ width: 0, height: 10 }}
@@ -21,8 +22,7 @@ export const AppToastProvider: FC<WithElementChildren> = ({ children }) => {
           position="absolute"
           top={top}
           left={theme.screen.default.paddingHorizontal}
-          right={theme.screen.default.paddingHorizontal}
-        >
+          right={theme.screen.default.paddingHorizontal}>
           <AppView {...toastProps.view}>
             <AppView
               marginRight={15}
@@ -35,8 +35,7 @@ export const AppToastProvider: FC<WithElementChildren> = ({ children }) => {
                 toast.type === 'error'
                   ? theme.colors.errorToastIcon
                   : theme.colors.successToastIcon
-              }
-            >
+              }>
               {toast.type === 'error' && (
                 <AppIcon name="Warning" color="white" />
               )}
@@ -46,7 +45,7 @@ export const AppToastProvider: FC<WithElementChildren> = ({ children }) => {
             </AppView>
             <AppText {...toastProps.text}>{toast.message}</AppText>
           </AppView>
-        </AppView>
+        </AppTouchable>
       )}
     </AppToastContext.Provider>
   );

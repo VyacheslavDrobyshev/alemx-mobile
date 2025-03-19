@@ -21,10 +21,10 @@ export const useAppToastProvider = () => {
   const value = useMemo<AppToastContextType>(
     () => ({
       hideAll: () => setQueue([]),
-      show: (message) => {
-        setQueue((prev) => [...prev, message]);
+      show: message => {
+        setQueue(prev => [...prev, message]);
         return () => {
-          setQueue((prev) => prev.filter((m) => m !== message));
+          setQueue(prev => prev.filter(m => m !== message));
         };
       },
     }),
@@ -37,7 +37,7 @@ export const useAppToastProvider = () => {
     if (!timeoutRef.current && toast && toast.autoHide) {
       timeoutRef.current = setTimeout(() => {
         timeoutRef.current = undefined;
-        setQueue((prev) => prev.slice(0, -1));
+        setQueue(prev => prev.slice(0, -1));
       }, toastDuration);
     }
   }, [toast]);
@@ -65,5 +65,5 @@ export const useAppToastProvider = () => {
     [theme.colors.inputBorderColor, theme.colors.primary, toast],
   );
 
-  return { value, toast, toastProps, top: top + 16, theme };
+  return { value, toast, toastProps, top, theme };
 };
