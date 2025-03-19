@@ -34,7 +34,7 @@ export const useAppInput = (props: AppInputProps) => {
   const [secure, setSecure] = useState(secureTextEntry);
 
   const toggleSecure = useCallback(
-    () => setSecure((prevState) => !prevState),
+    () => setSecure(prevState => !prevState),
     [],
   );
 
@@ -73,6 +73,9 @@ export const useAppInput = (props: AppInputProps) => {
   const isError = isBoolean(isValid) && !isValid;
 
   const inputType: AppInputProps['type'] = useMemo(() => {
+    if (type === 'notActive') {
+      return 'notActive';
+    }
     if (isDisabled) {
       return 'disabled';
     }

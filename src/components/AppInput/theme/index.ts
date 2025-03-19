@@ -29,6 +29,11 @@ export const getInputTheme = (colors: AppColorScheme): InputTheme => ({
   active: {
     borderColor: colors.inputActiveColor,
   },
+  notActive: {
+    backgroundColor: colors.primaryLightColor,
+    borderColor: colors.transparent,
+    color: colors.inputBorderColor,
+  },
   placeholder: {
     color: colors.inputItemColor,
     marginBottom: 10,

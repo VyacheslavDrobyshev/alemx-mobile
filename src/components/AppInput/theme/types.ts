@@ -28,6 +28,11 @@ export type InputTheme = {
   active: {
     borderColor: AppColorValue;
   };
+  notActive: {
+    backgroundColor: AppColorValue;
+    borderColor: AppColorValue;
+    color: AppColorValue;
+  };
   placeholder: {
     color: AppColorValue;
     marginBottom: number;

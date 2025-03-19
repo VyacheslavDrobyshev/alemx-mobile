@@ -15,5 +15,5 @@ export type AppInputProps = Partial<AppViewProps> &
     autoFocus?: boolean;
     inputRef?: MutableRefObject<TextInput | undefined>;
     withClear?: boolean;
-    type?: 'disabled' | 'default' | 'error' | 'active' | 'filled';
+    type?: 'disabled' | 'default' | 'error' | 'active' | 'notActive' | 'filled';
   };

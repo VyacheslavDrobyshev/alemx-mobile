@@ -42,15 +42,17 @@ const InputAmountRightContent: FC<{
   const { colors } = useAppTheme();
   return (
     <AppView flexDirection="row">
-      <AppText>{item.symbol}</AppText>
+      <AppText textStyle="regular_14_20">{item.symbol}</AppText>
       <AppView
         marginHorizontal={10}
         height={20}
         width={1}
         backgroundColor={colors.inputLabelColor}
       />
-      <AppTouchable onPress={onPress}>
-        <AppText color={colors.buttonPrimary}>MAX</AppText>
+      <AppTouchable justifyContent="center" onPress={onPress}>
+        <AppText textStyle="regular_12_18" color={colors.buttonPrimary}>
+          MAX
+        </AppText>
       </AppTouchable>
     </AppView>
   );
@@ -158,19 +160,25 @@ export const WithdrawDetailsScreen: FC = () => {
   return (
     <AppScreen
       isLoading={isLoading}
-      title={`Withdraw ${item?.cryptoAsset.symbol}`}
-      noScroll>
+      title={`Withdraw ${item?.cryptoAsset.symbol}`}>
       <AppView flex={1}>
         <AppInput
           placeholder="Paste receiving address"
           title="Address"
           {...fields.address}
         />
-        <AppInput editable={false} title="Network" value={item.network.name} />
         <AppInput
+          type="notActive"
+          editable={false}
+          title="Network"
+          value={item.network.name}
+        />
+        <AppInput
+          keyboardType="numeric"
           placeholder="Paste amount"
           title="Withdraw amount"
           {...fields.amount}
+          value={fields.amount.value.replace(',', '.').replace(' ', '')}
           rightContent={
             <InputAmountRightContent
               onPress={() =>
@@ -199,7 +207,12 @@ export const WithdrawDetailsScreen: FC = () => {
         </AppView>
         <AppView flexDirection="row" justifyContent="space-between">
           <AppText color={colors.inputLabelColor}>Receive Amount</AppText>
-          <AppText textStyle="medium_14_20">{`${formatNumber(
+          <AppText
+            textAlign="right"
+            ellipsizeMode="middle"
+            numberOfLines={1}
+            width="70%"
+            textStyle="medium_14_20">{`${formatNumber(
             +fields.amount.value - fee,
             undefined,
             1,

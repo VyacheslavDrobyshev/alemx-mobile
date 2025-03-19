@@ -28,3 +28,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added refresh control
 - Deposit UI issues LMX-76
 - Wallet UI issues LMX-73
+- Withdraw UI issues LMX-81
