@@ -11,4 +11,5 @@ export enum WalletRoute {
   TransferAsset = 'TransferAsset',
   TransferDetails = 'TransferDetails',
   Swap = 'Swap',
+  NetworkLogger = 'NetworkLogger',
 }

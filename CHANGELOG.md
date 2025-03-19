@@ -16,3 +16,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Hide zero balanced coins on TransferAssetScreen
 - Added validation to transfer's input
 - Fixed crash on transfer
+- Added Network logger

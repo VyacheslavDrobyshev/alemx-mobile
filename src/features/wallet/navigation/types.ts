@@ -20,4 +20,5 @@ export type WalletParamList = {
   [WalletRoute.TransferUser]: undefined;
   [WalletRoute.TransferAsset]: { user: UserData };
   [WalletRoute.TransferDetails]: { user: UserData; item: ModifiedWallet };
+  [WalletRoute.NetworkLogger]: undefined;
 };

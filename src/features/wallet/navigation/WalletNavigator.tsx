@@ -11,6 +11,8 @@ import { TransferUserScreen } from '@app/features/wallet/screens/Transfer/Transf
 import { TransferAssetScreen } from '@app/features/wallet/screens/Transfer/TransferAssetScreen';
 import { TransferDetailsScreen } from '@app/features/wallet/screens/TransferDetails/TransferDetailsScreen';
 import { TransactionDetailsScreen } from '@app/features/wallet/screens/TransactionDetails/TransactionDetails';
+import NetworkLogger from 'react-native-network-logger';
+import { AppScreen } from '@app/components';
 
 import { noHeaderOptions } from '../../rootNavigation/constants';
 
@@ -19,11 +21,16 @@ import { WalletParamList } from './types';
 
 const Wallet = createNativeStackNavigator<WalletParamList>();
 
+const NetworkLoggerScreen = () => (
+  <AppScreen noScroll>
+    <NetworkLogger />
+  </AppScreen>
+);
+
 export const WalletNavigator: FC = () => (
   <Wallet.Navigator
     screenOptions={noHeaderOptions}
-    initialRouteName={WalletRoute.Wallet}
-  >
+    initialRouteName={WalletRoute.Wallet}>
     <Wallet.Screen name={WalletRoute.Wallet} component={WalletScreen} />
     <Wallet.Screen
       name={WalletRoute.WalletDetails}
@@ -55,6 +62,10 @@ export const WalletNavigator: FC = () => (
     <Wallet.Screen
       name={WalletRoute.WithdrawDetails}
       component={WithdrawDetailsScreen}
+    />
+    <Wallet.Screen
+      name={WalletRoute.NetworkLogger}
+      component={NetworkLoggerScreen}
     />
   </Wallet.Navigator>
 );

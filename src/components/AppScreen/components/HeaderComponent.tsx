@@ -1,13 +1,16 @@
 import { AppIcon, AppText, AppTouchable, AppView } from '@app/components';
-import { useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { useAppTheme } from '@app/theme';
 import { useAppDispatch } from '@app/redux';
 import { FC, useCallback } from 'react';
 import { logoutThunk } from '@app/features/auth/redux/thunks';
 import { AppScreenProps } from '@app/components/AppScreen/components/types';
+import { WalletRoute } from '@app/features/wallet/navigation/constants';
+import { WalletParamList } from '@app/features/wallet/navigation/types';
 
 export const HeaderComponent: FC<AppScreenProps> = ({ title }) => {
-  const { canGoBack, goBack } = useNavigation();
+  const { canGoBack, goBack, navigate } =
+    useNavigation<NavigationProp<WalletParamList>>();
   const { colors } = useAppTheme();
 
   const dispatch = useAppDispatch();
@@ -15,6 +18,10 @@ export const HeaderComponent: FC<AppScreenProps> = ({ title }) => {
   const onLogout = useCallback(() => {
     void dispatch(logoutThunk());
   }, [dispatch]);
+
+  const openNetworkLogger = () => {
+    navigate(WalletRoute.NetworkLogger);
+  };
 
   return (
     <AppView
@@ -24,19 +31,20 @@ export const HeaderComponent: FC<AppScreenProps> = ({ title }) => {
       alignItems="center"
       justifyContent="space-between"
       paddingHorizontal={20}
-      backgroundColor={colors.primary}
-    >
+      backgroundColor={colors.primary}>
       <AppTouchable
         disabled={!canGoBack()}
         onPress={goBack}
         flexDirection="row"
-        alignItems="center"
-      >
+        alignItems="center">
         {canGoBack() && (
           <AppIcon marginRight={5} name="ArrowLeft" color={colors.white} />
         )}
         {!!title && <AppText textStyle="regular_16_20">{title}</AppText>}
       </AppTouchable>
+      <AppText onPress={openNetworkLogger} textStyle="regular_16_20">
+        Network
+      </AppText>
       <AppText onPress={onLogout} textStyle="regular_16_20">
         Logout
       </AppText>
