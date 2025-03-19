@@ -29,7 +29,10 @@ export function AccountValue() {
   const { openBottomDrawer } = useAppBottomDrawer();
 
   const assetsCount = useMemo(
-    () => Object.values(unifiedBalance?.balancesByAsset ?? {}).length,
+    () =>
+      Object.values(unifiedBalance?.balancesByAsset ?? {}).filter(
+        el => Number(el.balance) > 0,
+      ).length,
     [unifiedBalance?.balancesByAsset],
   );
 
@@ -134,7 +137,9 @@ export function AccountValue() {
           ) : (
             <AppText
               textStyle="regular_12_18"
-              color={colors.inputLabelColor}>{`${assetsCount} ASSETS`}</AppText>
+              color={colors.inputLabelColor}>{`${assetsCount} ASSET${
+              assetsCount > 1 && 'S'
+            }`}</AppText>
           )}
         </AppView>
         <AppView justifyContent="center" flex={1}>
