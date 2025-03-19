@@ -64,6 +64,7 @@ export function DigitalAssetsTab() {
         />
       </AppView>
       <WalletsList
+        hasRefreshControl
         onPressPlaceholderButton={onPressPlaceholderButton}
         hasAssets
         hideZeroBalance

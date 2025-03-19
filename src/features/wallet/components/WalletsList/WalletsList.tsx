@@ -20,6 +20,9 @@ import { WalletSettingsId } from '@app/features/wallet/screens/Wallet/constants'
 import { WalletItem } from '@app/features/wallet/components/WalletsList/components/WalletItem/WalletItem';
 import { EmptyListPlaceholder } from '@app/features/wallet/components/EmptyListPlaceholder/EmptyListPlaceholder';
 import { AppActivityIndicator } from '@app/components/AppActivityIndicator/AppActivityIndicator';
+import { AppRefreshControl } from '@app/components/AppScreen/AppRefreshControl';
+import { useAppDispatch } from '@app/redux';
+import { getUnifiedBalanceThunk } from '@app/features/wallet/redux/thunks';
 
 export type ModifiedWallet = AppUserWalletsDto & {
   balancesByAsset?: AssetBalance;
@@ -33,6 +36,7 @@ export const WalletsList: FC<{
   withBalance?: boolean;
   onPressPlaceholderButton?: () => void;
   showNetwork?: boolean;
+  hasRefreshControl?: boolean;
 }> = ({
   onPress,
   hideZeroBalance,
@@ -41,10 +45,12 @@ export const WalletsList: FC<{
   withBalance,
   onPressPlaceholderButton,
   showNetwork,
+  hasRefreshControl,
 }) => {
   const {
     walletList: { contentContainerStyle },
   } = useAppTheme();
+  const dispatch = useAppDispatch();
   const userWallets = useSelector(selectUserWallets);
   const depositWallets = useSelector(selectDepositWallets);
   const unifiedBalance = useSelector(selectUnifiedBalance);
@@ -62,7 +68,7 @@ export const WalletsList: FC<{
 
   useEffect(() => {
     const modifiedWallets: ModifiedWallet[] =
-      wallets?.map((el) => ({
+      wallets?.map(el => ({
         ...el,
         balancesByAsset:
           unifiedBalance?.balancesByAsset?.[el.cryptoAsset.symbol],
@@ -72,14 +78,13 @@ export const WalletsList: FC<{
 
   const hideBalance = useMemo(
     () =>
-      walletSettings.find((el) => el.id === WalletSettingsId.Balance)
-        ?.isChecked,
+      walletSettings.find(el => el.id === WalletSettingsId.Balance)?.isChecked,
     [walletSettings],
   );
 
   const showAssets = useMemo(
     () =>
-      walletSettings.find((el) => el.id === WalletSettingsId.Assets)?.isChecked,
+      walletSettings.find(el => el.id === WalletSettingsId.Assets)?.isChecked,
     [walletSettings],
   );
 
@@ -87,11 +92,11 @@ export const WalletsList: FC<{
     if (hideZeroBalance) {
       if (hideBalance) {
         return mappedWallets.filter(
-          (el) => Number(el.balancesByAsset?.balanceUsd ?? 0) > 1,
+          el => Number(el.balancesByAsset?.balanceUsd ?? 0) > 1,
         );
       }
       return mappedWallets.filter(
-        (el) => Number(el.balancesByAsset?.balanceUsd ?? 0) > 0,
+        el => Number(el.balancesByAsset?.balanceUsd ?? 0) > 0,
       );
     }
     return mappedWallets;
@@ -123,13 +128,29 @@ export const WalletsList: FC<{
     ],
   );
 
+  const onRefresh = useCallback(
+    (cb: () => void) => {
+      try {
+        void dispatch(getUnifiedBalanceThunk());
+      } finally {
+        cb();
+      }
+    },
+    [dispatch],
+  );
+
   return (
     <AppView flex={1}>
       {isLoading ? (
         <AppActivityIndicator absoluteFill />
       ) : (
         <FlatList
-          keyExtractor={(item) =>
+          refreshControl={
+            hasRefreshControl ? (
+              <AppRefreshControl onRefresh={onRefresh} />
+            ) : undefined
+          }
+          keyExtractor={item =>
             `${item.id}/${item.cryptoAsset.name}/${item.cryptoAsset.symbol}/${item.cryptoAsset.networkId}`
           }
           ListEmptyComponent={
