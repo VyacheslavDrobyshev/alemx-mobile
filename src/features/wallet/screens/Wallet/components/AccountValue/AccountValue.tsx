@@ -138,7 +138,7 @@ export function AccountValue() {
             <AppText
               textStyle="regular_12_18"
               color={colors.inputLabelColor}>{`${assetsCount} ASSET${
-              assetsCount > 1 && 'S'
+              assetsCount > 1 ? 'S' : ''
             }`}</AppText>
           )}
         </AppView>

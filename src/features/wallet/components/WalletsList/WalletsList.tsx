@@ -1,5 +1,5 @@
 import { AppView } from '@app/components';
-import { FlatList, ListRenderItem } from 'react-native';
+import { FlatList, ListRenderItem, RefreshControl } from 'react-native';
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import {
   AppUserWalletsDto,
@@ -20,7 +20,6 @@ import { WalletSettingsId } from '@app/features/wallet/screens/Wallet/constants'
 import { WalletItem } from '@app/features/wallet/components/WalletsList/components/WalletItem/WalletItem';
 import { EmptyListPlaceholder } from '@app/features/wallet/components/EmptyListPlaceholder/EmptyListPlaceholder';
 import { AppActivityIndicator } from '@app/components/AppActivityIndicator/AppActivityIndicator';
-import { AppRefreshControl } from '@app/components/AppScreen/AppRefreshControl';
 import { useAppDispatch } from '@app/redux';
 import { getUnifiedBalanceThunk } from '@app/features/wallet/redux/thunks';
 
@@ -48,6 +47,7 @@ export const WalletsList: FC<{
   hasRefreshControl,
 }) => {
   const {
+    colors,
     walletList: { contentContainerStyle },
   } = useAppTheme();
   const dispatch = useAppDispatch();
@@ -58,6 +58,7 @@ export const WalletsList: FC<{
   const isWalletsLoading = useSelector(selectIsWalletsLoading);
   const isDepositWalletsLoading = useSelector(selectIsDepositWalletsLoading);
   const isUnifiedBalanceLoading = useSelector(selectIsUnifiedBalanceLoading);
+  const [refreshing, setRefreshing] = useState(false);
 
   const [mappedWallets, setMappedWallets] = useState<ModifiedWallet[]>([]);
 
@@ -128,16 +129,13 @@ export const WalletsList: FC<{
     ],
   );
 
-  const onRefresh = useCallback(
-    (cb: () => void) => {
-      try {
-        void dispatch(getUnifiedBalanceThunk());
-      } finally {
-        cb();
-      }
-    },
-    [dispatch],
-  );
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      void dispatch(getUnifiedBalanceThunk());
+      setRefreshing(false);
+    }, 1000);
+  }, [dispatch]);
 
   return (
     <AppView flex={1}>
@@ -147,7 +145,11 @@ export const WalletsList: FC<{
         <FlatList
           refreshControl={
             hasRefreshControl ? (
-              <AppRefreshControl onRefresh={onRefresh} />
+              <RefreshControl
+                tintColor={colors.inputLabelColor}
+                onRefresh={onRefresh}
+                refreshing={refreshing}
+              />
             ) : undefined
           }
           keyExtractor={item =>

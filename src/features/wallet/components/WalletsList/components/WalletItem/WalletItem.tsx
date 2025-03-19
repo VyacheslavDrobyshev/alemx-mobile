@@ -26,13 +26,11 @@ export const WalletItem: FC<{
       marginBottom={itemContainer.marginBottom}
       backgroundColor={colors.primaryLightColor}
       paddingVertical={itemContainer.paddingVertical}
-      paddingHorizontal={itemContainer.paddingHorizontal}
-    >
+      paddingHorizontal={itemContainer.paddingHorizontal}>
       <AppTouchable
         onPress={() => onPress?.(item)}
         flexDirection="row"
-        alignItems="center"
-      >
+        alignItems="center">
         {item.cryptoAsset.image ? (
           <AppView>
             <AppImage
@@ -48,8 +46,7 @@ export const WalletItem: FC<{
                 position="absolute"
                 borderWidth={2}
                 borderRadius={15}
-                borderColor={colors.primaryLightColor}
-              >
+                borderColor={colors.primaryLightColor}>
                 <AppImage height={10} width={10} uri={item.network.image} />
               </AppView>
             ) : null}
@@ -62,8 +59,7 @@ export const WalletItem: FC<{
             width={icon.width}
             borderRadius={icon.borderRadius}
             backgroundColor={colors.buttonPrimary}
-            marginRight={icon.marginRight}
-          >
+            marginRight={icon.marginRight}>
             <AppText textStyle="semi_bold_12_18">
               {item.cryptoAsset.symbol.slice(0, 2)}
             </AppText>
@@ -96,8 +92,7 @@ export const WalletItem: FC<{
               </AppText>
               <AppText
                 textStyle="regular_12_18"
-                color={secondaryTextColor.color}
-              >
+                color={secondaryTextColor.color}>
                 {formatNumber(
                   Number(item.balancesByAsset?.balanceUsd ?? 0),
                   'currency',
