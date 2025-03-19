@@ -10,3 +10,6 @@ export const formatNumber = (
     minimumFractionDigits,
     maximumFractionDigits,
   }).format(truncatedNumber);
+
+export const isNumber = (value: string | number) =>
+  typeof value === 'number' && !Number.isNaN(value);

@@ -17,7 +17,6 @@ import { WalletRoute } from '@app/features/wallet/navigation/constants';
 import { useAppTheme } from '@app/theme';
 import { AssetsData, AppWithdrawError } from '@app/features/wallet/redux/types';
 import { FormikConfig } from 'formik';
-import * as _ from 'lodash';
 import { useForm } from '@app/form';
 import { WithdrawFormValues } from '@app/features/wallet/screens/WithdrawDetails/types';
 import {
@@ -28,12 +27,11 @@ import { AppButton } from '@app/components/AppButton/AppButton';
 import {
   createWithdrawApi,
   getTransactionFeeApi,
-  getValidateAmountApi,
 } from '@app/features/wallet/api';
 import { AxiosError } from 'axios';
-import { useAppToast } from '@app/components/AppToast/useAppToast';
 import { LevelFee } from '@app/features/wallet/screens/Wallet/constants';
-import { formatNumber } from '@app/utils/number';
+import { formatNumber, isNumber } from '@app/utils/number';
+import _ from 'lodash';
 
 const InputAmountRightContent: FC<{
   item: AssetsData;
@@ -65,13 +63,12 @@ export const WithdrawDetailsScreen: FC = () => {
     params: { item },
   } = useRoute<RouteProp<WalletParamList, WalletRoute.WithdrawDetails>>();
   const { navigate } = useNavigation<NavigationProp<WalletParamList>>();
-  const { showError } = useAppToast();
   const { colors } = useAppTheme();
   const [fee, setFee] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = useCallback<FormikConfig<WithdrawFormValues>['onSubmit']>(
-    async ({ address, amount }) => {
+    async ({ address, amount }, { setErrors }) => {
       setIsLoading(true);
       try {
         await createWithdrawApi({
@@ -82,12 +79,17 @@ export const WithdrawDetailsScreen: FC = () => {
         });
         navigate(WalletRoute.Wallet);
       } catch (e) {
-        showError('Ups, something went wrong');
+        const error = e as AxiosError<AppWithdrawError>;
+        if (typeof error.response?.data.detail === 'string') {
+          setErrors({
+            amount: error.response?.data.detail,
+          });
+        }
       } finally {
         setIsLoading(false);
       }
     },
-    [item.cryptoAsset.id, navigate, showError],
+    [item.cryptoAsset.id, navigate],
   );
   const validationSchema = useWithdrawFormValidation();
 
@@ -109,53 +111,42 @@ export const WithdrawDetailsScreen: FC = () => {
       });
       setFee(response[feeLevel.toLowerCase()].networkFee);
     } catch (e) {
-      showError('Ups, something went wrong');
-    }
-  }, [
-    fields.address.value,
-    fields.amount.value,
-    item.cryptoAsset.id,
-    showError,
-  ]);
-
-  const validateAmount = useCallback(async () => {
-    try {
-      await getValidateAmountApi({
-        assetId: item.cryptoAsset.id,
-        amount: fields.amount.value,
-        feeLevel,
-        receiverOneTimeAddress: fields.address.value,
-      });
-      void getFee();
-    } catch (e) {
       const error = e as AxiosError<AppWithdrawError>;
       if (typeof error.response?.data.detail === 'string') {
         setErrors({
           address: error.response?.data.detail,
         });
-      } else {
-        setErrors({
-          amount: error.response?.data.detail.message,
-        });
       }
     }
   }, [
-    item.cryptoAsset.id,
-    fields.amount.value,
     fields.address.value,
-    getFee,
+    fields.amount.value,
+    item.cryptoAsset.id,
     setErrors,
   ]);
 
+  const receivedAmount = useMemo(
+    () =>
+      isNumber(Number(fields.amount.value))
+        ? formatNumber(
+            Number(fields.amount.value) - fee,
+            undefined,
+            2,
+            item.cryptoAsset.decimals ?? 2,
+          )
+        : '--',
+    [fee, fields.amount.value, item.cryptoAsset.decimals],
+  );
+
   useEffect(() => {
-    const debouncedValidateAmount = _.debounce(validateAmount, 500);
-    if (fields.amount.isValid && fields.address.isValid) {
+    const debouncedValidateAmount = _.debounce(getFee, 500);
+    if (fields.amount.value && fields.address.value) {
       void debouncedValidateAmount();
     }
     return () => {
       debouncedValidateAmount.cancel();
     };
-  }, [fields.address.isValid, fields.amount.isValid, validateAmount]);
+  }, [fields.address.value, fields.amount.value, getFee]);
 
   return (
     <AppScreen
@@ -191,7 +182,7 @@ export const WithdrawDetailsScreen: FC = () => {
         <AppText color={colors.inputLabelColor}>
           Available:{' '}
           <AppText>
-            {formatNumber(Number(item.balancesByAsset?.balance))}
+            {formatNumber(Number(item.balancesByAsset?.balance ?? 0))}
           </AppText>
         </AppText>
       </AppView>
@@ -201,8 +192,8 @@ export const WithdrawDetailsScreen: FC = () => {
           <AppText>{`${formatNumber(
             fee,
             undefined,
-            1,
-            item.cryptoAsset.decimals ?? 7,
+            2,
+            item.cryptoAsset.decimals ?? 2,
           )} ${item.cryptoAsset.symbol}`}</AppText>
         </AppView>
         <AppView flexDirection="row" justifyContent="space-between">
@@ -212,12 +203,7 @@ export const WithdrawDetailsScreen: FC = () => {
             ellipsizeMode="middle"
             numberOfLines={1}
             width="70%"
-            textStyle="medium_14_20">{`${formatNumber(
-            +fields.amount.value - fee,
-            undefined,
-            1,
-            item.cryptoAsset.decimals ?? 7,
-          )} ${item.cryptoAsset.symbol}`}</AppText>
+            textStyle="medium_14_20">{`${receivedAmount} ${item.cryptoAsset.symbol}`}</AppText>
         </AppView>
       </AppView>
 
