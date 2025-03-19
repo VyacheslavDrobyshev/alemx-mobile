@@ -6,6 +6,7 @@ import { AppViewProps } from '../AppView/types';
 
 export type AppInputProps = Partial<AppViewProps> &
   Omit<TextInputProps, 'placeholderTextColor' | 'width'> & {
+    onPress?: () => void;
     textStyle?: AppTextProps['textStyle'];
     isValid?: boolean;
     title?: string;

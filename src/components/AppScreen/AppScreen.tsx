@@ -35,6 +35,7 @@ export const AppScreen: FC<AppScreenProps> = ({
             children
           ) : (
             <KeyboardAwareScrollView
+              keyboardShouldPersistTaps="never"
               contentContainerStyle={screen.contentContainerStyle}>
               {children}
             </KeyboardAwareScrollView>

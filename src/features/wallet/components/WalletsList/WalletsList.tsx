@@ -1,4 +1,4 @@
-import { AppView } from '@app/components';
+import { AppIcon, AppInput, AppView } from '@app/components';
 import { FlatList, ListRenderItem, RefreshControl } from 'react-native';
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import {
@@ -36,6 +36,7 @@ export const WalletsList: FC<{
   onPressPlaceholderButton?: () => void;
   showNetwork?: boolean;
   hasRefreshControl?: boolean;
+  withSearch?: boolean;
 }> = ({
   onPress,
   hideZeroBalance,
@@ -45,6 +46,7 @@ export const WalletsList: FC<{
   onPressPlaceholderButton,
   showNetwork,
   hasRefreshControl,
+  withSearch,
 }) => {
   const {
     colors,
@@ -61,6 +63,8 @@ export const WalletsList: FC<{
   const [refreshing, setRefreshing] = useState(false);
 
   const [mappedWallets, setMappedWallets] = useState<ModifiedWallet[]>([]);
+  const [search, setSearch] = useState('');
+  const [coins, setCoins] = useState<ModifiedWallet[]>([]);
 
   const wallets = useMemo(
     () => (isDeposit ? depositWallets : userWallets),
@@ -137,37 +141,67 @@ export const WalletsList: FC<{
     }, 1000);
   }, [dispatch]);
 
+  useEffect(() => {
+    if (search) {
+      setCoins(
+        filteredWallets.filter(
+          el =>
+            el.cryptoAsset.name.toLowerCase().includes(search.toLowerCase()) ||
+            el.cryptoAsset.symbol.toLowerCase().includes(search.toLowerCase()),
+        ),
+      );
+    } else {
+      setCoins(filteredWallets);
+    }
+  }, [filteredWallets, search]);
+
   return (
     <AppView flex={1}>
       {isLoading ? (
         <AppActivityIndicator absoluteFill />
       ) : (
-        <FlatList
-          refreshControl={
-            hasRefreshControl ? (
-              <RefreshControl
-                tintColor={colors.inputLabelColor}
-                onRefresh={onRefresh}
-                refreshing={refreshing}
-              />
-            ) : undefined
-          }
-          keyExtractor={item =>
-            `${item.id}/${item.cryptoAsset.name}/${item.cryptoAsset.symbol}/${item.cryptoAsset.networkId}`
-          }
-          ListEmptyComponent={
-            <EmptyListPlaceholder
-              onPressPlaceholderButton={onPressPlaceholderButton}
-              title={
-                'You have no assets in your wallet.\nMake your first deposit to receive\nfunds.'
+        <>
+          {withSearch && (
+            <AppInput
+              placeholder="Search user"
+              rightContent={
+                !search && (
+                  <AppIcon name="Search" color={colors.inputLabelColor} />
+                )
               }
+              value={search}
+              withClear={!!search}
+              onChangeText={setSearch}
             />
-          }
-          contentContainerStyle={contentContainerStyle}
-          showsVerticalScrollIndicator={false}
-          renderItem={renderItem}
-          data={filteredWallets}
-        />
+          )}
+
+          <FlatList
+            refreshControl={
+              hasRefreshControl ? (
+                <RefreshControl
+                  tintColor={colors.inputLabelColor}
+                  onRefresh={onRefresh}
+                  refreshing={refreshing}
+                />
+              ) : undefined
+            }
+            keyExtractor={item =>
+              `${item.id}/${item.cryptoAsset.name}/${item.cryptoAsset.symbol}/${item.cryptoAsset.networkId}`
+            }
+            ListEmptyComponent={
+              <EmptyListPlaceholder
+                onPressPlaceholderButton={onPressPlaceholderButton}
+                title={
+                  'You have no assets in your wallet.\nMake your first deposit to receive\nfunds.'
+                }
+              />
+            }
+            contentContainerStyle={contentContainerStyle}
+            showsVerticalScrollIndicator={false}
+            renderItem={renderItem}
+            data={coins}
+          />
+        </>
       )}
     </AppView>
   );

@@ -11,8 +11,9 @@ import {
 import { AppInputProps } from './types';
 import { useAppInput } from './useAppInput';
 
-export const AppInput: FC<AppInputProps> = (props) => {
+export const AppInput: FC<AppInputProps> = props => {
   const {
+    onPress,
     errorMessage,
     value,
     onChangeText,
@@ -59,8 +60,7 @@ export const AppInput: FC<AppInputProps> = (props) => {
         <AppText
           marginBottom={input.placeholder.marginBottom}
           color={input.placeholder.color}
-          textStyle="regular_14_25"
-        >
+          textStyle="regular_14_25">
           {title}
         </AppText>
       ) : null}
@@ -77,22 +77,19 @@ export const AppInput: FC<AppInputProps> = (props) => {
         paddingVertical={paddingVertical ?? input.container.paddingVertical}
         paddingHorizontal={
           paddingHorizontal ?? input.container.paddingHorizontal
-        }
-      >
+        }>
         {leftContent && (
           <AppView
             paddingRight={input.container.paddingHorizontal - 4}
             alignItems="center"
-            flexDirection="row"
-          >
+            flexDirection="row">
             {leftContent}
           </AppView>
         )}
         <AppView
           justifyContent="space-around"
           height={input.container.height}
-          flex={1}
-        >
+          flex={1}>
           <TextInput
             editable={editable}
             returnKeyType={returnKeyType}
@@ -111,6 +108,14 @@ export const AppInput: FC<AppInputProps> = (props) => {
             placeholderTextColor={colors.inputItemColor}
             placeholder={placeholder}
           />
+          {!editable && onPress && (
+            <AppTouchable
+              onPress={onPress}
+              position="absolute"
+              height="100%"
+              width="100%"
+            />
+          )}
         </AppView>
         <AppView alignItems="center" flexDirection="row">
           {secureTextEntry && (
@@ -145,8 +150,7 @@ export const AppInput: FC<AppInputProps> = (props) => {
             marginBottom={3}
             borderRadius={5}
             backgroundColor={input.errorMessage.backgroundColor}
-            justifyContent="center"
-          >
+            justifyContent="center">
             <AppErrorText>{errorMessage}</AppErrorText>
           </AppView>
         )}

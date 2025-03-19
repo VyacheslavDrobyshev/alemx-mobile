@@ -100,9 +100,10 @@ export const TransferDetailsScreen: FC = () => {
   );
 
   return (
-    <AppScreen isLoading={isLoading} title="Transfer" noScroll>
+    <AppScreen isLoading={isLoading} title="Transfer">
       <AppView flex={1}>
         <AppInput
+          onPress={() => navigate(WalletRoute.TransferUser)}
           editable={false}
           value={name}
           leftContent={
@@ -126,6 +127,7 @@ export const TransferDetailsScreen: FC = () => {
           title="To"
         />
         <AppInput
+          onPress={goBack}
           editable={false}
           value={item.cryptoAsset.name}
           leftContent={
@@ -144,6 +146,7 @@ export const TransferDetailsScreen: FC = () => {
           placeholder="Paste amount"
           title="Amount"
           {...fields.amount}
+          value={fields.amount.value.replace(',', '.').replace(' ', '')}
           rightContent={
             <InputAmountRightContent
               onPress={() =>
