@@ -31,3 +31,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Withdraw UI issues LMX-81
 - Transfer UI issues LMX-78
 - Disabled send button if balance equal zero LMX-72
+- Fixed validation for transfer LMX-77

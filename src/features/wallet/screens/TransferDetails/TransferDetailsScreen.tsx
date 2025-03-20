@@ -16,12 +16,11 @@ import {
 import { WalletParamList } from '@app/features/wallet/navigation/types';
 import { WalletRoute } from '@app/features/wallet/navigation/constants';
 import { useAppTheme } from '@app/theme';
-import { AssetsData } from '@app/features/wallet/redux/types';
+import { AppWithdrawError, AssetsData } from '@app/features/wallet/redux/types';
 import { FormikConfig } from 'formik';
 import { useForm } from '@app/form';
 import { AppButton } from '@app/components/AppButton/AppButton';
 import { createTransferApi } from '@app/features/wallet/api';
-import { useAppToast } from '@app/components/AppToast/useAppToast';
 import { LevelFee } from '@app/features/wallet/screens/Wallet/constants';
 import {
   getTransferFormInitialValues,
@@ -29,6 +28,7 @@ import {
 } from '@app/features/wallet/screens/TransferDetails/form';
 import { TransferFormValues } from '@app/features/wallet/screens/TransferDetails/types';
 import { AppImage } from '@app/components/AppImage/AppImage';
+import { AxiosError } from 'axios';
 
 const InputAmountRightContent: FC<{
   item: AssetsData;
@@ -59,12 +59,11 @@ export const TransferDetailsScreen: FC = () => {
   } = useRoute<RouteProp<WalletParamList, WalletRoute.TransferDetails>>();
 
   const { navigate, goBack } = useNavigation<NavigationProp<WalletParamList>>();
-  const { showError } = useAppToast();
   const { colors } = useAppTheme();
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = useCallback<FormikConfig<TransferFormValues>['onSubmit']>(
-    async ({ amount }) => {
+    async ({ amount }, { setErrors }) => {
       setIsLoading(true);
       try {
         await createTransferApi({
@@ -75,16 +74,19 @@ export const TransferDetailsScreen: FC = () => {
         });
         navigate(WalletRoute.Wallet);
       } catch (e) {
-        showError('Ups, something went wrong');
+        const error = e as AxiosError<AppWithdrawError>;
+        if (typeof error.response?.data.detail === 'string') {
+          setErrors({
+            amount: error.response?.data.detail,
+          });
+        }
       } finally {
         setIsLoading(false);
       }
     },
-    [item.cryptoAsset.id, navigate, showError, user.id],
+    [item.cryptoAsset.id, navigate, user.id],
   );
-  const validationSchema = useTransferFormValidation(
-    Number(item.balancesByAsset?.balance),
-  );
+  const validationSchema = useTransferFormValidation();
 
   const initialValues = useMemo(() => getTransferFormInitialValues(), []);
 

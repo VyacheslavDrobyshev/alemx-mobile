@@ -65,5 +65,5 @@ export const useAppToastProvider = () => {
     [theme.colors.inputBorderColor, theme.colors.primary, toast],
   );
 
-  return { value, toast, toastProps, top, theme };
+  return { value, toast, toastProps, top: top + 16, theme };
 };
