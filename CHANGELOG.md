@@ -8,29 +8,31 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Initialize
 
-    build (1)
+      build (1)
 - Implemented - Deposit
 - Implemented - Withdrawal
 - Implemented - Transfer
 
-    build (2)
+      build (2)
 - Changed logic related to deposit flow
 - Fixed user list item if user doesn't have username
 
-    build (3)
+      build (3)
 - Removed switch network button on deposit details screen
 - Hide zero balanced coins on TransferAssetScreen
 - Added validation to transfer's input
 - Fixed crash on transfer
 - Added Network logger
 
-    build(4)
+      build(4)
 - Added refresh control
 - Deposit UI issues LMX-76
 - Wallet UI issues LMX-73
 - Withdraw UI issues LMX-81
 - Transfer UI issues LMX-78
 - Disabled send button if balance equal zero LMX-72
+
+      build(5)
 - Fixed validation for transfer LMX-77
 - Updated rounded values
-- Added transactions/transaction details (Deposit, Withdrawal, Transfer)
+- Added History/HistoryDetails (Deposit, Withdrawal, Transfer)
