@@ -26,8 +26,7 @@ export const NetworkItem: FC<{ item: ModifiedWallet }> = ({ item }) => {
           borderRadius={15}
           marginRight={10}
           marginTop={3}
-          backgroundColor={colors.buttonPrimary}
-        >
+          backgroundColor={colors.buttonPrimary}>
           <AppText textStyle="regular_8_16">
             {item.network.nativeAssetSymbol.slice(0, 2)}
           </AppText>
@@ -42,10 +41,20 @@ export const NetworkItem: FC<{ item: ModifiedWallet }> = ({ item }) => {
       </AppView>
       <AppView alignItems="flex-end" flex={1}>
         <AppText>
-          {formatNumber(Number(item.balancesByAsset?.balance ?? 0))}
+          {formatNumber(
+            Number(item.balancesByAsset?.balance ?? 0),
+            undefined,
+            2,
+            item.cryptoAsset.decimals ?? 2,
+          )}
         </AppText>
         <AppText color={colors.inputLabelColor}>
-          {formatNumber(Number(item.balancesByAsset?.balance ?? 0), 'currency')}
+          {formatNumber(
+            Number(item.balancesByAsset?.balance ?? 0),
+            'currency',
+            2,
+            item.cryptoAsset.decimals ?? 2,
+          )}
         </AppText>
       </AppView>
     </AppView>

@@ -47,8 +47,7 @@ export const WithdrawalItem: FC<{ item: WithdrawalTransaction }> = ({
       borderWidth={1}
       flexDirection="row"
       alignItems="center"
-      borderColor={colors.inputBorderColor}
-    >
+      borderColor={colors.inputBorderColor}>
       <AppIcon
         marginRight={10}
         name="ExternalLink"
@@ -74,8 +73,7 @@ export const WithdrawalItem: FC<{ item: WithdrawalTransaction }> = ({
           ellipsizeMode="middle"
           width={100}
           numberOfLines={1}
-          textStyle="regular_12_18"
-        >
+          textStyle="regular_12_18">
           <AppText color={colors.inputLabelColor}>To </AppText>
           <AppText color={colors.inputLabelColor}>
             {item.external_destination_address}
@@ -87,7 +85,13 @@ export const WithdrawalItem: FC<{ item: WithdrawalTransaction }> = ({
           -{item.amount} {item.crypto_asset.symbol}
         </AppText>
         <AppText textStyle="regular_12_18" color={colors.inputLabelColor}>
-          ={formatNumber(item.amount_usd ?? 0, 'currency')}
+          =
+          {formatNumber(
+            item.amount_usd ?? 0,
+            'currency',
+            2,
+            item.crypto_asset.decimals,
+          )}
         </AppText>
       </AppView>
     </AppTouchable>

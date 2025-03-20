@@ -43,8 +43,7 @@ export const TransferItem: FC<{ item: TransferTransaction }> = ({ item }) => {
       borderWidth={1}
       flexDirection="row"
       alignItems="center"
-      borderColor={colors.inputBorderColor}
-    >
+      borderColor={colors.inputBorderColor}>
       <AppIcon
         marginRight={10}
         name="TransferTop"
@@ -58,8 +57,7 @@ export const TransferItem: FC<{ item: TransferTransaction }> = ({ item }) => {
           ellipsizeMode="middle"
           width={100}
           numberOfLines={1}
-          textStyle="regular_12_18"
-        >
+          textStyle="regular_12_18">
           <AppText color={colors.inputLabelColor}>To</AppText>{' '}
           {item.receiver_user.username}
         </AppText>
@@ -69,7 +67,13 @@ export const TransferItem: FC<{ item: TransferTransaction }> = ({ item }) => {
           {-item.amount} {item.crypto_asset.symbol}
         </AppText>
         <AppText textStyle="regular_12_18" color={colors.inputLabelColor}>
-          ={formatNumber(item.amount_usd, 'currency')}
+          =
+          {formatNumber(
+            item.amount_usd,
+            'currency',
+            2,
+            item.crypto_asset.decimals,
+          )}
         </AppText>
       </AppView>
     </AppTouchable>

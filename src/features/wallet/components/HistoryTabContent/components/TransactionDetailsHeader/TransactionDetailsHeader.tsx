@@ -30,16 +30,20 @@ export const TransactionDetailsHeader: FC<{ item: UnionTransaction }> = ({
       <AppText
         textAlign="center"
         textStyle="medium_26_32"
-        color={amount > 0 ? colors.positiveStatus : colors.negativeStatus}
-      >
+        color={amount > 0 ? colors.positiveStatus : colors.negativeStatus}>
         {amount} {item.crypto_asset.symbol}
       </AppText>
       <AppText
         textAlign="center"
         textStyle="regular_12_18"
-        color={colors.inputLabelColor}
-      >
-        ={formatNumber(item.amount_usd, 'currency')}
+        color={colors.inputLabelColor}>
+        =
+        {formatNumber(
+          item.amount_usd,
+          'currency',
+          2,
+          item.crypto_asset.decimals,
+        )}
       </AppText>
     </AppView>
   );

@@ -40,12 +40,17 @@ export const WalletDetailsScreen: FC = () => {
 
         <AppText textStyle="medium_26_32">{`${formatNumber(
           Number(item.balancesByAsset?.balance ?? 0),
+          undefined,
+          2,
+          20,
         )} ${item?.cryptoAsset.symbol}`}</AppText>
         <AppText
           color={colors.inputLabelColor}
           textStyle="regular_12_18">{`${formatNumber(
           Number(item.balancesByAsset?.balanceUsd ?? 0),
           'currency',
+          2,
+          item.cryptoAsset.decimals ?? 2,
         )}`}</AppText>
       </AppView>
       <AppView

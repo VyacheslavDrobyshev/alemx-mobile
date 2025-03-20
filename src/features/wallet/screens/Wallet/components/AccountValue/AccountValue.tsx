@@ -147,7 +147,12 @@ export function AccountValue() {
             {isUnifiedBalanceLoading ? (
               <AppActivityIndicator size="small" absoluteFill />
             ) : (
-              formatNumber(unifiedBalance?.totalBalanceUsd ?? 0, 'currency')
+              formatNumber(
+                unifiedBalance?.totalBalanceUsd ?? 0,
+                'currency',
+                2,
+                20,
+              )
             )}
           </AppText>
         </AppView>

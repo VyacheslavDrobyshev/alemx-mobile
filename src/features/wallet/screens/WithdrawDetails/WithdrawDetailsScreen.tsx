@@ -182,7 +182,12 @@ export const WithdrawDetailsScreen: FC = () => {
         <AppText color={colors.inputLabelColor}>
           Available:{' '}
           <AppText>
-            {formatNumber(Number(item.balancesByAsset?.balance ?? 0))}
+            {formatNumber(
+              Number(item.balancesByAsset?.balance ?? 0),
+              undefined,
+              2,
+              item.cryptoAsset.decimals ?? 2,
+            )}
           </AppText>
         </AppText>
       </AppView>

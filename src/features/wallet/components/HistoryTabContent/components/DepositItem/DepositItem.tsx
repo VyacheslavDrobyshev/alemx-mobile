@@ -9,8 +9,6 @@ import dayjs from 'dayjs';
 import { WalletRoute } from '@app/features/wallet/navigation/constants';
 import { TransactionDetailsHeader } from '@app/features/wallet/components/HistoryTabContent/components/TransactionDetailsHeader/TransactionDetailsHeader';
 
-const sender = 'djbsdnkniufids';
-
 export const DepositItem: FC<{ item: DepositTransaction }> = ({ item }) => {
   const { colors } = useAppTheme();
   const { navigate } = useNavigation<NavigationProp<WalletParamList>>();
@@ -19,10 +17,10 @@ export const DepositItem: FC<{ item: DepositTransaction }> = ({ item }) => {
     () => ({
       'Transaction type': 'Receive',
       'Asset type': 'Crypto',
-      Sender: sender,
+      Sender: item.external_sender_address,
       Date: dayjs(item.created_at).format('MMM DD, YYYY [at] HH:MM'),
     }),
-    [item.created_at],
+    [item.created_at, item.external_sender_address],
   );
 
   const onPress = useCallback(() => {
@@ -45,8 +43,7 @@ export const DepositItem: FC<{ item: DepositTransaction }> = ({ item }) => {
       borderWidth={1}
       flexDirection="row"
       alignItems="center"
-      borderColor={colors.inputBorderColor}
-    >
+      borderColor={colors.inputBorderColor}>
       <AppIcon
         marginRight={10}
         name="ArrowDown"
@@ -69,11 +66,11 @@ export const DepositItem: FC<{ item: DepositTransaction }> = ({ item }) => {
           ellipsizeMode="middle"
           width={100}
           numberOfLines={1}
-          textStyle="regular_12_18"
-        >
+          textStyle="regular_12_18">
           <AppText color={colors.inputLabelColor}>From</AppText>{' '}
-          <AppText color={colors.inputLabelColor}>{sender}</AppText>
-          {/*  todo change to value from BE */}
+          <AppText color={colors.inputLabelColor}>
+            {item.external_sender_address}
+          </AppText>
         </AppText>
       </AppView>
       <AppView alignItems="flex-end">
@@ -81,7 +78,13 @@ export const DepositItem: FC<{ item: DepositTransaction }> = ({ item }) => {
           +{item.amount} {item.crypto_asset?.symbol}
         </AppText>
         <AppText textStyle="regular_12_18" color={colors.inputLabelColor}>
-          ={formatNumber(item.amount_usd ?? 0, 'currency')}
+          =
+          {formatNumber(
+            item.amount_usd ?? 0,
+            'currency',
+            2,
+            item.crypto_asset.decimals,
+          )}
         </AppText>
       </AppView>
     </AppTouchable>

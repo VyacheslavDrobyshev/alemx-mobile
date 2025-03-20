@@ -86,9 +86,14 @@ export const WalletItem: FC<{
               <AppText textStyle="medium_12_18">{item.network.name}</AppText>
             </AppView>
           ) : (
-            <AppView justifyContent="space-between">
+            <AppView alignItems="flex-end" justifyContent="space-between">
               <AppText textStyle="medium_14_20">
-                {formatNumber(Number(item.balancesByAsset?.balance ?? 0))}
+                {formatNumber(
+                  Number(item.balancesByAsset?.balance ?? 0),
+                  undefined,
+                  2,
+                  item.cryptoAsset.decimals ?? 2,
+                )}
               </AppText>
               <AppText
                 textStyle="regular_12_18"
@@ -96,6 +101,8 @@ export const WalletItem: FC<{
                 {formatNumber(
                   Number(item.balancesByAsset?.balanceUsd ?? 0),
                   'currency',
+                  2,
+                  item.cryptoAsset.decimals ?? 2,
                 )}
               </AppText>
             </AppView>
