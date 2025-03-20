@@ -33,3 +33,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Disabled send button if balance equal zero LMX-72
 - Fixed validation for transfer LMX-77
 - Updated rounded values
+- Added transactions/transaction details (Deposit, Withdrawal, Transfer)
