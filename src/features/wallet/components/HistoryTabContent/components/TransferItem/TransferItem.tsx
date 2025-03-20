@@ -59,7 +59,7 @@ export const TransferItem: FC<{ item: TransferTransaction }> = ({ item }) => {
           numberOfLines={1}
           textStyle="regular_12_18">
           <AppText color={colors.inputLabelColor}>To</AppText>{' '}
-          {item.receiver_user.username}
+          {item.receiver_user.username || item.receiver_user.email}
         </AppText>
       </AppView>
       <AppView alignItems="flex-end">

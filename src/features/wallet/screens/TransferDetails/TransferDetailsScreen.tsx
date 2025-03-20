@@ -29,6 +29,7 @@ import {
 import { TransferFormValues } from '@app/features/wallet/screens/TransferDetails/types';
 import { AppImage } from '@app/components/AppImage/AppImage';
 import { AxiosError } from 'axios';
+import { formatNumber } from '@app/utils/number';
 
 const InputAmountRightContent: FC<{
   item: AssetsData;
@@ -153,7 +154,14 @@ export const TransferDetailsScreen: FC = () => {
           rightContent={
             <InputAmountRightContent
               onPress={() =>
-                fields.amount.setValue(item.balancesByAsset?.balance ?? '')
+                fields.amount.setValue(
+                  formatNumber(
+                    Number(item.balancesByAsset?.balance),
+                    undefined,
+                    0,
+                    item.cryptoAsset.decimals ?? 0,
+                  ),
+                )
               }
               item={item.cryptoAsset}
             />
@@ -165,7 +173,7 @@ export const TransferDetailsScreen: FC = () => {
       </AppView>
 
       <AppButton
-        disabled={!formik.isValid}
+        disabled={!formik.isValid || !formik.dirty}
         title="SUBMIT"
         onPress={formik.submitForm}
       />

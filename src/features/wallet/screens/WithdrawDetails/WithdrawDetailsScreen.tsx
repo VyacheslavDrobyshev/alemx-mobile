@@ -173,7 +173,14 @@ export const WithdrawDetailsScreen: FC = () => {
           rightContent={
             <InputAmountRightContent
               onPress={() =>
-                fields.amount.setValue(item.balancesByAsset?.balance ?? '')
+                fields.amount.setValue(
+                  formatNumber(
+                    Number(item.balancesByAsset?.balance),
+                    undefined,
+                    0,
+                    item.cryptoAsset.decimals ?? 0,
+                  ) ?? '',
+                )
               }
               item={item.cryptoAsset}
             />
@@ -213,7 +220,7 @@ export const WithdrawDetailsScreen: FC = () => {
       </AppView>
 
       <AppButton
-        disabled={!formik.isValid}
+        disabled={!formik.isValid || !formik.dirty}
         title="SUBMIT"
         onPress={formik.submitForm}
       />
