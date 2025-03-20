@@ -32,3 +32,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Transfer UI issues LMX-78
 - Disabled send button if balance equal zero LMX-72
 - Fixed validation for transfer LMX-77
+- Updated rounded values
