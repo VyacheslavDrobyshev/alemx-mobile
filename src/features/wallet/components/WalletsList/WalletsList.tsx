@@ -37,6 +37,7 @@ export const WalletsList: FC<{
   showNetwork?: boolean;
   hasRefreshControl?: boolean;
   withSearch?: boolean;
+  inputPlaceholder?: string;
 }> = ({
   onPress,
   hideZeroBalance,
@@ -47,6 +48,7 @@ export const WalletsList: FC<{
   showNetwork,
   hasRefreshControl,
   withSearch,
+  inputPlaceholder,
 }) => {
   const {
     colors,
@@ -163,7 +165,7 @@ export const WalletsList: FC<{
         <>
           {withSearch && (
             <AppInput
-              placeholder="Search user"
+              placeholder={inputPlaceholder}
               rightContent={
                 !search && (
                   <AppIcon name="Search" color={colors.inputLabelColor} />

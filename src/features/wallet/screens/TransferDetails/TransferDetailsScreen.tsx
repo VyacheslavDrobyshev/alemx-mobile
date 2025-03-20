@@ -143,6 +143,7 @@ export const TransferDetailsScreen: FC = () => {
           }
         />
         <AppInput
+          keyboardType="numeric"
           placeholder="Paste amount"
           title="Amount"
           {...fields.amount}

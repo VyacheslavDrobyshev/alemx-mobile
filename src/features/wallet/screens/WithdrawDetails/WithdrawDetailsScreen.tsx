@@ -127,14 +127,14 @@ export const WithdrawDetailsScreen: FC = () => {
 
   const receivedAmount = useMemo(
     () =>
-      isNumber(Number(fields.amount.value))
+      isNumber(Number(fields.amount.value)) && fields.amount.value
         ? formatNumber(
             Number(fields.amount.value) - fee,
             undefined,
             2,
             item.cryptoAsset.decimals ?? 2,
           )
-        : '--',
+        : '0.00',
     [fee, fields.amount.value, item.cryptoAsset.decimals],
   );
 
