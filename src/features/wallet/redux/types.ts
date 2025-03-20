@@ -212,7 +212,24 @@ export type DepositTransaction = {
   created_at: string;
   amount: number;
   amount_usd: number;
-  //   todo add more props
+  external_id: string;
+  status: string;
+  id: number;
+  crypto_asset_id: 121;
+  transaction_hash: string;
+  updated_at: string;
+  user_id: number;
+  external_sender_address: string;
+  user: {
+    email: string;
+    username: string;
+    password: string;
+    created_at: string;
+    vault_account_id: number;
+    id: number;
+    updated_at: string;
+    crypto_asset: CryptoAssetTransaction;
+  };
 };
 export type WithdrawalTransaction = {
   external_id: string;
