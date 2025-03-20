@@ -6,7 +6,7 @@ import { BankCardsTab } from '@app/features/wallet/screens/Wallet/components/Ban
 import { walletTabs } from '@app/features/wallet/screens/Wallet/constants';
 
 export const WalletScreen: FC = () => (
-  <AppScreen withBottomTabs title="Wallet" noScroll>
+  <AppScreen title="Wallet" noScroll>
     <AppTab tabs={walletTabs}>
       <DigitalAssetsTab />
       <BankCardsTab />
