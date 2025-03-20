@@ -159,14 +159,33 @@ export function AccountValue() {
         justifyContent="space-evenly"
         alignItems="center"
         height={68}>
-        {accountValueButtonsList.map(({ button, title, id }) => (
+        {accountValueButtonsList.map(({ Button, title, id }) => (
           <AppTouchable
+            disabled={
+              id === AccountValueButtonsId.Withdraw &&
+              !unifiedBalance?.totalBalanceUsd
+            }
             onPress={() => onPressHandler(id)}
             flex={1}
             alignItems="center"
             key={title}>
-            {button}
-            <AppText>{title}</AppText>
+            <Button
+              color={
+                id === AccountValueButtonsId.Withdraw &&
+                !unifiedBalance?.totalBalanceUsd
+                  ? colors.inputItemColor
+                  : colors.white
+              }
+            />
+            <AppText
+              color={
+                id === AccountValueButtonsId.Withdraw &&
+                !unifiedBalance?.totalBalanceUsd
+                  ? colors.inputItemColor
+                  : colors.white
+              }>
+              {title}
+            </AppText>
           </AppTouchable>
         ))}
       </AppView>

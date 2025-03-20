@@ -1,5 +1,6 @@
-import { JSX } from 'react';
+import { FC } from 'react';
 import { WalletParamList } from '@app/features/wallet/navigation/types';
+import { AppColorValue } from '@app/theme';
 
 export enum AccountValueButtonsId {
   Deposit = 'deposit',
@@ -10,7 +11,7 @@ export enum AccountValueButtonsId {
 }
 
 export type AccountValueButtonsList = {
-  button: JSX.Element;
+  Button: FC<{ color: AppColorValue }>;
   title: string;
   route: keyof WalletParamList;
   id: AccountValueButtonsId;

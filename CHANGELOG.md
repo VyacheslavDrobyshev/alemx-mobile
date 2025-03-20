@@ -30,3 +30,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Wallet UI issues LMX-73
 - Withdraw UI issues LMX-81
 - Transfer UI issues LMX-78
+- Disabled send button if balance equal zero LMX-72
