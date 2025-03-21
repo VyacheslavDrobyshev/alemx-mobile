@@ -116,7 +116,7 @@ export type AppUserWalletsState = {
   users: AppUsersDto;
   isUsersLoading: boolean;
   transactionsByType: {
-    [key in TransactionType]: UnionTransaction[];
+    [key in TransactionType]: { data: UnionTransaction[]; next_cursor: number };
   };
   isTransactionsLoading: boolean;
 };

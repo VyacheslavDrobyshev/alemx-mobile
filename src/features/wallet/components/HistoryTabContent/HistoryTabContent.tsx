@@ -46,6 +46,7 @@ export const HistoryList: FC<HistoryTabContentProps> = ({
     colors,
     cryptoCurrencyList: { contentContainerStyle },
   } = useAppTheme();
+  const dispatch = useAppDispatch();
   const transactions = useSelector(selectTransactionsByType);
   const isTransactionsLoading = useSelector(selectIsTransactionsLoading);
 
@@ -54,10 +55,20 @@ export const HistoryList: FC<HistoryTabContentProps> = ({
   ): boolean => (assetSymbol ? el.cryptoAsset.symbol === assetSymbol : true);
 
   const sections = groupTransactionsByDate(
-    transactions[transactionType].filter(filteredFunction),
+    transactions[transactionType].data.filter(filteredFunction),
   );
 
-  // todo implement pagination
+  const onLoadMore = useCallback(() => {
+    if (transactions[transactionType].next_cursor) {
+      void dispatch(
+        getTransactionsThunk({
+          transaction_type: transactionType,
+          limit: paginationLimit,
+          cursor: transactions[transactionType].next_cursor,
+        }),
+      );
+    }
+  }, [dispatch, transactionType, transactions]);
 
   return (
     <AppView flex={1}>
@@ -80,6 +91,8 @@ export const HistoryList: FC<HistoryTabContentProps> = ({
           ListEmptyComponent={
             <EmptyListPlaceholder title="You have no deposits yet. All your deposits will be displayed here." />
           }
+          onEndReached={onLoadMore}
+          onEndReachedThreshold={0.5}
         />
       )}
     </AppView>

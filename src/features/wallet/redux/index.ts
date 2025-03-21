@@ -34,10 +34,10 @@ const initialPersistState: AppUserWalletsState = {
   },
   isUsersLoading: false,
   transactionsByType: {
-    [TransactionType.Base]: [],
-    [TransactionType.Deposit]: [],
-    [TransactionType.Withdrawal]: [],
-    [TransactionType.Transfer]: [],
+    [TransactionType.Base]: { data: [], next_cursor: 1 },
+    [TransactionType.Deposit]: { data: [], next_cursor: 1 },
+    [TransactionType.Withdrawal]: { data: [], next_cursor: 1 },
+    [TransactionType.Transfer]: { data: [], next_cursor: 1 },
   },
   isTransactionsLoading: false,
 };
@@ -77,8 +77,8 @@ const slice = createSlice({
     });
 
     builder.addCase(getAssetsThunk.fulfilled, (state, { payload, meta }) => {
+      state.isAssetsLoading = false;
       if (meta.arg.cursor === 1) {
-        state.isAssetsLoading = false;
         state.assets.data = payload.data;
       } else {
         state.assets.data = [...state.assets.data, ...payload.data];
@@ -93,8 +93,8 @@ const slice = createSlice({
     });
 
     builder.addCase(getUsersThunk.fulfilled, (state, { payload, meta }) => {
+      state.isUsersLoading = false;
       if (meta.arg.cursor === 1) {
-        state.isUsersLoading = false;
         state.users.data = payload.data;
       } else {
         state.users.data = [...state.users.data, ...payload.data];
@@ -123,7 +123,17 @@ const slice = createSlice({
       getTransactionsThunk.fulfilled,
       (state, { payload, meta }) => {
         state.isTransactionsLoading = false;
-        state.transactionsByType[meta.arg.transaction_type] = payload.data;
+        if (meta.arg.cursor === 1) {
+          state.transactionsByType[meta.arg.transaction_type].data =
+            payload.data;
+        } else {
+          state.transactionsByType[meta.arg.transaction_type].data = [
+            ...state.transactionsByType[meta.arg.transaction_type].data,
+            ...payload.data,
+          ];
+        }
+        state.transactionsByType[meta.arg.transaction_type].next_cursor =
+          payload.next_cursor;
       },
     );
     builder.addCase(getTransactionsThunk.rejected, state => {

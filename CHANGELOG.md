@@ -39,3 +39,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
       build(6)
 - Updated types for transactions
+
+      build(7)
+- Implemented pagination for transactions
