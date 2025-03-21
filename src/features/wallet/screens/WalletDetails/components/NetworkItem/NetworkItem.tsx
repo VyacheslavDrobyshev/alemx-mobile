@@ -50,7 +50,7 @@ export const NetworkItem: FC<{ item: ModifiedWallet }> = ({ item }) => {
         </AppText>
         <AppText color={colors.inputLabelColor}>
           {formatNumber(
-            Number(item.balancesByAsset?.balance ?? 0),
+            Number(item.balancesByAsset?.balanceUsd ?? 0),
             'currency',
             2,
             item.cryptoAsset.decimals ?? 2,
