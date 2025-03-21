@@ -148,15 +148,15 @@ export type AppFeeDto = {
 
 export type CryptoAssetTransaction = {
   name: string;
-  is_essential: boolean;
-  contract_address: string;
+  isEssential: boolean;
+  contractAddress: string;
   image: string;
   symbol: string;
-  network_id: number;
-  external_id: string;
+  networkId: number;
+  externalId: string;
   decimals: number;
   id: number;
-  created_at: string;
+  createdAt: string;
 };
 
 export type UnionTransaction =
@@ -166,97 +166,97 @@ export type UnionTransaction =
   | WithdrawalTransaction;
 
 export type TransferTransaction = {
-  external_id: string;
-  transaction_type: TransactionType;
+  externalId: string;
+  transactionType: TransactionType;
   status: string;
   id: number;
-  created_at: string;
-  sender_user_id: number;
-  receiver_user_id: number;
-  crypto_asset_id: number;
+  createdAt: string;
+  senderUserId: number;
+  receiverUserId: number;
+  cryptoAssetId: number;
   amount: number;
-  amount_usd: number;
-  transaction_hash: string;
-  updated_at: string;
-  sender_user: {
+  amountUsd: number;
+  transactionHash: string;
+  updatedAt: string;
+  senderUser: {
     email: string;
     username: string;
     password: string;
-    created_at: string;
-    vault_account_id: number;
+    createdAt: string;
+    vaultAccountId: number;
     id: number;
-    updated_at: string;
+    updatedAt: string;
   };
-  receiver_user: {
+  receiverUser: {
     email: string;
     username: string;
     password: string;
-    created_at: number;
-    vault_account_id: number;
+    createdAt: number;
+    vaultAccountId: number;
     id: number;
-    updated_at: string;
+    updatedAt: string;
   };
-  crypto_asset: CryptoAssetTransaction;
+  cryptoAsset: CryptoAssetTransaction;
 };
 export type SwapTransaction = {
-  transaction_type: TransactionType;
-  crypto_asset: CryptoAssetTransaction;
-  created_at: string;
+  transactionType: TransactionType;
+  cryptoAsset: CryptoAssetTransaction;
+  createdAt: string;
   amount: number;
-  amount_usd: number;
+  amountUsd: number;
   //   todo add more props
 };
 export type DepositTransaction = {
-  transaction_type: TransactionType;
-  crypto_asset: CryptoAssetTransaction;
-  created_at: string;
+  transactionType: TransactionType;
+  cryptoAsset: CryptoAssetTransaction;
+  createdAt: string;
   amount: number;
-  amount_usd: number;
-  external_id: string;
+  amountUsd: number;
+  externalId: string;
   status: string;
   id: number;
-  crypto_asset_id: 121;
-  transaction_hash: string;
-  updated_at: string;
-  user_id: number;
-  external_sender_address: string;
+  cryptoAssetId: 121;
+  transactionHash: string;
+  updatedAt: string;
+  userId: number;
+  externalSenderAddress: string;
   user: {
     email: string;
     username: string;
     password: string;
-    created_at: string;
-    vault_account_id: number;
+    createdAt: string;
+    vaultAccountId: number;
     id: number;
-    updated_at: string;
-    crypto_asset: CryptoAssetTransaction;
+    updatedAt: string;
+    cryptoAsset: CryptoAssetTransaction;
   };
 };
 export type WithdrawalTransaction = {
-  external_id: string;
-  transaction_type: TransactionType;
+  externalId: string;
+  transactionType: TransactionType;
   status: string;
-  created_at: string;
-  user_id: number;
-  external_destination_address: string;
+  createdAt: string;
+  userId: number;
+  externalDestinationAddress: string;
   amount: number;
-  amount_usd: number;
-  crypto_asset_id: number;
-  transaction_hash: string;
+  amountUsd: number;
+  cryptoAssetId: number;
+  transactionHash: string;
   id: number;
-  updated_at: string;
+  updatedAt: string;
   user: {
     email: string;
     username: string;
     password: string;
-    created_at: string;
-    vault_account_id: number;
+    createdAt: string;
+    vaultAccountId: number;
     id: number;
-    updated_at: string;
+    updatedAt: string;
   };
-  crypto_asset: CryptoAssetTransaction;
+  cryptoAsset: CryptoAssetTransaction;
 };
 
 export type TransferTransactionDto = {
-  transactions: UnionTransaction[];
+  data: UnionTransaction[];
   next_cursor: number;
 };

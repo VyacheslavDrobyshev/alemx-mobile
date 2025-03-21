@@ -16,17 +16,17 @@ export const TransferItem: FC<{ item: TransferTransaction }> = ({ item }) => {
 
   const renderedRows = useMemo(
     () => ({
-      'Transaction type': capitalizeFirstLetter(item.transaction_type),
-      Receiver: item.receiver_user.username,
-      Date: dayjs(item.created_at).format('MMM DD, YYYY [at] HH:MM'),
+      'Transaction type': capitalizeFirstLetter(item.transactionType),
+      Receiver: item.receiverUser.username,
+      Date: dayjs(item.createdAt).format('MMM DD, YYYY [at] HH:MM'),
     }),
-    [item.created_at, item.receiver_user.username, item.transaction_type],
+    [item.createdAt, item.receiverUser.username, item.transactionType],
   );
 
   const onPress = useCallback(() => {
     navigate(WalletRoute.TransactionDetails, {
       header: <TransactionDetailsHeader item={item} />,
-      title: `Transfer ${item.crypto_asset.symbol}`,
+      title: `Transfer ${item.cryptoAsset.symbol}`,
       rows: renderedRows,
     });
   }, [item, navigate, renderedRows]);
@@ -51,7 +51,7 @@ export const TransferItem: FC<{ item: TransferTransaction }> = ({ item }) => {
       />
       <AppView flex={1}>
         <AppText textStyle="medium_14_20">
-          {capitalizeFirstLetter(item.transaction_type)}
+          {capitalizeFirstLetter(item.transactionType)}
         </AppText>
         <AppText
           ellipsizeMode="middle"
@@ -59,20 +59,21 @@ export const TransferItem: FC<{ item: TransferTransaction }> = ({ item }) => {
           numberOfLines={1}
           textStyle="regular_12_18">
           <AppText color={colors.inputLabelColor}>To</AppText>{' '}
-          {item.receiver_user.username || item.receiver_user.email}
+          {item.receiverUser.username || item.receiverUser.email}
         </AppText>
       </AppView>
       <AppView alignItems="flex-end">
         <AppText textStyle="medium_14_20" color={colors.negativeStatus}>
-          {-item.amount} {item.crypto_asset.symbol}
+          {-formatNumber(item.amount, undefined, 0, item.cryptoAsset.decimals)}{' '}
+          {item.cryptoAsset.symbol}
         </AppText>
         <AppText textStyle="regular_12_18" color={colors.inputLabelColor}>
           =
           {formatNumber(
-            item.amount_usd,
+            item.amountUsd,
             'currency',
             2,
-            item.crypto_asset.decimals,
+            item.cryptoAsset.decimals,
           )}
         </AppText>
       </AppView>

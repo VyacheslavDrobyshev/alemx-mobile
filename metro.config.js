@@ -18,7 +18,6 @@ const config = {
     assetExts: assetExts.filter(ext => ext !== 'svg'),
     sourceExts: [...sourceExts, 'svg'],
   },
-  assets: ['./assets/fonts'],
 };
 
 module.exports = mergeConfig(defaultConfig, config);

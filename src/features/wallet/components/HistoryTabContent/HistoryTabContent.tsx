@@ -49,9 +49,9 @@ export const HistoryList: FC<HistoryTabContentProps> = ({
   const transactions = useSelector(selectTransactionsByType);
   const isTransactionsLoading = useSelector(selectIsTransactionsLoading);
 
-  const filteredFunction = <T extends { crypto_asset: CryptoAssetTransaction }>(
+  const filteredFunction = <T extends { cryptoAsset: CryptoAssetTransaction }>(
     el: T,
-  ): boolean => (assetSymbol ? el.crypto_asset.symbol === assetSymbol : true);
+  ): boolean => (assetSymbol ? el.cryptoAsset.symbol === assetSymbol : true);
 
   const sections = groupTransactionsByDate(
     transactions[transactionType].filter(filteredFunction),
@@ -73,8 +73,7 @@ export const HistoryList: FC<HistoryTabContentProps> = ({
             <AppText
               color={colors.inputItemColor}
               marginBottom={5}
-              marginTop={10}
-            >
+              marginTop={10}>
               {title}
             </AppText>
           )}

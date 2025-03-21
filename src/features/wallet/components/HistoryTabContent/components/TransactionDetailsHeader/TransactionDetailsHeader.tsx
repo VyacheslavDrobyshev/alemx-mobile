@@ -10,7 +10,7 @@ export const TransactionDetailsHeader: FC<{ item: UnionTransaction }> = ({
 }) => {
   const { colors } = useAppTheme();
   const amount = useMemo(() => {
-    switch (item.transaction_type) {
+    switch (item.transactionType) {
       case TransactionType.Deposit:
         return item.amount;
       case TransactionType.Withdrawal:
@@ -20,10 +20,10 @@ export const TransactionDetailsHeader: FC<{ item: UnionTransaction }> = ({
       case TransactionType.Base:
         return item.amount;
       default:
-        const _: never = item.transaction_type;
+        const _: never = item.transactionType;
         return _;
     }
-  }, [item.amount, item.transaction_type]);
+  }, [item.amount, item.transactionType]);
 
   return (
     <AppView marginVertical={20} gap={10}>
@@ -31,19 +31,14 @@ export const TransactionDetailsHeader: FC<{ item: UnionTransaction }> = ({
         textAlign="center"
         textStyle="medium_26_32"
         color={amount > 0 ? colors.positiveStatus : colors.negativeStatus}>
-        {amount} {item.crypto_asset.symbol}
+        {amount} {item.cryptoAsset.symbol}
       </AppText>
       <AppText
         textAlign="center"
         textStyle="regular_12_18"
         color={colors.inputLabelColor}>
         =
-        {formatNumber(
-          item.amount_usd,
-          'currency',
-          2,
-          item.crypto_asset.decimals,
-        )}
+        {formatNumber(item.amountUsd, 'currency', 2, item.cryptoAsset.decimals)}
       </AppText>
     </AppView>
   );

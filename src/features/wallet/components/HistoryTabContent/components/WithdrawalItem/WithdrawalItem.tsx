@@ -19,18 +19,18 @@ export const WithdrawalItem: FC<{ item: WithdrawalTransaction }> = ({
 
   const renderedRows = useMemo(
     () => ({
-      'Transaction type': capitalizeFirstLetter(item.transaction_type),
+      'Transaction type': capitalizeFirstLetter(item.transactionType),
       'Asset type': 'Crypto',
-      Receiver: item.external_destination_address,
-      Date: dayjs(item.created_at).format('MMM DD, YYYY [at] HH:MM'),
+      Receiver: item.externalDestinationAddress,
+      Date: dayjs(item.createdAt).format('MMM DD, YYYY [at] HH:MM'),
     }),
-    [item.created_at, item.external_destination_address, item.transaction_type],
+    [item.createdAt, item.externalDestinationAddress, item.transactionType],
   );
 
   const onPress = useCallback(() => {
     navigate(WalletRoute.TransactionDetails, {
       header: <TransactionDetailsHeader item={item} />,
-      title: `Withdraw ${item.crypto_asset.symbol}`,
+      title: `Withdraw ${item.cryptoAsset.symbol}`,
       rows: renderedRows,
     });
   }, [item, navigate, renderedRows]);
@@ -56,7 +56,7 @@ export const WithdrawalItem: FC<{ item: WithdrawalTransaction }> = ({
       <AppView flex={1}>
         <AppView flexDirection="row">
           <AppText textStyle="medium_14_20">
-            {capitalizeFirstLetter(item.transaction_type)}{' '}
+            {capitalizeFirstLetter(item.transactionType)}{' '}
           </AppText>
           <AppView
             alignSelf="center"
@@ -76,21 +76,22 @@ export const WithdrawalItem: FC<{ item: WithdrawalTransaction }> = ({
           textStyle="regular_12_18">
           <AppText color={colors.inputLabelColor}>To </AppText>
           <AppText color={colors.inputLabelColor}>
-            {item.external_destination_address}
+            {item.externalDestinationAddress}
           </AppText>
         </AppText>
       </AppView>
       <AppView alignItems="flex-end">
         <AppText textStyle="medium_14_20" color={colors.negativeStatus}>
-          -{item.amount} {item.crypto_asset.symbol}
+          -{formatNumber(item.amount, undefined, 0, item.cryptoAsset.decimals)}{' '}
+          {item.cryptoAsset.symbol}
         </AppText>
         <AppText textStyle="regular_12_18" color={colors.inputLabelColor}>
           =
           {formatNumber(
-            item.amount_usd ?? 0,
+            item.amountUsd ?? 0,
             'currency',
             2,
-            item.crypto_asset.decimals,
+            item.cryptoAsset.decimals,
           )}
         </AppText>
       </AppView>

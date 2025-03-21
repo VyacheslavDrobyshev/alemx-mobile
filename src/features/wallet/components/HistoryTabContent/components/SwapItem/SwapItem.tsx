@@ -4,6 +4,6 @@ import { AppText, AppView } from '@app/components';
 
 export const SwapItem: FC<{ item: SwapTransaction }> = ({ item }) => (
   <AppView>
-    <AppText>{item.transaction_type}</AppText>
+    <AppText>{item.transactionType}</AppText>
   </AppView>
 );

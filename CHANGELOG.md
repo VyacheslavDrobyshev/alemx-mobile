@@ -36,3 +36,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Fixed validation for transfer LMX-77
 - Updated rounded values
 - Added History/HistoryDetails (Deposit, Withdrawal, Transfer)
+
+      build(6)
+- Updated types for transactions

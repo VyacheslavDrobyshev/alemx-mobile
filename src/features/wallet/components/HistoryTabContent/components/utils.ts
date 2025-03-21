@@ -6,7 +6,7 @@ export const groupTransactionsByDate = (
 ) => {
   const grouped = transactionsList.reduce(
     (acc, transaction) => {
-      const date = dayjs(transaction.created_at).format('DD.MM.YYYY');
+      const date = dayjs(transaction.createdAt).format('DD.MM.YYYY');
 
       if (!acc[date]) {
         acc[date] = [];
@@ -18,7 +18,7 @@ export const groupTransactionsByDate = (
     {} as Record<string, UnionTransaction[]>,
   );
 
-  return Object.keys(grouped).map((date) => ({
+  return Object.keys(grouped).map(date => ({
     title: date,
     data: grouped[date],
   }));

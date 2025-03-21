@@ -17,16 +17,16 @@ export const DepositItem: FC<{ item: DepositTransaction }> = ({ item }) => {
     () => ({
       'Transaction type': 'Receive',
       'Asset type': 'Crypto',
-      Sender: item.external_sender_address,
-      Date: dayjs(item.created_at).format('MMM DD, YYYY [at] HH:MM'),
+      Sender: item.externalSenderAddress,
+      Date: dayjs(item.createdAt).format('MMM DD, YYYY [at] HH:MM'),
     }),
-    [item.created_at, item.external_sender_address],
+    [item.createdAt, item.externalSenderAddress],
   );
 
   const onPress = useCallback(() => {
     navigate(WalletRoute.TransactionDetails, {
       header: <TransactionDetailsHeader item={item} />,
-      title: `Receive ${item.crypto_asset.symbol}`,
+      title: `Receive ${item.cryptoAsset.symbol}`,
       rows: renderedRows,
     });
   }, [item, navigate, renderedRows]);
@@ -69,21 +69,22 @@ export const DepositItem: FC<{ item: DepositTransaction }> = ({ item }) => {
           textStyle="regular_12_18">
           <AppText color={colors.inputLabelColor}>From</AppText>{' '}
           <AppText color={colors.inputLabelColor}>
-            {item.external_sender_address}
+            {item.externalSenderAddress}
           </AppText>
         </AppText>
       </AppView>
       <AppView alignItems="flex-end">
         <AppText textStyle="medium_14_20" color={colors.positiveStatus}>
-          +{item.amount} {item.crypto_asset?.symbol}
+          +{formatNumber(item.amount, undefined, 0, item.cryptoAsset.decimals)}{' '}
+          {item.cryptoAsset?.symbol}
         </AppText>
         <AppText textStyle="regular_12_18" color={colors.inputLabelColor}>
           =
           {formatNumber(
-            item.amount_usd ?? 0,
+            item.amountUsd ?? 0,
             'currency',
             2,
-            item.crypto_asset.decimals,
+            item.cryptoAsset.decimals,
           )}
         </AppText>
       </AppView>
