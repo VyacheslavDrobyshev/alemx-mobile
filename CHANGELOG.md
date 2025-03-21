@@ -42,3 +42,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
       build(7)
 - Implemented pagination for transactions
+- Improved navigation process on Transfer flow LMX-78
