@@ -1,6 +1,11 @@
 import { FC, useCallback, useState } from 'react';
 import { AppIcon, AppInput, AppScreen } from '@app/components';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import {
+  NavigationProp,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import { WalletParamList } from '@app/features/wallet/navigation/types';
 import { WalletRoute } from '@app/features/wallet/navigation/constants';
 import { UserData } from '@app/features/wallet/redux/types';
@@ -9,12 +14,18 @@ import { UsersList } from '@app/features/wallet/components/UsersList/UsersList';
 
 export const TransferUserScreen: FC = () => {
   const { navigate } = useNavigation<NavigationProp<WalletParamList>>();
+  const { params } =
+    useRoute<RouteProp<WalletParamList, WalletRoute.TransferUser>>();
   const { colors } = useAppTheme();
   const onPress = useCallback(
     (user: UserData) => {
-      navigate(WalletRoute.TransferAsset, { user });
+      if (params?.item) {
+        navigate(WalletRoute.TransferDetails, { user, item: params.item });
+      } else {
+        navigate(WalletRoute.TransferAsset, { user });
+      }
     },
-    [navigate],
+    [navigate, params?.item],
   );
 
   const [search, setSearch] = useState('');

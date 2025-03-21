@@ -10,6 +10,7 @@ import {
 import {
   NavigationProp,
   RouteProp,
+  StackActions,
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
@@ -59,7 +60,8 @@ export const TransferDetailsScreen: FC = () => {
     params: { item, user },
   } = useRoute<RouteProp<WalletParamList, WalletRoute.TransferDetails>>();
 
-  const { navigate, goBack } = useNavigation<NavigationProp<WalletParamList>>();
+  const { navigate, goBack, dispatch } =
+    useNavigation<NavigationProp<WalletParamList>>();
   const { colors } = useAppTheme();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -102,11 +104,15 @@ export const TransferDetailsScreen: FC = () => {
     [user],
   );
 
+  const changeUserHandler = useCallback(() => {
+    dispatch(StackActions.push(WalletRoute.TransferUser, { item }));
+  }, [dispatch, item]);
+
   return (
     <AppScreen isLoading={isLoading} title="Transfer">
       <AppView flex={1}>
         <AppInput
-          onPress={() => navigate(WalletRoute.TransferUser)}
+          onPress={changeUserHandler}
           editable={false}
           value={name}
           leftContent={
@@ -122,7 +128,7 @@ export const TransferDetailsScreen: FC = () => {
           }
           rightContent={
             <AppIcon
-              onPress={() => navigate(WalletRoute.TransferUser)}
+              onPress={changeUserHandler}
               name="ChevronRight"
               color={colors.white}
             />
