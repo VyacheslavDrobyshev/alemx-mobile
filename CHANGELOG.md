@@ -50,3 +50,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Fixed sorting of transactions 
 - Fixed sign for transfer transaction LMX-95
 - Fixed amount of assets on Wallets List screen
+
+      build(9)
+- Fixed amount of assets on Transfer Assets List
