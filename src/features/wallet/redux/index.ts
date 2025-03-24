@@ -78,7 +78,7 @@ const slice = createSlice({
 
     builder.addCase(getAssetsThunk.fulfilled, (state, { payload, meta }) => {
       state.isAssetsLoading = false;
-      if (meta.arg.cursor === 1) {
+      if (meta.arg?.cursor === 1) {
         state.assets.data = payload.data;
       } else {
         state.assets.data = [...state.assets.data, ...payload.data];
@@ -139,8 +139,10 @@ const slice = createSlice({
     builder.addCase(getTransactionsThunk.rejected, state => {
       state.isTransactionsLoading = false;
     });
-    builder.addCase(getTransactionsThunk.pending, state => {
-      state.isTransactionsLoading = true;
+    builder.addCase(getTransactionsThunk.pending, (state, { meta }) => {
+      if (meta.arg.cursor === 1) {
+        state.isTransactionsLoading = true;
+      }
     });
 
     builder.addCase(logoutThunk.fulfilled, state => {
