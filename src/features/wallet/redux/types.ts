@@ -34,14 +34,7 @@ export type AppUserWalletsDto = {
   id: number;
   address: string;
   cryptoAsset: AssetsData;
-  network: {
-    id: number;
-    name: string;
-    nativeAssetSymbol: string;
-    isEvmCompatible: boolean;
-    isTest: boolean;
-    image?: string;
-  };
+  network: AssetNetwork;
 };
 
 export type AssetBalance = {
@@ -85,7 +78,9 @@ export type AssetNetwork = {
   nativeAssetSymbol: string;
   isEvmCompatible: boolean;
   isTest: boolean;
+  image?: string;
 };
+
 export type AppAssetsDto = {
   data: AssetsData[];
   next_cursor: number;

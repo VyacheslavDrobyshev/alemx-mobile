@@ -3,13 +3,16 @@ import { FC } from 'react';
 import { useAppTheme } from '@app/theme';
 import { formatNumber } from '@app/utils/number';
 import { AppImage } from '@app/components/AppImage/AppImage';
-import { ModifiedWallet } from '@app/features/wallet/components/WalletsList/WalletsList';
+import { NetworkItem } from '@app/features/wallet/screens/WalletDetails/components/NetworkItem/NetworkItem';
+import { WalletAssetWithBalance } from '@app/features/wallet/components/BalancesList/BalancesList';
 
-export const WalletItem: FC<{
-  item: ModifiedWallet;
-  onPress?: (item: ModifiedWallet) => void;
+export const BalanceItem: FC<{
+  item: WalletAssetWithBalance;
+  onPress?: (item: WalletAssetWithBalance) => void;
+  showAssets?: boolean;
+  hasAssets?: boolean;
   showNetwork?: boolean;
-}> = ({ item, onPress, showNetwork }) => {
+}> = ({ item, onPress, showAssets = false, hasAssets, showNetwork }) => {
   const {
     colors,
     cryptoCurrencyList: { secondaryTextColor, itemContainer, icon },
@@ -28,10 +31,10 @@ export const WalletItem: FC<{
         onPress={() => onPress?.(item)}
         flexDirection="row"
         alignItems="center">
-        {item.cryptoAsset.image ? (
+        {item.image ? (
           <AppView>
             <AppImage
-              uri={item.cryptoAsset.image}
+              uri={item.image}
               height={icon.height}
               width={icon.width}
               marginRight={icon.marginRight}
@@ -58,17 +61,15 @@ export const WalletItem: FC<{
             backgroundColor={colors.buttonPrimary}
             marginRight={icon.marginRight}>
             <AppText textStyle="semi_bold_12_18">
-              {item.cryptoAsset.symbol.slice(0, 2)}
+              {item.symbol.slice(0, 2)}
             </AppText>
           </AppView>
         )}
 
         <AppView justifyContent="space-between" flexDirection="row" flex={1}>
           <AppView justifyContent="space-between">
-            <AppText textStyle="medium_14_20">
-              {item.cryptoAsset.symbol}
-            </AppText>
-            <AppText textStyle="regular_12_18">{item.cryptoAsset.name}</AppText>
+            <AppText textStyle="medium_14_20">{item.symbol}</AppText>
+            <AppText textStyle="regular_12_18">{item.name}</AppText>
           </AppView>
           {showNetwork ? (
             <AppView alignItems="center" flexDirection="row">
@@ -86,20 +87,20 @@ export const WalletItem: FC<{
             <AppView alignItems="flex-end" justifyContent="space-between">
               <AppText textStyle="medium_14_20">
                 {formatNumber(
-                  Number(item.balancesByAsset?.balance ?? 0),
+                  Number(item?.balance ?? 0),
                   undefined,
                   2,
-                  item.cryptoAsset.decimals ?? 2,
+                  item.decimals ?? 2,
                 )}
               </AppText>
               <AppText
                 textStyle="regular_12_18"
                 color={secondaryTextColor.color}>
                 {formatNumber(
-                  Number(item.balancesByAsset?.balanceUsd ?? 0),
+                  Number(item?.balanceUsd ?? 0),
                   'currency',
                   2,
-                  item.cryptoAsset.decimals ?? 2,
+                  item.decimals ?? 2,
                 )}
               </AppText>
             </AppView>
@@ -107,6 +108,20 @@ export const WalletItem: FC<{
         </AppView>
         <AppView />
       </AppTouchable>
+      {showAssets && hasAssets && (
+        <>
+          <AppView
+            alignSelf="center"
+            height={1}
+            backgroundColor={colors.inputBorderColor}
+            width="100%"
+            marginVertical={15}
+          />
+          <AppView marginLeft={25}>
+            <NetworkItem item={item} />
+          </AppView>
+        </>
+      )}
     </AppView>
   );
 };

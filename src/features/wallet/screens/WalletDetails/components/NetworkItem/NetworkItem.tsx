@@ -3,9 +3,9 @@ import { AppText, AppView } from '@app/components';
 import { formatNumber } from '@app/utils/number';
 import { FC } from 'react';
 import { useAppTheme } from '@app/theme';
-import { ModifiedWallet } from '@app/features/wallet/components/WalletsList/WalletsList';
+import { WalletAssetWithBalance } from '@app/features/wallet/components/BalancesList/BalancesList';
 
-export const NetworkItem: FC<{ item: ModifiedWallet }> = ({ item }) => {
+export const NetworkItem: FC<{ item: WalletAssetWithBalance }> = ({ item }) => {
   const { colors } = useAppTheme();
   return (
     <AppView flexDirection="row">
@@ -42,18 +42,18 @@ export const NetworkItem: FC<{ item: ModifiedWallet }> = ({ item }) => {
       <AppView alignItems="flex-end" flex={1}>
         <AppText>
           {formatNumber(
-            Number(item.balancesByAsset?.balance ?? 0),
+            Number(item?.balance ?? 0),
             undefined,
             2,
-            item.cryptoAsset.decimals ?? 2,
+            item.decimals ?? 2,
           )}
         </AppText>
         <AppText color={colors.inputLabelColor}>
           {formatNumber(
-            Number(item.balancesByAsset?.balanceUsd ?? 0),
+            Number(item?.balanceUsd ?? 0),
             'currency',
             2,
-            item.cryptoAsset.decimals ?? 2,
+            item.decimals ?? 2,
           )}
         </AppText>
       </AppView>

@@ -16,14 +16,14 @@ export const WalletDetailsScreen: FC = () => {
 
   const { colors } = useAppTheme();
   return (
-    <AppScreen noScroll title={item?.cryptoAsset.symbol}>
+    <AppScreen noScroll title={item.symbol}>
       <AppView
         height={100}
         marginVertical={20}
         alignItems="center"
         justifyContent="space-between">
-        {item?.cryptoAsset.image ? (
-          <AppImage width={30} height={30} uri={item?.cryptoAsset.image} />
+        {item.image ? (
+          <AppImage width={30} height={30} uri={item.image} />
         ) : (
           <AppView
             alignItems="center"
@@ -32,25 +32,23 @@ export const WalletDetailsScreen: FC = () => {
             width={30}
             borderRadius={30}
             backgroundColor={colors.buttonPrimary}>
-            <AppText textStyle="medium_14_20">
-              {item?.cryptoAsset.name.slice(0, 2)}
-            </AppText>
+            <AppText textStyle="medium_14_20">{item.name.slice(0, 2)}</AppText>
           </AppView>
         )}
 
         <AppText textStyle="medium_26_32">{`${formatNumber(
-          Number(item.balancesByAsset?.balance ?? 0),
+          Number(item?.balance ?? 0),
           undefined,
           2,
           20,
-        )} ${item?.cryptoAsset.symbol}`}</AppText>
+        )} ${item.symbol}`}</AppText>
         <AppText
           color={colors.inputLabelColor}
           textStyle="regular_12_18">{`${formatNumber(
-          Number(item.balancesByAsset?.balanceUsd ?? 0),
+          Number(item?.balanceUsd ?? 0),
           'currency',
           2,
-          item.cryptoAsset.decimals ?? 2,
+          item.decimals ?? 2,
         )}`}</AppText>
       </AppView>
       <AppView
@@ -65,7 +63,7 @@ export const WalletDetailsScreen: FC = () => {
         <AppText marginTop={10} textStyle="medium_16_24">
           Transaction history
         </AppText>
-        <HistoryTabContent assetSymbol={item.cryptoAsset.symbol} />
+        <HistoryTabContent assetSymbol={item.symbol} />
       </AppView>
     </AppScreen>
   );

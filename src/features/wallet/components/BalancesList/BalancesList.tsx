@@ -2,35 +2,35 @@ import { AppIcon, AppInput, AppText, AppView } from '@app/components';
 import { FlatList, ListRenderItem, RefreshControl } from 'react-native';
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import {
-  AppUserWalletsDto,
+  AppAssetsDto,
   AssetBalance,
+  AssetsData,
 } from '@app/features/wallet/redux/types';
 import { useAppTheme } from '@app/theme';
 import { useSelector } from 'react-redux';
 import {
-  selectDepositWallets,
   selectIsDepositWalletsLoading,
   selectIsUnifiedBalanceLoading,
   selectIsWalletsLoading,
   selectUnifiedBalance,
-  selectUserWallets,
   selectWalletSettings,
 } from '@app/features/wallet/redux/selectors';
 import { WalletSettingsId } from '@app/features/wallet/screens/Wallet/constants';
-import { WalletItem } from '@app/features/wallet/components/WalletsList/components/WalletItem/WalletItem';
 import { EmptyListPlaceholder } from '@app/features/wallet/components/EmptyListPlaceholder/EmptyListPlaceholder';
 import { AppActivityIndicator } from '@app/components/AppActivityIndicator/AppActivityIndicator';
 import { useAppDispatch } from '@app/redux';
-import { getUnifiedBalanceThunk } from '@app/features/wallet/redux/thunks';
+import {
+  getAssetsThunk,
+  getUnifiedBalanceThunk,
+} from '@app/features/wallet/redux/thunks';
+import { BalanceItem } from '@app/features/wallet/components/BalancesList/components/BalanceItem/BalanceItem';
 
-export type ModifiedWallet = AppUserWalletsDto & {
-  balancesByAsset?: AssetBalance;
-};
+export type WalletAssetWithBalance = AssetsData & AssetBalance;
 
-export const WalletsList: FC<{
-  onPress?: (item: ModifiedWallet) => void;
+export const BalancesList: FC<{
+  onPress?: (item: WalletAssetWithBalance) => void;
   hideZeroBalance?: boolean;
-  isDeposit?: boolean;
+  hasAssets?: boolean;
   withBalance?: boolean;
   onPressPlaceholderButton?: () => void;
   showNetwork?: boolean;
@@ -41,7 +41,7 @@ export const WalletsList: FC<{
 }> = ({
   onPress,
   hideZeroBalance,
-  isDeposit,
+  hasAssets,
   withBalance,
   onPressPlaceholderButton,
   showNetwork,
@@ -52,11 +52,9 @@ export const WalletsList: FC<{
 }) => {
   const {
     colors,
-    walletList: { contentContainerStyle },
+    balanceList: { contentContainerStyle },
   } = useAppTheme();
   const dispatch = useAppDispatch();
-  const userWallets = useSelector(selectUserWallets);
-  const depositWallets = useSelector(selectDepositWallets);
   const unifiedBalance = useSelector(selectUnifiedBalance);
   const walletSettings = useSelector(selectWalletSettings);
   const isWalletsLoading = useSelector(selectIsWalletsLoading);
@@ -64,24 +62,33 @@ export const WalletsList: FC<{
   const isUnifiedBalanceLoading = useSelector(selectIsUnifiedBalanceLoading);
   const [refreshing, setRefreshing] = useState(false);
 
-  const [mappedWallets, setMappedWallets] = useState<ModifiedWallet[]>([]);
   const [search, setSearch] = useState('');
-  const [coins, setCoins] = useState<ModifiedWallet[]>([]);
-
-  const wallets = useMemo(
-    () => (isDeposit ? depositWallets : userWallets),
-    [depositWallets, isDeposit, userWallets],
-  );
+  const [coins, setCoins] = useState<WalletAssetWithBalance[]>([]);
 
   useEffect(() => {
-    const modifiedWallets: ModifiedWallet[] =
-      wallets?.map(el => ({
-        ...el,
-        balancesByAsset:
-          unifiedBalance?.balancesByAsset?.[el.cryptoAsset.symbol],
-      })) ?? [];
-    setMappedWallets(modifiedWallets);
-  }, [unifiedBalance?.balancesByAsset, wallets]);
+    void (async () => {
+      if (unifiedBalance) {
+        const keys = Object.keys(unifiedBalance?.balancesByAsset ?? {});
+        const normalizedList = await Promise.all(
+          keys.map(async element => {
+            const { payload } = await dispatch(
+              getAssetsThunk({ limit: 100, cursor: 1, search: element }),
+            );
+            const { data } = payload as AppAssetsDto;
+            return data.length === 1
+              ? { ...data[0], ...unifiedBalance?.balancesByAsset[element] }
+              : {
+                  ...(data.find(el => el.externalId === element) ||
+                    ({} as AssetsData)),
+                  ...unifiedBalance?.balancesByAsset[element],
+                };
+          }),
+        );
+
+        setCoins(normalizedList);
+      }
+    })();
+  }, [dispatch, unifiedBalance, unifiedBalance?.balancesByAsset]);
 
   const hideBalance = useMemo(
     () =>
@@ -89,25 +96,33 @@ export const WalletsList: FC<{
     [walletSettings],
   );
 
+  const showAssets = useMemo(
+    () =>
+      walletSettings.find(el => el.id === WalletSettingsId.Assets)?.isChecked,
+    [walletSettings],
+  );
+
   const filteredWallets = useMemo(() => {
     if (hideZeroBalance) {
       if (hideBalance) {
-        return mappedWallets.filter(
-          el => Number(el.balancesByAsset?.balanceUsd ?? 0) > 1,
-        );
+        return coins.filter(el => Number(el?.balanceUsd ?? 0) > 1);
       }
-      return mappedWallets.filter(
-        el => Number(el.balancesByAsset?.balanceUsd ?? 0) > 0,
-      );
+      return coins.filter(el => Number(el?.balanceUsd ?? 0) > 0);
     }
-    return mappedWallets;
-  }, [hideBalance, hideZeroBalance, mappedWallets]);
+    return coins;
+  }, [hideBalance, hideZeroBalance, coins]);
 
-  const renderItem = useCallback<ListRenderItem<ModifiedWallet>>(
+  const renderItem = useCallback<ListRenderItem<WalletAssetWithBalance>>(
     ({ item }) => (
-      <WalletItem showNetwork={showNetwork} onPress={onPress} item={item} />
+      <BalanceItem
+        hasAssets={hasAssets}
+        showAssets={showAssets}
+        showNetwork={showNetwork}
+        onPress={onPress}
+        item={item}
+      />
     ),
-    [showNetwork, onPress],
+    [hasAssets, showAssets, showNetwork, onPress],
   );
 
   const isLoading = useMemo(
@@ -130,20 +145,6 @@ export const WalletsList: FC<{
       setRefreshing(false);
     }, 1000);
   }, [dispatch]);
-
-  useEffect(() => {
-    if (search) {
-      setCoins(
-        filteredWallets.filter(
-          el =>
-            el.cryptoAsset.name.toLowerCase().includes(search.toLowerCase()) ||
-            el.cryptoAsset.symbol.toLowerCase().includes(search.toLowerCase()),
-        ),
-      );
-    } else {
-      setCoins(filteredWallets);
-    }
-  }, [filteredWallets, search]);
 
   return (
     <AppView flex={1}>
@@ -186,7 +187,7 @@ export const WalletsList: FC<{
               ) : undefined
             }
             keyExtractor={item =>
-              `${item.id}/${item.cryptoAsset.name}/${item.cryptoAsset.symbol}/${item.cryptoAsset.networkId}`
+              `${item.id}/${item.name}/${item.symbol}/${item.networkId}`
             }
             ListEmptyComponent={
               <EmptyListPlaceholder
@@ -199,7 +200,7 @@ export const WalletsList: FC<{
             contentContainerStyle={contentContainerStyle}
             showsVerticalScrollIndicator={false}
             renderItem={renderItem}
-            data={coins}
+            data={filteredWallets}
           />
         </>
       )}

@@ -39,7 +39,12 @@ export const TransactionDetailsHeader: FC<{ item: UnionTransaction }> = ({
         textAlign="center"
         textStyle="medium_26_32"
         color={amount > 0 ? colors.positiveStatus : colors.negativeStatus}>
-        {formatNumber(amount, undefined, 0, item.cryptoAsset.decimals ?? 0)}{' '}
+        {`${amount > 0 ? '+' : ''}${formatNumber(
+          amount,
+          undefined,
+          0,
+          item.cryptoAsset.decimals ?? 0,
+        )} `}
         {item.cryptoAsset.symbol}
       </AppText>
       <AppText

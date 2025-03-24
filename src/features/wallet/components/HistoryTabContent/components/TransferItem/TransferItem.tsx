@@ -74,7 +74,12 @@ export const TransferItem: FC<{ item: TransferTransaction }> = ({ item }) => {
         <AppText
           textStyle="medium_14_20"
           color={amount > 0 ? colors.positiveStatus : colors.negativeStatus}>
-          {formatNumber(amount, undefined, 0, item.cryptoAsset.decimals)}{' '}
+          {`${amount > 0 ? '+' : ''}${formatNumber(
+            amount,
+            undefined,
+            0,
+            item.cryptoAsset.decimals,
+          )} `}
           {item.cryptoAsset.symbol}
         </AppText>
         <AppText textStyle="regular_12_18" color={colors.inputLabelColor}>

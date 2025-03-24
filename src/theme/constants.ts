@@ -7,6 +7,7 @@ import { getDialogTheme } from '@app/components/AppModal/components/AppDialog/th
 import { getDrawerTheme } from '@app/components/AppModal/components/AppBottomDrawer/theme';
 import { getCheckBoxTheme } from '@app/components/AppCheckBox/theme';
 import { getWalletListTheme } from '@app/features/wallet/components/WalletsList/components/theme';
+import { getBalanceListTheme } from '@app/features/wallet/components/BalancesList/components/theme';
 
 import { getTypographyTheme } from '../components/AppText/theme';
 import { getButtonTheme } from '../components/AppButton/theme';
@@ -19,6 +20,7 @@ export const coreTheme = {
   screen: getScreenTheme,
   cryptoCurrencyList: getCryptoCurrencyListTheme,
   walletList: getWalletListTheme,
+  balanceList: getBalanceListTheme,
   modalContainer: getModalContainerTheme,
   dialog: getDialogTheme,
   drawer: getDrawerTheme,

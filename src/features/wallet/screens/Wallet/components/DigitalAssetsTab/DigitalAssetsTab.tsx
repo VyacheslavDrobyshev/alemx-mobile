@@ -8,13 +8,13 @@ import {
   getUserWalletsThunk,
 } from '@app/features/wallet/redux/thunks';
 import { useAppDispatch } from '@app/redux';
-import {
-  ModifiedWallet,
-  WalletsList,
-} from '@app/features/wallet/components/WalletsList/WalletsList';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { WalletParamList } from '@app/features/wallet/navigation/types';
 import { WalletRoute } from '@app/features/wallet/navigation/constants';
+import {
+  BalancesList,
+  WalletAssetWithBalance,
+} from '@app/features/wallet/components/BalancesList/BalancesList';
 
 export function DigitalAssetsTab() {
   const { colors } = useAppTheme();
@@ -31,7 +31,7 @@ export function DigitalAssetsTab() {
   }, [openBottomDrawer]);
 
   const onPress = useCallback(
-    (item: ModifiedWallet) => {
+    (item: WalletAssetWithBalance) => {
       navigate(WalletRoute.WalletDetails, { item });
     },
     [navigate],
@@ -63,7 +63,7 @@ export function DigitalAssetsTab() {
           color={colors.inputLabelColor}
         />
       </AppView>
-      <WalletsList
+      <BalancesList
         hasRefreshControl
         onPressPlaceholderButton={onPressPlaceholderButton}
         hasAssets
