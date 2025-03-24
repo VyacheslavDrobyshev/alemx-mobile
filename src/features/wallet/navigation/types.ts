@@ -18,8 +18,11 @@ export type WalletParamList = {
     title: string;
     rows: { [key: string]: string };
   };
-  [WalletRoute.TransferUser]: { item: ModifiedWallet } | undefined;
+  [WalletRoute.TransferUser]: { item: WalletAssetWithBalance } | undefined;
   [WalletRoute.TransferAsset]: { user: UserData };
-  [WalletRoute.TransferDetails]: { user: UserData; item: ModifiedWallet };
+  [WalletRoute.TransferDetails]: {
+    user: UserData;
+    item: WalletAssetWithBalance;
+  };
   [WalletRoute.NetworkLogger]: undefined;
 };

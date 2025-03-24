@@ -70,7 +70,7 @@ export const TransferDetailsScreen: FC = () => {
       setIsLoading(true);
       try {
         await createTransferApi({
-          assetId: item.cryptoAsset.id,
+          assetId: item.id,
           amount,
           feeLevel,
           receiverUserId: user.id,
@@ -87,7 +87,7 @@ export const TransferDetailsScreen: FC = () => {
         setIsLoading(false);
       }
     },
-    [item.cryptoAsset.id, navigate, user.id],
+    [item.id, navigate, user.id],
   );
   const validationSchema = useTransferFormValidation();
 
@@ -142,10 +142,8 @@ export const TransferDetailsScreen: FC = () => {
         <AppInput
           onPress={changeAssetHandler}
           editable={false}
-          value={item.cryptoAsset.name}
-          leftContent={
-            <AppImage height={30} width={30} uri={item.cryptoAsset.image} />
-          }
+          value={item.name}
+          leftContent={<AppImage height={30} width={30} uri={item.image} />}
           title="Coin"
           rightContent={
             <AppIcon
@@ -166,19 +164,19 @@ export const TransferDetailsScreen: FC = () => {
               onPress={() =>
                 fields.amount.setValue(
                   formatNumber(
-                    Number(item.balancesByAsset?.balance),
+                    Number(item?.balance),
                     undefined,
                     0,
-                    item.cryptoAsset.decimals ?? 0,
+                    item.decimals ?? 0,
                   ),
                 )
               }
-              item={item.cryptoAsset}
+              item={item}
             />
           }
         />
         <AppText color={colors.inputLabelColor}>
-          Available: <AppText>{Number(item.balancesByAsset?.balance)}</AppText>
+          Available: <AppText>{Number(item?.balance)}</AppText>
         </AppText>
       </AppView>
 

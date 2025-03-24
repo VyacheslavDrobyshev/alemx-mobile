@@ -9,9 +9,9 @@ import {
 import { WalletParamList } from '@app/features/wallet/navigation/types';
 import { WalletRoute } from '@app/features/wallet/navigation/constants';
 import {
-  ModifiedWallet,
-  WalletsList,
-} from '@app/features/wallet/components/WalletsList/WalletsList';
+  BalancesList,
+  WalletAssetWithBalance,
+} from '@app/features/wallet/components/BalancesList/BalancesList';
 
 export const TransferAssetScreen: FC = () => {
   const { navigate } = useNavigation<NavigationProp<WalletParamList>>();
@@ -21,7 +21,7 @@ export const TransferAssetScreen: FC = () => {
   } = useRoute<RouteProp<WalletParamList, WalletRoute.TransferAsset>>();
 
   const onPress = useCallback(
-    (item: ModifiedWallet) => {
+    (item: WalletAssetWithBalance) => {
       navigate(WalletRoute.TransferDetails, { user, item });
     },
     [navigate, user],
@@ -29,7 +29,7 @@ export const TransferAssetScreen: FC = () => {
 
   return (
     <AppScreen title="Transfer" noScroll>
-      <WalletsList
+      <BalancesList
         title="Coin list"
         inputPlaceholder="Search coins"
         withSearch
