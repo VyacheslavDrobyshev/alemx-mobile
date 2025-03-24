@@ -69,19 +69,19 @@ export const createUserWalletsThunk = createAppThunk<
   },
 );
 
-export const getAssetsThunk = createAsyncThunk<AppAssetsDto, PaginationParams>(
-  'auth/getAssetsThunk',
-  async (params, { rejectWithValue }) => {
-    try {
-      return await getAssetsApi(params);
-    } catch (e) {
-      const error = e as AxiosError<AppLoginError>;
-      return rejectWithValue(
-        error.response?.data.detail ?? 'Something went wrong',
-      );
-    }
-  },
-);
+export const getAssetsThunk = createAsyncThunk<
+  AppAssetsDto,
+  PaginationParams | undefined
+>('auth/getAssetsThunk', async (params, { rejectWithValue }) => {
+  try {
+    return await getAssetsApi(params);
+  } catch (e) {
+    const error = e as AxiosError<AppLoginError>;
+    return rejectWithValue(
+      error.response?.data.detail ?? 'Something went wrong',
+    );
+  }
+});
 
 export const getUsersThunk = createAsyncThunk<AppUsersDto, PaginationParams>(
   'auth/getUsersThunk',

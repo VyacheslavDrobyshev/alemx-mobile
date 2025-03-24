@@ -69,7 +69,7 @@ export const createTransferApi = async (params: AppTransferParams) => {
   return response.data;
 };
 
-export const getAssetsApi = async (params: PaginationParams) => {
+export const getAssetsApi = async (params?: PaginationParams) => {
   const response = await instance.get<AppAssetsDto>('/assets', { params });
   return response.data;
 };
