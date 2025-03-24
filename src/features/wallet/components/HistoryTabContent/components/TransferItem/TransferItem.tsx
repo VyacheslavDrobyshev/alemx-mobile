@@ -9,10 +9,13 @@ import { WalletParamList } from '@app/features/wallet/navigation/types';
 import { WalletRoute } from '@app/features/wallet/navigation/constants';
 import dayjs from 'dayjs';
 import { TransactionDetailsHeader } from '@app/features/wallet/components/HistoryTabContent/components/TransactionDetailsHeader/TransactionDetailsHeader';
+import { useSelector } from 'react-redux';
+import { selectUserInfo } from '@app/features/auth/redux/selectors';
 
 export const TransferItem: FC<{ item: TransferTransaction }> = ({ item }) => {
   const { colors } = useAppTheme();
   const { navigate } = useNavigation<NavigationProp<WalletParamList>>();
+  const userInfo = useSelector(selectUserInfo);
 
   const renderedRows = useMemo(
     () => ({
@@ -30,6 +33,11 @@ export const TransferItem: FC<{ item: TransferTransaction }> = ({ item }) => {
       rows: renderedRows,
     });
   }, [item, navigate, renderedRows]);
+
+  const amount = useMemo(
+    () => (item.receiverUser.id === userInfo?.id ? item.amount : -item.amount),
+    [item.amount, item.receiverUser.id, userInfo?.id],
+  );
 
   return (
     <AppTouchable
@@ -63,8 +71,10 @@ export const TransferItem: FC<{ item: TransferTransaction }> = ({ item }) => {
         </AppText>
       </AppView>
       <AppView alignItems="flex-end">
-        <AppText textStyle="medium_14_20" color={colors.negativeStatus}>
-          {-formatNumber(item.amount, undefined, 0, item.cryptoAsset.decimals)}{' '}
+        <AppText
+          textStyle="medium_14_20"
+          color={amount > 0 ? colors.positiveStatus : colors.negativeStatus}>
+          {formatNumber(amount, undefined, 0, item.cryptoAsset.decimals)}{' '}
           {item.cryptoAsset.symbol}
         </AppText>
         <AppText textStyle="regular_12_18" color={colors.inputLabelColor}>

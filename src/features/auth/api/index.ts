@@ -4,6 +4,7 @@ import {
   AppLoginParams,
   AppRegisterDto,
   AppRegisterParams,
+  UserInfoDto,
 } from '@app/features/auth/redux/types';
 
 export const loginApi = async (params: AppLoginParams) => {
@@ -19,7 +20,7 @@ export const registerApi = async (params: AppRegisterParams) => {
   return response.data;
 };
 
-export const getUserinfoApi = async (): Promise<void> => {
-  const response = await instance.get<void>('auth/me');
+export const getUserinfoApi = async (): Promise<UserInfoDto> => {
+  const response = await instance.get<UserInfoDto>('auth/me');
   return response.data;
 };

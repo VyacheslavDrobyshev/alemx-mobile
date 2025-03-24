@@ -48,3 +48,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added list header LMX-93
 - Fixed navigation for Transfer flow LMX-94
 - Fixed sorting of transactions 
+- Fixed sign for transfer transaction

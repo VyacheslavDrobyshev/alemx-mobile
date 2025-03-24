@@ -5,6 +5,7 @@ export type AppLoginDto = {
 
 export type AppAuthState = {
   isLoading: boolean;
+  userInfo: UserInfoDto | null;
 } & AppLoginDto;
 
 export type AppLoginParams = {
@@ -22,5 +23,14 @@ export type AppRegisterParams = {
   username: string;
   confirmPassword: string;
 } & AppLoginParams;
+
+export type UserInfoDto = {
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+  username: string;
+  email: string;
+  vaultAccountId: string;
+};
 
 export type AppRegisterError = AppLoginError;

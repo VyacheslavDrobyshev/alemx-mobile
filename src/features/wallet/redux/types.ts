@@ -171,8 +171,6 @@ export type TransferTransaction = {
   status: string;
   id: number;
   createdAt: string;
-  senderUserId: number;
-  receiverUserId: number;
   cryptoAssetId: number;
   amount: number;
   amountUsd: number;

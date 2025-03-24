@@ -35,12 +35,14 @@ export type HistoryTabContentProps = {
   assetSymbol?: string;
   transactionType: TransactionType;
   renderItem: ListRenderItem<UnionTransaction>;
+  placeholder: string;
 };
 
 export const HistoryList: FC<HistoryTabContentProps> = ({
   assetSymbol,
   transactionType,
   renderItem,
+  placeholder,
 }) => {
   const {
     colors,
@@ -89,7 +91,9 @@ export const HistoryList: FC<HistoryTabContentProps> = ({
             </AppText>
           )}
           ListEmptyComponent={
-            <EmptyListPlaceholder title="You have no deposits yet. All your deposits will be displayed here." />
+            <EmptyListPlaceholder
+              title={`You have no ${placeholder} yet. All your ${placeholder} will be displayed here.`}
+            />
           }
           onEndReached={onLoadMore}
           onEndReachedThreshold={0.5}
@@ -173,21 +177,25 @@ export const HistoryTabContent: FC<
   return (
     <AppTab onTabChange={onTabChange} tabs={transactionHistoryTabs}>
       <HistoryList
+        placeholder="deposits"
         renderItem={renderDepositItem}
         assetSymbol={assetSymbol}
         transactionType={TransactionType.Deposit}
       />
       <HistoryList
+        placeholder="withdrawals"
         renderItem={renderWithdrawItem}
         assetSymbol={assetSymbol}
         transactionType={TransactionType.Withdrawal}
       />
       <HistoryList
+        placeholder="transfers"
         renderItem={renderTransferItem}
         assetSymbol={assetSymbol}
         transactionType={TransactionType.Transfer}
       />
       <HistoryList
+        placeholder="exchanges"
         renderItem={renderSwapItem}
         assetSymbol={assetSymbol}
         transactionType={TransactionType.Base}
