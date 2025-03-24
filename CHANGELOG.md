@@ -46,3 +46,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
       build(8)
 - Added list header LMX-93
+- Fixed navigation for Transfer flow LMX-94

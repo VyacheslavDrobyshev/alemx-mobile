@@ -1,6 +1,6 @@
 import { AppText, AppView } from '@app/components';
 import { FlatList, ListRenderItem } from 'react-native';
-import { FC, useCallback, useEffect } from 'react';
+import { FC, useCallback } from 'react';
 import { UserData } from '@app/features/wallet/redux/types';
 import { useAppTheme } from '@app/theme';
 import { useSelector } from 'react-redux';
@@ -13,6 +13,7 @@ import { getUsersThunk } from '@app/features/wallet/redux/thunks';
 import { paginationLimit } from '@app/features/wallet/screens/Wallet/constants';
 import { EmptyListPlaceholder } from '@app/features/wallet/components/EmptyListPlaceholder/EmptyListPlaceholder';
 import { UserItem } from '@app/features/wallet/components/UsersList/components/UserItem/UserItem';
+import { useFocusEffect } from '@react-navigation/native';
 
 export const UsersList: FC<{
   onPress?: (item: UserData) => void;
@@ -44,15 +45,17 @@ export const UsersList: FC<{
     [onPress],
   );
 
-  useEffect(() => {
-    void dispatch(
-      getUsersThunk({
-        search,
-        limit: paginationLimit,
-        cursor: 1,
-      }),
-    );
-  }, [dispatch, search]);
+  useFocusEffect(
+    useCallback(() => {
+      void dispatch(
+        getUsersThunk({
+          search,
+          limit: paginationLimit,
+          cursor: 1,
+        }),
+      );
+    }, [dispatch, search]),
+  );
 
   return (
     <AppView flex={1}>

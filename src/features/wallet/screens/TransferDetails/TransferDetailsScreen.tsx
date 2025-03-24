@@ -60,7 +60,7 @@ export const TransferDetailsScreen: FC = () => {
     params: { item, user },
   } = useRoute<RouteProp<WalletParamList, WalletRoute.TransferDetails>>();
 
-  const { navigate, goBack, dispatch } =
+  const { navigate, dispatch } =
     useNavigation<NavigationProp<WalletParamList>>();
   const { colors } = useAppTheme();
   const [isLoading, setIsLoading] = useState(false);
@@ -108,6 +108,10 @@ export const TransferDetailsScreen: FC = () => {
     dispatch(StackActions.push(WalletRoute.TransferUser, { item }));
   }, [dispatch, item]);
 
+  const changeAssetHandler = useCallback(() => {
+    dispatch(StackActions.push(WalletRoute.TransferAsset, { user }));
+  }, [dispatch, user]);
+
   return (
     <AppScreen isLoading={isLoading} title="Transfer">
       <AppView flex={1}>
@@ -136,7 +140,7 @@ export const TransferDetailsScreen: FC = () => {
           title="To"
         />
         <AppInput
-          onPress={goBack}
+          onPress={changeAssetHandler}
           editable={false}
           value={item.cryptoAsset.name}
           leftContent={
@@ -145,7 +149,7 @@ export const TransferDetailsScreen: FC = () => {
           title="Coin"
           rightContent={
             <AppIcon
-              onPress={goBack}
+              onPress={changeAssetHandler}
               name="ChevronRight"
               color={colors.white}
             />
