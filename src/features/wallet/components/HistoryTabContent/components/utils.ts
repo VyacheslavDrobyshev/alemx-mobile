@@ -6,7 +6,7 @@ export const groupTransactionsByDate = (
 ) => {
   const grouped = transactionsList.reduce(
     (acc, transaction) => {
-      const date = dayjs(transaction.createdAt).format('DD.MM.YYYY');
+      const date = dayjs(transaction.createdAt).format('DD-MM-YYYY');
 
       if (!acc[date]) {
         acc[date] = [];
@@ -18,8 +18,10 @@ export const groupTransactionsByDate = (
     {} as Record<string, UnionTransaction[]>,
   );
 
-  return Object.keys(grouped).map(date => ({
-    title: date,
-    data: grouped[date],
-  }));
+  return Object.keys(grouped)
+    .sort((a, b) => dayjs(b).valueOf() - dayjs(a).valueOf())
+    .map(date => ({
+      title: date.replaceAll('-', '.'),
+      data: grouped[date],
+    }));
 };
