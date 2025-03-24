@@ -1,4 +1,4 @@
-import { AppIcon, AppInput, AppView } from '@app/components';
+import { AppIcon, AppInput, AppText, AppView } from '@app/components';
 import { FlatList, ListRenderItem, RefreshControl } from 'react-native';
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import {
@@ -38,6 +38,7 @@ export const WalletsList: FC<{
   hasRefreshControl?: boolean;
   withSearch?: boolean;
   inputPlaceholder?: string;
+  title?: string;
 }> = ({
   onPress,
   hideZeroBalance,
@@ -49,6 +50,7 @@ export const WalletsList: FC<{
   hasRefreshControl,
   withSearch,
   inputPlaceholder,
+  title,
 }) => {
   const {
     colors,
@@ -176,8 +178,18 @@ export const WalletsList: FC<{
               onChangeText={setSearch}
             />
           )}
-
           <FlatList
+            ListHeaderComponent={
+              title && coins.length ? (
+                <AppText
+                  marginTop={20}
+                  marginBottom={10}
+                  color={colors.inputLabelColor}
+                  textStyle="regular_12_18">
+                  {title}
+                </AppText>
+              ) : null
+            }
             refreshControl={
               hasRefreshControl ? (
                 <RefreshControl

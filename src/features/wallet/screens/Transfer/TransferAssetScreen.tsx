@@ -30,6 +30,7 @@ export const TransferAssetScreen: FC = () => {
   return (
     <AppScreen title="Transfer" noScroll>
       <WalletsList
+        title="Coin list"
         inputPlaceholder="Search coins"
         withSearch
         hideZeroBalance

@@ -1,4 +1,4 @@
-import { AppView } from '@app/components';
+import { AppText, AppView } from '@app/components';
 import { FlatList, ListRenderItem } from 'react-native';
 import { FC, useCallback, useEffect } from 'react';
 import { UserData } from '@app/features/wallet/redux/types';
@@ -17,8 +17,10 @@ import { UserItem } from '@app/features/wallet/components/UsersList/components/U
 export const UsersList: FC<{
   onPress?: (item: UserData) => void;
   search?: string;
-}> = ({ onPress, search }) => {
+  title?: string;
+}> = ({ onPress, search, title }) => {
   const {
+    colors,
     cryptoCurrencyList: { contentContainerStyle },
   } = useAppTheme();
   const dispatch = useAppDispatch();
@@ -55,8 +57,19 @@ export const UsersList: FC<{
   return (
     <AppView flex={1}>
       <FlatList
+        ListHeaderComponent={
+          title && users.data.length ? (
+            <AppText
+              marginTop={20}
+              marginBottom={10}
+              color={colors.inputLabelColor}
+              textStyle="regular_12_18">
+              {title}
+            </AppText>
+          ) : null
+        }
         data={users.data}
-        keyExtractor={(item) => `${item.id}`}
+        keyExtractor={item => `${item.id}`}
         ListEmptyComponent={<EmptyListPlaceholder title="No users found." />}
         contentContainerStyle={contentContainerStyle}
         showsVerticalScrollIndicator={false}

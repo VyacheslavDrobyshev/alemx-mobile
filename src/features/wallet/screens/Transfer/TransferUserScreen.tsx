@@ -41,7 +41,7 @@ export const TransferUserScreen: FC = () => {
         withClear={!!search}
         onChangeText={setSearch}
       />
-      <UsersList search={search} onPress={onPress} />
+      <UsersList title="Friends list" search={search} onPress={onPress} />
     </AppScreen>
   );
 };
