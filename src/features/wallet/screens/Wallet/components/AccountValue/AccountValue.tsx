@@ -151,7 +151,7 @@ export function AccountValue() {
                 unifiedBalance?.totalBalanceUsd ?? 0,
                 'currency',
                 2,
-                20,
+                2,
               )
             )}
           </AppText>
