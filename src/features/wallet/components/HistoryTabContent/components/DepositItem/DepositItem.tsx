@@ -2,7 +2,7 @@ import { FC, useCallback, useMemo } from 'react';
 import { DepositTransaction } from '@app/features/wallet/redux/types';
 import { AppIcon, AppText, AppTouchable, AppView } from '@app/components';
 import { useAppTheme } from '@app/theme';
-import { formatNumber } from '@app/utils/number';
+import { formatNumber, getDecimals } from '@app/utils/number';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { WalletParamList } from '@app/features/wallet/navigation/types';
 import dayjs from 'dayjs';
@@ -12,11 +12,6 @@ import { TransactionDetailsHeader } from '@app/features/wallet/components/Histor
 export const DepositItem: FC<{ item: DepositTransaction }> = ({ item }) => {
   const { colors } = useAppTheme();
   const { navigate } = useNavigation<NavigationProp<WalletParamList>>();
-
-  const decimals = useMemo(
-    () => (item.cryptoAsset.decimals > 4 ? 4 : item.cryptoAsset.decimals ?? 2),
-    [item.cryptoAsset.decimals],
-  );
 
   const renderedRows = useMemo(
     () => ({
@@ -80,11 +75,23 @@ export const DepositItem: FC<{ item: DepositTransaction }> = ({ item }) => {
       </AppView>
       <AppView alignItems="flex-end">
         <AppText textStyle="medium_14_20" color={colors.positiveStatus}>
-          +{formatNumber(item.amount, undefined, 0, decimals)}{' '}
+          +
+          {formatNumber(
+            item.amount,
+            undefined,
+            0,
+            getDecimals(item.cryptoAsset.decimals),
+          )}{' '}
           {item.cryptoAsset?.symbol}
         </AppText>
         <AppText textStyle="regular_12_18" color={colors.inputLabelColor}>
-          ={formatNumber(item.amountUsd ?? 0, 'currency', 2, decimals)}
+          =
+          {formatNumber(
+            item.amountUsd ?? 0,
+            'currency',
+            2,
+            getDecimals(item.cryptoAsset.decimals),
+          )}
         </AppText>
       </AppView>
     </AppTouchable>

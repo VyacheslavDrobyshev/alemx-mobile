@@ -3,7 +3,7 @@ import { TransferTransaction } from '@app/features/wallet/redux/types';
 import { AppIcon, AppText, AppTouchable, AppView } from '@app/components';
 import { useAppTheme } from '@app/theme';
 import { capitalizeFirstLetter } from '@app/utils/common';
-import { formatNumber } from '@app/utils/number';
+import { formatNumber, getDecimals } from '@app/utils/number';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { WalletParamList } from '@app/features/wallet/navigation/types';
 import { WalletRoute } from '@app/features/wallet/navigation/constants';
@@ -16,10 +16,7 @@ export const TransferItem: FC<{ item: TransferTransaction }> = ({ item }) => {
   const { colors } = useAppTheme();
   const { navigate } = useNavigation<NavigationProp<WalletParamList>>();
   const userInfo = useSelector(selectUserInfo);
-  const decimals = useMemo(
-    () => (item.cryptoAsset.decimals > 4 ? 4 : item.cryptoAsset.decimals ?? 2),
-    [item.cryptoAsset.decimals],
-  );
+
   const renderedRows = useMemo(
     () => ({
       'Transaction type': capitalizeFirstLetter(item.transactionType),
@@ -81,12 +78,18 @@ export const TransferItem: FC<{ item: TransferTransaction }> = ({ item }) => {
             amount,
             undefined,
             0,
-            decimals,
+            getDecimals(item.cryptoAsset.decimals),
           )} `}
           {item.cryptoAsset.symbol}
         </AppText>
         <AppText textStyle="regular_12_18" color={colors.inputLabelColor}>
-          ={formatNumber(item.amountUsd, 'currency', 2, decimals)}
+          =
+          {formatNumber(
+            item.amountUsd,
+            'currency',
+            2,
+            getDecimals(item.cryptoAsset.decimals),
+          )}
         </AppText>
       </AppView>
     </AppTouchable>

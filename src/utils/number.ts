@@ -13,3 +13,6 @@ export const formatNumber = (
 
 export const isNumber = (value: string | number) =>
   typeof value === 'number' && !Number.isNaN(value);
+
+export const getDecimals = (item?: number | null) =>
+  item ?? 2 > 4 ? 4 : item ?? 2;

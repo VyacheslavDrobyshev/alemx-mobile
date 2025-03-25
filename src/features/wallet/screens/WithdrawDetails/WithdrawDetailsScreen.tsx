@@ -30,7 +30,7 @@ import {
 } from '@app/features/wallet/api';
 import { AxiosError } from 'axios';
 import { LevelFee } from '@app/features/wallet/screens/Wallet/constants';
-import { formatNumber, isNumber } from '@app/utils/number';
+import { formatNumber, getDecimals, isNumber } from '@app/utils/number';
 import _ from 'lodash';
 import { AppActivityIndicator } from '@app/components/AppActivityIndicator/AppActivityIndicator';
 
@@ -68,14 +68,6 @@ export const WithdrawDetailsScreen: FC = () => {
   const [fee, setFee] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [isFeeLoading, setIsFeeLoading] = useState(false);
-
-  const decimals = useMemo(
-    () =>
-      !!item.cryptoAsset.decimals && item.cryptoAsset.decimals > 4
-        ? 4
-        : item.cryptoAsset.decimals ?? 2,
-    [item.cryptoAsset.decimals],
-  );
 
   const onSubmit = useCallback<FormikConfig<WithdrawFormValues>['onSubmit']>(
     async ({ address, amount }, { setErrors }) => {
@@ -145,10 +137,10 @@ export const WithdrawDetailsScreen: FC = () => {
             Number(fields.amount.value) - fee,
             undefined,
             2,
-            decimals,
+            getDecimals(item.cryptoAsset.decimals),
           )
         : '0.00',
-    [fee, fields.amount.value, decimals],
+    [fee, fields.amount.value, item.cryptoAsset.decimals],
   );
 
   const isValidAmount = useMemo(
@@ -199,7 +191,7 @@ export const WithdrawDetailsScreen: FC = () => {
                     Number(item.balancesByAsset?.balance),
                     undefined,
                     0,
-                    decimals,
+                    getDecimals(item.cryptoAsset.decimals),
                   ) ?? '',
                 )
               }
@@ -214,7 +206,7 @@ export const WithdrawDetailsScreen: FC = () => {
               Number(item.balancesByAsset?.balance ?? 0),
               undefined,
               2,
-              decimals,
+              getDecimals(item.cryptoAsset.decimals),
             )}
           </AppText>
         </AppText>
@@ -226,7 +218,14 @@ export const WithdrawDetailsScreen: FC = () => {
             {isFeeLoading ? (
               <AppActivityIndicator size="small" />
             ) : (
-              <AppText>{formatNumber(fee, undefined, 2, decimals)}</AppText>
+              <AppText>
+                {formatNumber(
+                  fee,
+                  undefined,
+                  2,
+                  getDecimals(item.cryptoAsset.decimals),
+                )}
+              </AppText>
             )}
             <AppText marginLeft={10}>{item.cryptoAsset.symbol}</AppText>
           </AppView>

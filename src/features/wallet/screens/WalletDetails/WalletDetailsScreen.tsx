@@ -1,10 +1,10 @@
-import { FC, useMemo } from 'react';
+import { FC } from 'react';
 import { AppScreen, AppText, AppView } from '@app/components';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { WalletParamList } from '@app/features/wallet/navigation/types';
 import { WalletRoute } from '@app/features/wallet/navigation/constants';
 import { useAppTheme } from '@app/theme';
-import { formatNumber } from '@app/utils/number';
+import { formatNumber, getDecimals } from '@app/utils/number';
 import { AppImage } from '@app/components/AppImage/AppImage';
 import { NetworkItem } from '@app/features/wallet/screens/WalletDetails/components/NetworkItem/NetworkItem';
 import { HistoryTabContent } from '@app/features/wallet/components/HistoryTabContent/HistoryTabContent';
@@ -15,11 +15,6 @@ export const WalletDetailsScreen: FC = () => {
   } = useRoute<RouteProp<WalletParamList, WalletRoute.WalletDetails>>();
 
   const { colors } = useAppTheme();
-
-  const decimals = useMemo(
-    () => (item.decimals && item.decimals > 4 ? 4 : item.decimals ?? 2),
-    [item.decimals],
-  );
 
   return (
     <AppScreen noScroll title={item.symbol}>
@@ -46,7 +41,7 @@ export const WalletDetailsScreen: FC = () => {
           Number(item?.balance ?? 0),
           undefined,
           2,
-          decimals,
+          getDecimals(item.decimals),
         )} ${item.symbol}`}</AppText>
         <AppText
           color={colors.inputLabelColor}
@@ -54,7 +49,7 @@ export const WalletDetailsScreen: FC = () => {
           Number(item?.balanceUsd ?? 0),
           'currency',
           2,
-          decimals,
+          getDecimals(item.decimals),
         )}`}</AppText>
       </AppView>
       <AppView

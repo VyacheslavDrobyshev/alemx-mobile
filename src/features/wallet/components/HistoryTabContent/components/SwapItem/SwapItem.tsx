@@ -3,7 +3,7 @@ import { SwapTransaction } from '@app/features/wallet/redux/types';
 import { AppIcon, AppText, AppTouchable, AppView } from '@app/components';
 import { useAppTheme } from '@app/theme';
 import { capitalizeFirstLetter } from '@app/utils/common';
-import { formatNumber } from '@app/utils/number';
+import { formatNumber, getDecimals } from '@app/utils/number';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { WalletParamList } from '@app/features/wallet/navigation/types';
 import dayjs from 'dayjs';
@@ -16,10 +16,7 @@ export type SwatItemProps = {
 // todo finish when swap will be implemented
 export const SwapItemCoin: FC<SwatItemProps> = ({ item }) => {
   const { colors } = useAppTheme();
-  const decimals = useMemo(
-    () => (item.cryptoAsset.decimals > 4 ? 4 : item.cryptoAsset.decimals ?? 2),
-    [item.cryptoAsset.decimals],
-  );
+
   return (
     <AppView flexDirection="row" alignItems="center" gap={5}>
       <AppView
@@ -30,7 +27,12 @@ export const SwapItemCoin: FC<SwatItemProps> = ({ item }) => {
       />
       <AppText textStyle="medium_14_20">USDC</AppText>
       <AppText color={colors.inputLabelColor} textStyle="regular_14_20">
-        {formatNumber(4353.3453, 'currency', 0, decimals)}
+        {formatNumber(
+          4353.3453,
+          'currency',
+          0,
+          getDecimals(item.cryptoAsset.decimals),
+        )}
       </AppText>
     </AppView>
   );

@@ -30,7 +30,7 @@ import {
 import { TransferFormValues } from '@app/features/wallet/screens/TransferDetails/types';
 import { AppImage } from '@app/components/AppImage/AppImage';
 import { AxiosError } from 'axios';
-import { formatNumber } from '@app/utils/number';
+import { formatNumber, getDecimals } from '@app/utils/number';
 
 const InputAmountRightContent: FC<{
   item: AssetsData;
@@ -59,10 +59,7 @@ export const TransferDetailsScreen: FC = () => {
   const {
     params: { item, user },
   } = useRoute<RouteProp<WalletParamList, WalletRoute.TransferDetails>>();
-  const decimals = useMemo(
-    () => (item.decimals && item.decimals > 4 ? 4 : item.decimals ?? 2),
-    [item.decimals],
-  );
+
   const { navigate, dispatch } =
     useNavigation<NavigationProp<WalletParamList>>();
   const { colors } = useAppTheme();
@@ -166,7 +163,12 @@ export const TransferDetailsScreen: FC = () => {
             <InputAmountRightContent
               onPress={() =>
                 fields.amount.setValue(
-                  formatNumber(Number(item?.balance), undefined, 0, decimals),
+                  formatNumber(
+                    Number(item?.balance),
+                    undefined,
+                    0,
+                    getDecimals(item.decimals),
+                  ),
                 )
               }
               item={item}
@@ -176,7 +178,12 @@ export const TransferDetailsScreen: FC = () => {
         <AppText color={colors.inputLabelColor}>
           Available:{' '}
           <AppText>
-            {formatNumber(Number(item?.balance), undefined, 0, decimals)}
+            {formatNumber(
+              Number(item?.balance),
+              undefined,
+              0,
+              getDecimals(item.decimals),
+            )}
           </AppText>
         </AppText>
       </AppView>
