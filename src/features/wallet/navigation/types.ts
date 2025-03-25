@@ -25,4 +25,6 @@ export type WalletParamList = {
     item: WalletAssetWithBalance;
   };
   [WalletRoute.NetworkLogger]: undefined;
+  [WalletRoute.Swap]: undefined;
+  [WalletRoute.SwapAssets]: undefined;
 };

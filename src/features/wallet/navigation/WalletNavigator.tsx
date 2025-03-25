@@ -13,6 +13,8 @@ import { TransferDetailsScreen } from '@app/features/wallet/screens/TransferDeta
 import { TransactionDetailsScreen } from '@app/features/wallet/screens/TransactionDetails/TransactionDetails';
 import NetworkLogger from 'react-native-network-logger';
 import { AppScreen } from '@app/components';
+import { SwapScreen } from '@app/features/wallet/screens/Swap/Swap';
+import { SwapAssetsScreen } from '@app/features/wallet/screens/SwapAssets/SwapAssets';
 
 import { noHeaderOptions } from '../../rootNavigation/constants';
 
@@ -63,6 +65,8 @@ export const WalletNavigator: FC = () => (
       name={WalletRoute.WithdrawDetails}
       component={WithdrawDetailsScreen}
     />
+    <Wallet.Screen name={WalletRoute.Swap} component={SwapScreen} />
+    <Wallet.Screen name={WalletRoute.SwapAssets} component={SwapAssetsScreen} />
     <Wallet.Screen
       name={WalletRoute.NetworkLogger}
       component={NetworkLoggerScreen}

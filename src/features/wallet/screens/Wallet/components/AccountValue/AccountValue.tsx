@@ -104,7 +104,7 @@ export function AccountValue() {
           navigate(WalletRoute.History);
           break;
         case AccountValueButtonsId.Swap:
-          navigate(WalletRoute.History);
+          navigate(WalletRoute.Swap);
           break;
         default:
           const _: never = id;
