@@ -1,12 +1,16 @@
 import { AppImage } from '@app/components/AppImage/AppImage';
 import { AppText, AppView } from '@app/components';
 import { formatNumber } from '@app/utils/number';
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { useAppTheme } from '@app/theme';
 import { WalletAssetWithBalance } from '@app/features/wallet/components/BalancesList/BalancesList';
 
 export const NetworkItem: FC<{ item: WalletAssetWithBalance }> = ({ item }) => {
   const { colors } = useAppTheme();
+  const decimals = useMemo(
+    () => (item.decimals && item.decimals > 4 ? 4 : item.decimals ?? 2),
+    [item.decimals],
+  );
   return (
     <AppView flexDirection="row">
       {item.network.image ? (
@@ -41,20 +45,10 @@ export const NetworkItem: FC<{ item: WalletAssetWithBalance }> = ({ item }) => {
       </AppView>
       <AppView alignItems="flex-end" flex={1}>
         <AppText>
-          {formatNumber(
-            Number(item?.balance ?? 0),
-            undefined,
-            2,
-            item.decimals ?? 2,
-          )}
+          {formatNumber(Number(item?.balance ?? 0), undefined, 2, decimals)}
         </AppText>
         <AppText color={colors.inputLabelColor}>
-          {formatNumber(
-            Number(item?.balanceUsd ?? 0),
-            'currency',
-            2,
-            item.decimals ?? 2,
-          )}
+          {formatNumber(Number(item?.balanceUsd ?? 0), 'currency', 2, decimals)}
         </AppText>
       </AppView>
     </AppView>

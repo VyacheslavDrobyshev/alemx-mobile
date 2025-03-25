@@ -16,7 +16,10 @@ export type SwatItemProps = {
 // todo finish when swap will be implemented
 export const SwapItemCoin: FC<SwatItemProps> = ({ item }) => {
   const { colors } = useAppTheme();
-
+  const decimals = useMemo(
+    () => (item.cryptoAsset.decimals > 4 ? 4 : item.cryptoAsset.decimals ?? 2),
+    [item.cryptoAsset.decimals],
+  );
   return (
     <AppView flexDirection="row" alignItems="center" gap={5}>
       <AppView
@@ -27,7 +30,7 @@ export const SwapItemCoin: FC<SwatItemProps> = ({ item }) => {
       />
       <AppText textStyle="medium_14_20">USDC</AppText>
       <AppText color={colors.inputLabelColor} textStyle="regular_14_20">
-        {formatNumber(4353.3453, 'currency', 0, item.cryptoAsset.decimals ?? 0)}
+        {formatNumber(4353.3453, 'currency', 0, decimals)}
       </AppText>
     </AppView>
   );

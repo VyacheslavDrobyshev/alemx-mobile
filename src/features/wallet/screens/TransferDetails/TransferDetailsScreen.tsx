@@ -59,7 +59,10 @@ export const TransferDetailsScreen: FC = () => {
   const {
     params: { item, user },
   } = useRoute<RouteProp<WalletParamList, WalletRoute.TransferDetails>>();
-
+  const decimals = useMemo(
+    () => (item.decimals && item.decimals > 4 ? 4 : item.decimals ?? 2),
+    [item.decimals],
+  );
   const { navigate, dispatch } =
     useNavigation<NavigationProp<WalletParamList>>();
   const { colors } = useAppTheme();
@@ -163,12 +166,7 @@ export const TransferDetailsScreen: FC = () => {
             <InputAmountRightContent
               onPress={() =>
                 fields.amount.setValue(
-                  formatNumber(
-                    Number(item?.balance),
-                    undefined,
-                    0,
-                    item.decimals ?? 0,
-                  ),
+                  formatNumber(Number(item?.balance), undefined, 0, decimals),
                 )
               }
               item={item}
@@ -176,7 +174,10 @@ export const TransferDetailsScreen: FC = () => {
           }
         />
         <AppText color={colors.inputLabelColor}>
-          Available: <AppText>{Number(item?.balance)}</AppText>
+          Available:{' '}
+          <AppText>
+            {formatNumber(Number(item?.balance), undefined, 0, decimals)}
+          </AppText>
         </AppText>
       </AppView>
 

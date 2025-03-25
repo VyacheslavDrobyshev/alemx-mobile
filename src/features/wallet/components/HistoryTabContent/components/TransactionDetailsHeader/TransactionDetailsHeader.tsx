@@ -33,6 +33,11 @@ export const TransactionDetailsHeader: FC<{ item: UnionTransaction }> = ({
     }
   }, [item, userInfo?.id]);
 
+  const decimals = useMemo(
+    () => (item.cryptoAsset.decimals > 4 ? 4 : item.cryptoAsset.decimals ?? 2),
+    [item.cryptoAsset.decimals],
+  );
+
   return (
     <AppView marginVertical={20} gap={10}>
       <AppText
@@ -43,7 +48,7 @@ export const TransactionDetailsHeader: FC<{ item: UnionTransaction }> = ({
           amount,
           undefined,
           0,
-          item.cryptoAsset.decimals ?? 0,
+          decimals,
         )} `}
         {item.cryptoAsset.symbol}
       </AppText>
@@ -51,8 +56,7 @@ export const TransactionDetailsHeader: FC<{ item: UnionTransaction }> = ({
         textAlign="center"
         textStyle="regular_12_18"
         color={colors.inputLabelColor}>
-        =
-        {formatNumber(item.amountUsd, 'currency', 2, item.cryptoAsset.decimals)}
+        ={formatNumber(item.amountUsd, 'currency', 2, decimals)}
       </AppText>
     </AppView>
   );

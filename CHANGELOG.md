@@ -53,3 +53,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
       build(9)
 - Fixed amount of assets on Transfer Assets List
+
+      build(10)
+- Fixed rounded value LMX-106
+- Added spinner when fee is loading LMX-100

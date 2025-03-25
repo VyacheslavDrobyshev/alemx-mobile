@@ -16,7 +16,10 @@ export const TransferItem: FC<{ item: TransferTransaction }> = ({ item }) => {
   const { colors } = useAppTheme();
   const { navigate } = useNavigation<NavigationProp<WalletParamList>>();
   const userInfo = useSelector(selectUserInfo);
-
+  const decimals = useMemo(
+    () => (item.cryptoAsset.decimals > 4 ? 4 : item.cryptoAsset.decimals ?? 2),
+    [item.cryptoAsset.decimals],
+  );
   const renderedRows = useMemo(
     () => ({
       'Transaction type': capitalizeFirstLetter(item.transactionType),
@@ -78,18 +81,12 @@ export const TransferItem: FC<{ item: TransferTransaction }> = ({ item }) => {
             amount,
             undefined,
             0,
-            item.cryptoAsset.decimals,
+            decimals,
           )} `}
           {item.cryptoAsset.symbol}
         </AppText>
         <AppText textStyle="regular_12_18" color={colors.inputLabelColor}>
-          =
-          {formatNumber(
-            item.amountUsd,
-            'currency',
-            2,
-            item.cryptoAsset.decimals,
-          )}
+          ={formatNumber(item.amountUsd, 'currency', 2, decimals)}
         </AppText>
       </AppView>
     </AppTouchable>

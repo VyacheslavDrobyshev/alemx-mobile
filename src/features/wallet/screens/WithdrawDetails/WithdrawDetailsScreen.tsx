@@ -69,6 +69,14 @@ export const WithdrawDetailsScreen: FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isFeeLoading, setIsFeeLoading] = useState(false);
 
+  const decimals = useMemo(
+    () =>
+      !!item.cryptoAsset.decimals && item.cryptoAsset.decimals > 4
+        ? 4
+        : item.cryptoAsset.decimals ?? 2,
+    [item.cryptoAsset.decimals],
+  );
+
   const onSubmit = useCallback<FormikConfig<WithdrawFormValues>['onSubmit']>(
     async ({ address, amount }, { setErrors }) => {
       setIsLoading(true);
@@ -137,10 +145,10 @@ export const WithdrawDetailsScreen: FC = () => {
             Number(fields.amount.value) - fee,
             undefined,
             2,
-            item.cryptoAsset.decimals ?? 2,
+            decimals,
           )
         : '0.00',
-    [fee, fields.amount.value, item.cryptoAsset.decimals],
+    [fee, fields.amount.value, decimals],
   );
 
   const isValidAmount = useMemo(
@@ -191,7 +199,7 @@ export const WithdrawDetailsScreen: FC = () => {
                     Number(item.balancesByAsset?.balance),
                     undefined,
                     0,
-                    item.cryptoAsset.decimals ?? 0,
+                    decimals,
                   ) ?? '',
                 )
               }
@@ -206,7 +214,7 @@ export const WithdrawDetailsScreen: FC = () => {
               Number(item.balancesByAsset?.balance ?? 0),
               undefined,
               2,
-              item.cryptoAsset.decimals ?? 2,
+              decimals,
             )}
           </AppText>
         </AppText>
@@ -218,14 +226,7 @@ export const WithdrawDetailsScreen: FC = () => {
             {isFeeLoading ? (
               <AppActivityIndicator size="small" />
             ) : (
-              <AppText>
-                {formatNumber(
-                  fee,
-                  undefined,
-                  2,
-                  item.cryptoAsset.decimals ?? 2,
-                )}
-              </AppText>
+              <AppText>{formatNumber(fee, undefined, 2, decimals)}</AppText>
             )}
             <AppText marginLeft={10}>{item.cryptoAsset.symbol}</AppText>
           </AppView>
