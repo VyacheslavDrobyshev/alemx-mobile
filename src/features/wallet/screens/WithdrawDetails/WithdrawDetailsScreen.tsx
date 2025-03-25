@@ -32,6 +32,7 @@ import { AxiosError } from 'axios';
 import { LevelFee } from '@app/features/wallet/screens/Wallet/constants';
 import { formatNumber, isNumber } from '@app/utils/number';
 import _ from 'lodash';
+import { AppActivityIndicator } from '@app/components/AppActivityIndicator/AppActivityIndicator';
 
 const InputAmountRightContent: FC<{
   item: AssetsData;
@@ -66,6 +67,7 @@ export const WithdrawDetailsScreen: FC = () => {
   const { colors } = useAppTheme();
   const [fee, setFee] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [isFeeLoading, setIsFeeLoading] = useState(false);
 
   const onSubmit = useCallback<FormikConfig<WithdrawFormValues>['onSubmit']>(
     async ({ address, amount }, { setErrors }) => {
@@ -102,6 +104,7 @@ export const WithdrawDetailsScreen: FC = () => {
   });
 
   const getFee = useCallback(async () => {
+    setIsFeeLoading(true);
     try {
       const response = await getTransactionFeeApi({
         assetId: item.cryptoAsset.id,
@@ -117,6 +120,8 @@ export const WithdrawDetailsScreen: FC = () => {
           address: error.response?.data.detail,
         });
       }
+    } finally {
+      setIsFeeLoading(false);
     }
   }, [
     fields.address.value,
@@ -127,7 +132,7 @@ export const WithdrawDetailsScreen: FC = () => {
 
   const receivedAmount = useMemo(
     () =>
-      isNumber(Number(fields.amount.value)) && fields.amount.value
+      isNumber(Number(fields.amount.value)) && Number(fields.amount.value) > 0
         ? formatNumber(
             Number(fields.amount.value) - fee,
             undefined,
@@ -138,15 +143,23 @@ export const WithdrawDetailsScreen: FC = () => {
     [fee, fields.amount.value, item.cryptoAsset.decimals],
   );
 
+  const isValidAmount = useMemo(
+    () =>
+      isNumber(Number(fields.amount.value)) && Number(fields.amount.value) > 0,
+    [fields.amount.value],
+  );
+
   useEffect(() => {
     const debouncedValidateAmount = _.debounce(getFee, 500);
-    if (fields.amount.value && fields.address.value) {
+    if (isValidAmount && fields.address.value) {
       void debouncedValidateAmount();
+    } else {
+      setFee(0);
     }
     return () => {
       debouncedValidateAmount.cancel();
     };
-  }, [fields.address.value, fields.amount.value, getFee]);
+  }, [fields.address.value, fields.amount.value, getFee, isValidAmount]);
 
   return (
     <AppScreen
@@ -201,24 +214,40 @@ export const WithdrawDetailsScreen: FC = () => {
       <AppView marginVertical={10}>
         <AppView flexDirection="row" justifyContent="space-between">
           <AppText color={colors.inputLabelColor}>Network fee</AppText>
-          <AppText>{`${formatNumber(
-            fee,
-            undefined,
-            2,
-            item.cryptoAsset.decimals ?? 2,
-          )} ${item.cryptoAsset.symbol}`}</AppText>
+          <AppView width="50%" flexDirection="row" justifyContent="flex-end">
+            {isFeeLoading ? (
+              <AppActivityIndicator size="small" />
+            ) : (
+              <AppText>
+                {formatNumber(
+                  fee,
+                  undefined,
+                  2,
+                  item.cryptoAsset.decimals ?? 2,
+                )}
+              </AppText>
+            )}
+            <AppText marginLeft={10}>{item.cryptoAsset.symbol}</AppText>
+          </AppView>
         </AppView>
         <AppView flexDirection="row" justifyContent="space-between">
           <AppText color={colors.inputLabelColor}>Receive Amount</AppText>
-          <AppText
-            textAlign="right"
-            ellipsizeMode="middle"
-            numberOfLines={1}
-            width="70%"
-            textStyle="medium_14_20">{`${receivedAmount} ${item.cryptoAsset.symbol}`}</AppText>
+          <AppView width="50%" justifyContent="flex-end" flexDirection="row">
+            {isFeeLoading ? (
+              <AppActivityIndicator size="small" />
+            ) : (
+              <AppText
+                textAlign="right"
+                ellipsizeMode="middle"
+                numberOfLines={1}
+                textStyle="medium_14_20">
+                {receivedAmount}
+              </AppText>
+            )}
+            <AppText marginLeft={10}>{item.cryptoAsset.symbol}</AppText>
+          </AppView>
         </AppView>
       </AppView>
-
       <AppButton
         disabled={!formik.isValid || !formik.dirty}
         title="SUBMIT"

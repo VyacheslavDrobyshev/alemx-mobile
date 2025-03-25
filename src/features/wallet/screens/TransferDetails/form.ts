@@ -13,7 +13,7 @@ export const useTransferFormValidation = () =>
       object().shape({
         amount: number()
           .typeError('Amount must be a number')
-          .notOneOf([0], 'Amount cannot be 0')
+          .moreThan(0, 'Amount must be positive value')
           .required('Amount is required'),
       }),
     [],

@@ -15,7 +15,7 @@ export const useWithdrawFormValidation = () =>
         address: string().required('Please enter receiving address'),
         amount: number()
           .typeError('Amount must be a number')
-          .min(0, 'Amount must be positive')
+          .moreThan(0, 'Amount must be positive value')
           .required('Amount is required'),
       }),
     [],
