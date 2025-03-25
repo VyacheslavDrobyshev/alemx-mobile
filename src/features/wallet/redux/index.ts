@@ -34,10 +34,22 @@ const initialPersistState: AppUserWalletsState = {
   },
   isUsersLoading: false,
   transactionsByType: {
-    [TransactionType.Base]: { data: [], next_cursor: 1 },
-    [TransactionType.Deposit]: { data: [], next_cursor: 1 },
-    [TransactionType.Withdrawal]: { data: [], next_cursor: 1 },
-    [TransactionType.Transfer]: { data: [], next_cursor: 1 },
+    [TransactionType.Base]: {
+      data: [],
+      next_cursor: undefined,
+    },
+    [TransactionType.Deposit]: {
+      data: [],
+      next_cursor: undefined,
+    },
+    [TransactionType.Withdrawal]: {
+      data: [],
+      next_cursor: undefined,
+    },
+    [TransactionType.Transfer]: {
+      data: [],
+      next_cursor: undefined,
+    },
   },
   isTransactionsLoading: false,
 };
@@ -123,7 +135,7 @@ const slice = createSlice({
       getTransactionsThunk.fulfilled,
       (state, { payload, meta }) => {
         state.isTransactionsLoading = false;
-        if (meta.arg.cursor === 1) {
+        if (meta.arg.cursor === undefined) {
           state.transactionsByType[meta.arg.transaction_type].data =
             payload.data;
         } else {
@@ -140,7 +152,7 @@ const slice = createSlice({
       state.isTransactionsLoading = false;
     });
     builder.addCase(getTransactionsThunk.pending, (state, { meta }) => {
-      if (meta.arg.cursor === 1) {
+      if (meta.arg.cursor === undefined) {
         state.isTransactionsLoading = true;
       }
     });

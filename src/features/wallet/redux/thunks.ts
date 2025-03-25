@@ -8,6 +8,7 @@ import {
   AppUserUnifiedBalanceDto,
   AppUserWalletsDto,
   PaginationParams,
+  TransactionPaginationParams,
   TransferTransactionDto,
 } from '@app/features/wallet/redux/types';
 import {
@@ -99,7 +100,7 @@ export const getUsersThunk = createAsyncThunk<AppUsersDto, PaginationParams>(
 
 export const getTransactionsThunk = createAsyncThunk<
   TransferTransactionDto,
-  PaginationParams & { transaction_type: TransactionType }
+  TransactionPaginationParams & { transaction_type: TransactionType }
 >('auth/getTransactionsThunk', async (params, { rejectWithValue }) => {
   try {
     return await getTransactionsApi(params);

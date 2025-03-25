@@ -12,6 +12,14 @@ export type PaginationParams = {
   sort_by?: string;
 };
 
+export type TransactionPaginationParams = {
+  limit: number;
+  cursor?: string;
+  is_essential?: boolean;
+  search?: string;
+  sort_by?: string;
+};
+
 export type AppCreateWalletParams = {
   assetsIds: number[];
 };
@@ -111,7 +119,10 @@ export type AppUserWalletsState = {
   users: AppUsersDto;
   isUsersLoading: boolean;
   transactionsByType: {
-    [key in TransactionType]: { data: UnionTransaction[]; next_cursor: number };
+    [key in TransactionType]: {
+      data: UnionTransaction[];
+      next_cursor: [string, number] | undefined;
+    };
   };
   isTransactionsLoading: boolean;
 };
@@ -251,5 +262,5 @@ export type WithdrawalTransaction = {
 
 export type TransferTransactionDto = {
   data: UnionTransaction[];
-  next_cursor: number;
+  next_cursor: [string, number];
 };

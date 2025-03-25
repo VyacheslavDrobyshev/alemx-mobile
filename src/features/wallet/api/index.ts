@@ -9,6 +9,7 @@ import {
   AppUserWalletsDto,
   AppWithdrawParams,
   PaginationParams,
+  TransactionPaginationParams,
   TransferTransactionDto,
 } from '@app/features/wallet/redux/types';
 import { instance } from '@app/api/interceptor';
@@ -80,7 +81,7 @@ export const getUsersApi = async (params: PaginationParams) => {
 };
 
 export const getTransactionsApi = async (
-  params: PaginationParams & { transaction_type: TransactionType },
+  params: TransactionPaginationParams & { transaction_type: TransactionType },
 ) => {
   const response = await instance.get<TransferTransactionDto>(
     '/user/transactions',

@@ -66,7 +66,7 @@ export const HistoryList: FC<HistoryTabContentProps> = ({
         getTransactionsThunk({
           transaction_type: transactionType,
           limit: paginationLimit,
-          cursor: transactions[transactionType].next_cursor,
+          cursor: transactions[transactionType].next_cursor.join(','),
         }),
       );
     }
@@ -115,7 +115,7 @@ export const HistoryTabContent: FC<
           void dispatch(
             getTransactionsThunk({
               transaction_type: TransactionType.Deposit,
-              cursor: 1,
+              cursor: undefined,
               limit: paginationLimit,
             }),
           );
@@ -124,7 +124,7 @@ export const HistoryTabContent: FC<
           void dispatch(
             getTransactionsThunk({
               transaction_type: TransactionType.Withdrawal,
-              cursor: 1,
+              cursor: undefined,
               limit: paginationLimit,
             }),
           );
@@ -133,7 +133,8 @@ export const HistoryTabContent: FC<
           void dispatch(
             getTransactionsThunk({
               transaction_type: TransactionType.Transfer,
-              cursor: 1,
+              cursor: undefined,
+
               limit: paginationLimit,
             }),
           );
@@ -142,7 +143,7 @@ export const HistoryTabContent: FC<
           void dispatch(
             getTransactionsThunk({
               transaction_type: TransactionType.Base,
-              cursor: 1,
+              cursor: undefined,
               limit: paginationLimit,
             }),
           );

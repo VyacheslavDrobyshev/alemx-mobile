@@ -57,3 +57,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
       build(10)
 - Fixed rounded value LMX-106
 - Added spinner when fee is loading LMX-100
+- Fixed pagination for transactions
