@@ -62,3 +62,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
       build(11)
 - Fixed Amount and address validation LMX-109
 - Fixed decimal for transactions LMX-106, 111
+- Fixed loading coins LMX-110

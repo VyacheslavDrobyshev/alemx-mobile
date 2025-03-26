@@ -5,6 +5,7 @@ import { UserData } from '@app/features/wallet/redux/types';
 import { useAppTheme } from '@app/theme';
 import { useSelector } from 'react-redux';
 import {
+  selectIsUsersLoading,
   selectNextUserCursor,
   selectUsers,
 } from '@app/features/wallet/redux/selectors';
@@ -14,6 +15,7 @@ import { paginationLimit } from '@app/features/wallet/screens/Wallet/constants';
 import { EmptyListPlaceholder } from '@app/features/wallet/components/EmptyListPlaceholder/EmptyListPlaceholder';
 import { UserItem } from '@app/features/wallet/components/UsersList/components/UserItem/UserItem';
 import { useFocusEffect } from '@react-navigation/native';
+import { AppActivityIndicator } from '@app/components/AppActivityIndicator/AppActivityIndicator';
 
 export const UsersList: FC<{
   onPress?: (item: UserData) => void;
@@ -27,6 +29,7 @@ export const UsersList: FC<{
   const dispatch = useAppDispatch();
   const users = useSelector(selectUsers);
   const nextCursor = useSelector(selectNextUserCursor);
+  const isUsersLoading = useSelector(selectIsUsersLoading);
 
   const onLoadMore = useCallback(() => {
     if (nextCursor) {
@@ -58,28 +61,32 @@ export const UsersList: FC<{
   );
 
   return (
-    <AppView flex={1}>
-      <FlatList
-        ListHeaderComponent={
-          title && users.data.length ? (
-            <AppText
-              marginTop={20}
-              marginBottom={10}
-              color={colors.inputLabelColor}
-              textStyle="regular_12_18">
-              {title}
-            </AppText>
-          ) : null
-        }
-        data={users.data}
-        keyExtractor={item => `${item.id}`}
-        ListEmptyComponent={<EmptyListPlaceholder title="No users found." />}
-        contentContainerStyle={contentContainerStyle}
-        showsVerticalScrollIndicator={false}
-        renderItem={renderItem}
-        onEndReached={onLoadMore}
-        onEndReachedThreshold={0.5}
-      />
+    <AppView justifyContent="center" flex={1}>
+      {isUsersLoading ? (
+        <AppActivityIndicator />
+      ) : (
+        <FlatList
+          ListHeaderComponent={
+            title && users.data.length ? (
+              <AppText
+                marginTop={20}
+                marginBottom={10}
+                color={colors.inputLabelColor}
+                textStyle="regular_12_18">
+                {title}
+              </AppText>
+            ) : null
+          }
+          data={users.data}
+          keyExtractor={item => `${item.id}`}
+          ListEmptyComponent={<EmptyListPlaceholder title="No users found." />}
+          contentContainerStyle={contentContainerStyle}
+          showsVerticalScrollIndicator={false}
+          renderItem={renderItem}
+          onEndReached={onLoadMore}
+          onEndReachedThreshold={0.5}
+        />
+      )}
     </AppView>
   );
 };

@@ -69,7 +69,6 @@ export function DigitalAssetsTab() {
         hasAssets
         hideZeroBalance
         onPress={onPress}
-        withBalance
       />
     </AppView>
   );

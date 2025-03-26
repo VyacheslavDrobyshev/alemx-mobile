@@ -34,7 +34,6 @@ export const TransferAssetScreen: FC = () => {
         inputPlaceholder="Search coins"
         withSearch
         hideZeroBalance
-        withBalance
         onPress={onPress}
       />
     </AppScreen>

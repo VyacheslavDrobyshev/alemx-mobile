@@ -9,9 +9,8 @@ import {
 import { useAppTheme } from '@app/theme';
 import { useSelector } from 'react-redux';
 import {
-  selectIsDepositWalletsLoading,
+  selectIsAssetsLoading,
   selectIsUnifiedBalanceLoading,
-  selectIsWalletsLoading,
   selectUnifiedBalance,
   selectWalletSettings,
 } from '@app/features/wallet/redux/selectors';
@@ -31,7 +30,6 @@ export const BalancesList: FC<{
   onPress?: (item: WalletAssetWithBalance) => void;
   hideZeroBalance?: boolean;
   hasAssets?: boolean;
-  withBalance?: boolean;
   onPressPlaceholderButton?: () => void;
   showNetwork?: boolean;
   hasRefreshControl?: boolean;
@@ -42,7 +40,6 @@ export const BalancesList: FC<{
   onPress,
   hideZeroBalance,
   hasAssets,
-  withBalance,
   onPressPlaceholderButton,
   showNetwork,
   hasRefreshControl,
@@ -57,10 +54,10 @@ export const BalancesList: FC<{
   const dispatch = useAppDispatch();
   const unifiedBalance = useSelector(selectUnifiedBalance);
   const walletSettings = useSelector(selectWalletSettings);
-  const isWalletsLoading = useSelector(selectIsWalletsLoading);
-  const isDepositWalletsLoading = useSelector(selectIsDepositWalletsLoading);
+  const isAssetsLoading = useSelector(selectIsAssetsLoading);
   const isUnifiedBalanceLoading = useSelector(selectIsUnifiedBalanceLoading);
   const [refreshing, setRefreshing] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [search, setSearch] = useState('');
   const [coins, setCoins] = useState<WalletAssetWithBalance[]>([]);
@@ -68,6 +65,7 @@ export const BalancesList: FC<{
   useEffect(() => {
     void (async () => {
       if (unifiedBalance) {
+        setIsLoading(true);
         const keys = Object.keys(unifiedBalance?.balancesByAsset ?? {});
         const normalizedList = await Promise.all(
           keys.map(async element => {
@@ -84,8 +82,8 @@ export const BalancesList: FC<{
                 };
           }),
         );
-
         setCoins(normalizedList);
+        setIsLoading(false);
       }
     })();
   }, [dispatch, unifiedBalance, unifiedBalance?.balancesByAsset]);
@@ -125,19 +123,6 @@ export const BalancesList: FC<{
     [hasAssets, showAssets, showNetwork, onPress],
   );
 
-  const isLoading = useMemo(
-    () =>
-      withBalance
-        ? isWalletsLoading || isUnifiedBalanceLoading
-        : isDepositWalletsLoading,
-    [
-      isDepositWalletsLoading,
-      isUnifiedBalanceLoading,
-      withBalance,
-      isWalletsLoading,
-    ],
-  );
-
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
@@ -148,7 +133,7 @@ export const BalancesList: FC<{
 
   return (
     <AppView flex={1}>
-      {isLoading ? (
+      {isAssetsLoading || isUnifiedBalanceLoading || isLoading ? (
         <AppActivityIndicator absoluteFill />
       ) : (
         <>
