@@ -3,7 +3,7 @@ import { TransferTransaction } from '@app/features/wallet/redux/types';
 import { AppIcon, AppText, AppTouchable, AppView } from '@app/components';
 import { useAppTheme } from '@app/theme';
 import { capitalizeFirstLetter } from '@app/utils/common';
-import { formatNumber, getDecimals } from '@app/utils/number';
+import { formatNumber } from '@app/utils/number';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { WalletParamList } from '@app/features/wallet/navigation/types';
 import { WalletRoute } from '@app/features/wallet/navigation/constants';
@@ -70,15 +70,17 @@ export const TransferItem: FC<{ item: TransferTransaction }> = ({ item }) => {
           {item.receiverUser.username || item.receiverUser.email}
         </AppText>
       </AppView>
-      <AppView alignItems="flex-end">
+      <AppView width="50%" alignItems="flex-end">
         <AppText
+          ellipsizeMode="middle"
+          numberOfLines={1}
           textStyle="medium_14_20"
           color={amount > 0 ? colors.positiveStatus : colors.negativeStatus}>
           {`${amount > 0 ? '+' : ''}${formatNumber(
             amount,
             undefined,
             0,
-            getDecimals(item.cryptoAsset.decimals),
+            item.cryptoAsset.decimals,
           )} `}
           {item.cryptoAsset.symbol}
         </AppText>
@@ -88,7 +90,7 @@ export const TransferItem: FC<{ item: TransferTransaction }> = ({ item }) => {
             item.amountUsd,
             'currency',
             2,
-            getDecimals(item.cryptoAsset.decimals),
+            item.cryptoAsset.decimals,
           )}
         </AppText>
       </AppView>

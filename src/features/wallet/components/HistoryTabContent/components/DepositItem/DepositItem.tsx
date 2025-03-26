@@ -2,7 +2,7 @@ import { FC, useCallback, useMemo } from 'react';
 import { DepositTransaction } from '@app/features/wallet/redux/types';
 import { AppIcon, AppText, AppTouchable, AppView } from '@app/components';
 import { useAppTheme } from '@app/theme';
-import { formatNumber, getDecimals } from '@app/utils/number';
+import { formatNumber } from '@app/utils/number';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { WalletParamList } from '@app/features/wallet/navigation/types';
 import dayjs from 'dayjs';
@@ -73,24 +73,26 @@ export const DepositItem: FC<{ item: DepositTransaction }> = ({ item }) => {
           </AppText>
         </AppText>
       </AppView>
-      <AppView alignItems="flex-end">
-        <AppText textStyle="medium_14_20" color={colors.positiveStatus}>
-          +
-          {formatNumber(
-            item.amount,
-            undefined,
-            0,
-            getDecimals(item.cryptoAsset.decimals),
-          )}{' '}
+      <AppView width="50%">
+        <AppText
+          textAlign="right"
+          ellipsizeMode="middle"
+          numberOfLines={1}
+          textStyle="medium_14_20"
+          color={colors.positiveStatus}>
+          +{formatNumber(item.amount, undefined, 0, item.cryptoAsset.decimals)}{' '}
           {item.cryptoAsset?.symbol}
         </AppText>
-        <AppText textStyle="regular_12_18" color={colors.inputLabelColor}>
+        <AppText
+          textAlign="right"
+          textStyle="regular_12_18"
+          color={colors.inputLabelColor}>
           =
           {formatNumber(
             item.amountUsd ?? 0,
             'currency',
             2,
-            getDecimals(item.cryptoAsset.decimals),
+            item.cryptoAsset.decimals,
           )}
         </AppText>
       </AppView>

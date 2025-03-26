@@ -1,5 +1,5 @@
 import { AppText, AppView } from '@app/components';
-import { formatNumber, getDecimals } from '@app/utils/number';
+import { formatNumber } from '@app/utils/number';
 import { FC, useMemo } from 'react';
 import {
   TransferTransaction,
@@ -34,8 +34,9 @@ export const TransactionDetailsHeader: FC<{ item: UnionTransaction }> = ({
   }, [item, userInfo?.id]);
 
   return (
-    <AppView marginVertical={20} gap={10}>
+    <AppView alignItems="center" marginVertical={20} gap={10}>
       <AppText
+        maxWidth="75%"
         textAlign="center"
         textStyle="medium_26_32"
         color={amount > 0 ? colors.positiveStatus : colors.negativeStatus}>
@@ -43,7 +44,7 @@ export const TransactionDetailsHeader: FC<{ item: UnionTransaction }> = ({
           amount,
           undefined,
           0,
-          getDecimals(item.cryptoAsset.decimals),
+          item.cryptoAsset.decimals,
         )} `}
         {item.cryptoAsset.symbol}
       </AppText>
@@ -52,12 +53,7 @@ export const TransactionDetailsHeader: FC<{ item: UnionTransaction }> = ({
         textStyle="regular_12_18"
         color={colors.inputLabelColor}>
         =
-        {formatNumber(
-          item.amountUsd,
-          'currency',
-          2,
-          getDecimals(item.cryptoAsset.decimals),
-        )}
+        {formatNumber(item.amountUsd, 'currency', 2, item.cryptoAsset.decimals)}
       </AppText>
     </AppView>
   );
