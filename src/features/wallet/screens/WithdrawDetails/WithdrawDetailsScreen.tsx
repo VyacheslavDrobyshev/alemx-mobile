@@ -83,9 +83,15 @@ export const WithdrawDetailsScreen: FC = () => {
       } catch (e) {
         const error = e as AxiosError<AppWithdrawError>;
         if (typeof error.response?.data.detail === 'string') {
-          setErrors({
-            amount: error.response?.data.detail,
-          });
+          if (error.response?.data.detail.includes('balance')) {
+            setErrors({
+              amount: error.response?.data.detail,
+            });
+          } else {
+            setErrors({
+              address: error.response?.data.detail,
+            });
+          }
         }
       } finally {
         setIsLoading(false);
@@ -249,7 +255,7 @@ export const WithdrawDetailsScreen: FC = () => {
         </AppView>
       </AppView>
       <AppButton
-        disabled={!formik.isValid || !formik.dirty}
+        disabled={isFeeLoading || !formik.isValid || !formik.dirty}
         title="SUBMIT"
         onPress={formik.submitForm}
       />
