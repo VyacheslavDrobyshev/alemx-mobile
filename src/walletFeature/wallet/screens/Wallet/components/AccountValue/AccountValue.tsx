@@ -167,8 +167,9 @@ export function AccountValue() {
         {accountValueButtonsList.map(({ Button, title, id }) => (
           <AppTouchable
             disabled={
-              id === AccountValueButtonsId.Withdraw &&
-              !unifiedBalance?.totalBalanceUsd
+              (id === AccountValueButtonsId.Withdraw &&
+                !unifiedBalance?.totalBalanceUsd) ||
+              id === AccountValueButtonsId.Swap
             }
             onPress={() => onPressHandler(id)}
             flex={1}
@@ -176,16 +177,18 @@ export function AccountValue() {
             key={title}>
             <Button
               color={
-                id === AccountValueButtonsId.Withdraw &&
-                !unifiedBalance?.totalBalanceUsd
+                (id === AccountValueButtonsId.Withdraw &&
+                  !unifiedBalance?.totalBalanceUsd) ||
+                id === AccountValueButtonsId.Swap
                   ? colors.inputItemColor
                   : colors.white
               }
             />
             <AppText
               color={
-                id === AccountValueButtonsId.Withdraw &&
-                !unifiedBalance?.totalBalanceUsd
+                (id === AccountValueButtonsId.Withdraw &&
+                  !unifiedBalance?.totalBalanceUsd) ||
+                id === AccountValueButtonsId.Swap
                   ? colors.inputItemColor
                   : colors.white
               }>
