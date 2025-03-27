@@ -1,0 +1,24 @@
+import React, { FC } from 'react';
+import { useAppTheme } from '@app/walletFeature/wallet/common/theme';
+import { AppText } from '@app/walletFeature/wallet/common/components';
+
+import { AppTextProps } from '../AppText/types';
+
+export const AppErrorText: FC<AppTextProps> = ({
+  children,
+  textStyle,
+  ...rest
+}) => {
+  const theme = useAppTheme();
+  return children ? (
+    <AppText
+      textAlign="left"
+      color={theme.input.errorMessage.color}
+      textStyle={textStyle ?? 'regular_12_18'}
+      marginTop={3}
+      {...rest}
+    >
+      {children}
+    </AppText>
+  ) : null;
+};

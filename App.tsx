@@ -1,12 +1,12 @@
 import React from 'react';
-import { RootNavigator } from '@app/features/rootNavigation';
+import { RootNavigator } from '@app/walletFeature/rootNavigation';
 import { StatusBar } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import { persistedStore, store } from '@app/redux/store';
-import { AppModalProvider } from '@app/components';
-import { AppToastProvider } from '@app/components/AppToast/AppToast';
+import { persistedStore, store } from '@app/store';
+import { AppModalProvider } from '@app/walletFeature/wallet/common/components';
+import { AppToastProvider } from '@app/walletFeature/wallet/common/components/AppToast/AppToast';
 
 function App(): React.JSX.Element {
   return (
