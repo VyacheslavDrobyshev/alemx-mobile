@@ -9,6 +9,7 @@ import {
   getAssetsThunk,
   getDepositWalletsThunk,
   getTransactionsThunk,
+  getUnifiedBalanceByNetworkThunk,
   getUnifiedBalanceThunk,
   getUserInfoThunk,
   getUsersThunk,
@@ -23,6 +24,8 @@ const initialPersistState: AppUserWalletsState = {
   depositWallets: [],
   isDepositWalletsLoading: false,
   unifiedBalance: null,
+  unifiedBalanceByNetwork: null,
+  isUnifiedBalanceByNetworkLoading: false,
   isUnifiedBalanceLoading: false,
   assets: {
     data: [],
@@ -123,6 +126,20 @@ const slice = createSlice({
     });
     builder.addCase(getUsersThunk.pending, state => {
       state.isUsersLoading = true;
+    });
+
+    builder.addCase(
+      getUnifiedBalanceByNetworkThunk.fulfilled,
+      (state, { payload }) => {
+        state.unifiedBalanceByNetwork = payload;
+        state.isUnifiedBalanceByNetworkLoading = false;
+      },
+    );
+    builder.addCase(getUnifiedBalanceByNetworkThunk.rejected, state => {
+      state.isUnifiedBalanceByNetworkLoading = false;
+    });
+    builder.addCase(getUnifiedBalanceByNetworkThunk.pending, state => {
+      state.isUnifiedBalanceByNetworkLoading = true;
     });
 
     builder.addCase(getUnifiedBalanceThunk.fulfilled, (state, { payload }) => {

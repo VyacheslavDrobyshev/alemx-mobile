@@ -106,6 +106,42 @@ export type WalletSettings = {
   isChecked: boolean;
 };
 
+export type UnifiedBalanceNetwork = {
+  network: {
+    id: number;
+    createdAt: string;
+    updatedAt: string;
+    name: string;
+    nativeAssetSymbol: string;
+    isEvmCompatible: boolean;
+    isTest: boolean;
+    image: string;
+  };
+  totalBalanceByNetwork: {
+    balance: string;
+    balanceUsd: string;
+  };
+  assets: {
+    assetExternalId: string;
+    assetId: number;
+    decimals: number;
+    balance: string;
+    assetName: string;
+    assetSymbol: string;
+    balanceUsd: string;
+  }[];
+};
+
+export type UnifiedBalanceByNetworkDto = {
+  symbol: string;
+  image: string;
+  networks: UnifiedBalanceNetwork[];
+  totalBalanceAcrossNetworks: {
+    balance: 'string';
+    balanceUsd: 'string';
+  };
+};
+
 export type AppUserWalletsState = {
   userInfo: UserInfoDto | null;
   wallets: AppUserWalletsDto[] | null;
@@ -113,6 +149,8 @@ export type AppUserWalletsState = {
   depositWallets: AppUserWalletsDto[] | null;
   isDepositWalletsLoading: boolean;
   unifiedBalance: AppUserUnifiedBalanceDto | null;
+  unifiedBalanceByNetwork: UnifiedBalanceByNetworkDto | null;
+  isUnifiedBalanceByNetworkLoading: boolean;
   isUnifiedBalanceLoading: boolean;
   assets: AppAssetsDto;
   isAssetsLoading: boolean;

@@ -11,6 +11,7 @@ import {
   PaginationParams,
   TransactionPaginationParams,
   TransferTransactionDto,
+  UnifiedBalanceByNetworkDto,
   UserInfoDto,
 } from '@app/walletFeature/wallet/redux/types';
 import { instance } from '@app/walletFeature/wallet/common/api/interceptor';
@@ -95,5 +96,15 @@ export const getTransactionsApi = async (
 
 export const getUserinfoApi = async (): Promise<UserInfoDto> => {
   const response = await instance.get<UserInfoDto>('auth/me');
+  return response.data;
+};
+
+export const getUnifiedBalanceByNetworkApi = async (params: {
+  asset: string;
+}) => {
+  const response = await instance.get<UnifiedBalanceByNetworkDto>(
+    'balance/unified-asset-balance-by-networks',
+    { params },
+  );
   return response.data;
 };

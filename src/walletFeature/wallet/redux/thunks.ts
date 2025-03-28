@@ -10,6 +10,7 @@ import {
   PaginationParams,
   TransactionPaginationParams,
   TransferTransactionDto,
+  UnifiedBalanceByNetworkDto,
   UserInfoDto,
 } from '@app/walletFeature/wallet/redux/types';
 import {
@@ -17,6 +18,7 @@ import {
   getAssetsApi,
   getDepositWalletsApi,
   getTransactionsApi,
+  getUnifiedBalanceByNetworkApi,
   getUserinfoApi,
   getUsersApi,
   getUserUnifiedBalanceApi,
@@ -141,3 +143,20 @@ export const getUnifiedBalanceThunk = createAsyncThunk<
     );
   }
 });
+
+export const getUnifiedBalanceByNetworkThunk = createAsyncThunk<
+  UnifiedBalanceByNetworkDto,
+  { asset: string }
+>(
+  'auth/getUnifiedBalanceByNetworkThunk',
+  async (params, { rejectWithValue }) => {
+    try {
+      return await getUnifiedBalanceByNetworkApi(params);
+    } catch (e) {
+      const error = e as AxiosError<AppLoginError>;
+      return rejectWithValue(
+        error.response?.data.detail ?? 'Something went wrong',
+      );
+    }
+  },
+);
