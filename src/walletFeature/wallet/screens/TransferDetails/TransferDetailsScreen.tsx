@@ -1,4 +1,4 @@
-import { FC, useCallback, useMemo, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import {
   AppIcon,
   AppInput,
@@ -17,7 +17,10 @@ import {
 import { WalletParamList } from '@app/walletFeature/wallet/navigation/types';
 import { WalletRoute } from '@app/walletFeature/wallet/navigation/constants';
 import { useAppTheme } from '@app/walletFeature/wallet/common/theme';
-import { AppWithdrawError, AssetsData } from '@app/walletFeature/wallet/redux/types';
+import {
+  AppWithdrawError,
+  AssetsData,
+} from '@app/walletFeature/wallet/redux/types';
 import { FormikConfig } from 'formik';
 import { useForm } from '@app/walletFeature/wallet/common/form';
 import { AppButton } from '@app/walletFeature/wallet/common/components/AppButton/AppButton';
@@ -30,7 +33,10 @@ import {
 import { TransferFormValues } from '@app/walletFeature/wallet/screens/TransferDetails/types';
 import { AppImage } from '@app/walletFeature/wallet/common/components/AppImage/AppImage';
 import { AxiosError } from 'axios';
-import { formatNumber, getDecimals } from '@app/walletFeature/wallet/common/utils/number';
+import {
+  formatNumber,
+  getDecimals,
+} from '@app/walletFeature/wallet/common/utils/number';
 
 const InputAmountRightContent: FC<{
   item: AssetsData;
@@ -111,6 +117,12 @@ export const TransferDetailsScreen: FC = () => {
   const changeAssetHandler = useCallback(() => {
     dispatch(StackActions.push(WalletRoute.TransferAsset, { user }));
   }, [dispatch, user]);
+
+  useEffect(() => {
+    fields.amount.setValue('');
+    formik.setErrors({});
+    void formik.setTouched({ amount: false });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <AppScreen isLoading={isLoading} title="Transfer">

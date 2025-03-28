@@ -15,7 +15,10 @@ import {
 import { WalletParamList } from '@app/walletFeature/wallet/navigation/types';
 import { WalletRoute } from '@app/walletFeature/wallet/navigation/constants';
 import { useAppTheme } from '@app/walletFeature/wallet/common/theme';
-import { AssetsData, AppWithdrawError } from '@app/walletFeature/wallet/redux/types';
+import {
+  AssetsData,
+  AppWithdrawError,
+} from '@app/walletFeature/wallet/redux/types';
 import { FormikConfig } from 'formik';
 import { useForm } from '@app/walletFeature/wallet/common/form';
 import { WithdrawFormValues } from '@app/walletFeature/wallet/screens/WithdrawDetails/types';
@@ -30,7 +33,11 @@ import {
 } from '@app/walletFeature/wallet/api';
 import { AxiosError } from 'axios';
 import { LevelFee } from '@app/walletFeature/wallet/screens/Wallet/constants';
-import { formatNumber, getDecimals, isNumber } from '@app/walletFeature/wallet/common/utils/number';
+import {
+  formatNumber,
+  getDecimals,
+  isNumber,
+} from '@app/walletFeature/wallet/common/utils/number';
 import _ from 'lodash';
 import { AppActivityIndicator } from '@app/walletFeature/wallet/common/components/AppActivityIndicator/AppActivityIndicator';
 
@@ -83,7 +90,10 @@ export const WithdrawDetailsScreen: FC = () => {
       } catch (e) {
         const error = e as AxiosError<AppWithdrawError>;
         if (typeof error.response?.data.detail === 'string') {
-          if (error.response?.data.detail.includes('balance')) {
+          if (
+            error.response?.data.detail.includes('balance') ||
+            error.response?.data.detail.includes('amount')
+          ) {
             setErrors({
               amount: error.response?.data.detail,
             });
