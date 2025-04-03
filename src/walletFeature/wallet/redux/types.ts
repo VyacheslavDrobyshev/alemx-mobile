@@ -121,7 +121,7 @@ export type UnifiedBalanceNetwork = {
     balance: string;
     balanceUsd: string;
   };
-  assets: {
+  asset: {
     assetExternalId: string;
     assetId: number;
     decimals: number;
@@ -129,11 +129,12 @@ export type UnifiedBalanceNetwork = {
     assetName: string;
     assetSymbol: string;
     balanceUsd: string;
-  }[];
+  };
 };
 
 export type UnifiedBalanceByNetworkDto = {
   symbol: string;
+  name: string;
   image: string;
   networks: UnifiedBalanceNetwork[];
   totalBalanceAcrossNetworks: {
@@ -149,7 +150,7 @@ export type AppUserWalletsState = {
   depositWallets: AppUserWalletsDto[] | null;
   isDepositWalletsLoading: boolean;
   unifiedBalance: AppUserUnifiedBalanceDto | null;
-  unifiedBalanceByNetwork: UnifiedBalanceByNetworkDto | null;
+  unifiedBalanceByNetwork: UnifiedBalanceByNetworkDto[] | null;
   isUnifiedBalanceByNetworkLoading: boolean;
   isUnifiedBalanceLoading: boolean;
   assets: AppAssetsDto;

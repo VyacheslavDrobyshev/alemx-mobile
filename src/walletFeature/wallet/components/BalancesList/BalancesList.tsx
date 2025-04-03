@@ -1,17 +1,21 @@
-import { AppIcon, AppInput, AppText, AppView } from '@app/walletFeature/wallet/common/components';
-import { FlatList, ListRenderItem, RefreshControl } from 'react-native';
-import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import {
-  AppAssetsDto,
+  AppIcon,
+  AppInput,
+  AppText,
+  AppView,
+} from '@app/walletFeature/wallet/common/components';
+import { FlatList, ListRenderItem, RefreshControl } from 'react-native';
+import { FC, useCallback, useMemo, useState } from 'react';
+import {
   AssetBalance,
   AssetsData,
+  UnifiedBalanceByNetworkDto,
 } from '@app/walletFeature/wallet/redux/types';
 import { useAppTheme } from '@app/walletFeature/wallet/common/theme';
 import { useSelector } from 'react-redux';
 import {
-  selectIsAssetsLoading,
-  selectIsUnifiedBalanceLoading,
-  selectUnifiedBalance,
+  selectIsUnifiedBalanceByNetworkLoading,
+  selectUnifiedBalanceByNetwork,
   selectWalletSettings,
 } from '@app/walletFeature/wallet/redux/selectors';
 import { WalletSettingsId } from '@app/walletFeature/wallet/screens/Wallet/constants';
@@ -19,7 +23,7 @@ import { EmptyListPlaceholder } from '@app/walletFeature/wallet/components/Empty
 import { AppActivityIndicator } from '@app/walletFeature/wallet/common/components/AppActivityIndicator/AppActivityIndicator';
 import { useAppDispatch } from '@app/walletFeature/wallet/common/redux';
 import {
-  getAssetsThunk,
+  getUnifiedBalanceByNetworkThunk,
   getUnifiedBalanceThunk,
 } from '@app/walletFeature/wallet/redux/thunks';
 import { BalanceItem } from '@app/walletFeature/wallet/components/BalancesList/components/BalanceItem/BalanceItem';
@@ -27,11 +31,10 @@ import { BalanceItem } from '@app/walletFeature/wallet/components/BalancesList/c
 export type WalletAssetWithBalance = AssetsData & AssetBalance;
 
 export const BalancesList: FC<{
-  onPress?: (item: WalletAssetWithBalance) => void;
+  onPress?: (item: UnifiedBalanceByNetworkDto) => void;
   hideZeroBalance?: boolean;
   hasAssets?: boolean;
   onPressPlaceholderButton?: () => void;
-  showNetwork?: boolean;
   hasRefreshControl?: boolean;
   withSearch?: boolean;
   inputPlaceholder?: string;
@@ -41,7 +44,6 @@ export const BalancesList: FC<{
   hideZeroBalance,
   hasAssets,
   onPressPlaceholderButton,
-  showNetwork,
   hasRefreshControl,
   withSearch,
   inputPlaceholder,
@@ -52,41 +54,14 @@ export const BalancesList: FC<{
     balanceList: { contentContainerStyle },
   } = useAppTheme();
   const dispatch = useAppDispatch();
-  const unifiedBalance = useSelector(selectUnifiedBalance);
+  const unifiedBalanceByNetwork = useSelector(selectUnifiedBalanceByNetwork);
   const walletSettings = useSelector(selectWalletSettings);
-  const isAssetsLoading = useSelector(selectIsAssetsLoading);
-  const isUnifiedBalanceLoading = useSelector(selectIsUnifiedBalanceLoading);
+  const isUnifiedBalanceByNetworkLoading = useSelector(
+    selectIsUnifiedBalanceByNetworkLoading,
+  );
   const [refreshing, setRefreshing] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   const [search, setSearch] = useState('');
-  const [coins, setCoins] = useState<WalletAssetWithBalance[]>([]);
-
-  useEffect(() => {
-    void (async () => {
-      if (unifiedBalance) {
-        setIsLoading(true);
-        const keys = Object.keys(unifiedBalance?.balancesByAsset ?? {});
-        const normalizedList = await Promise.all(
-          keys.map(async element => {
-            const { payload } = await dispatch(
-              getAssetsThunk({ limit: 100, cursor: 1, search: element }),
-            );
-            const { data } = payload as AppAssetsDto;
-            return data.length === 1
-              ? { ...data[0], ...unifiedBalance?.balancesByAsset[element] }
-              : {
-                  ...(data.find(el => el.externalId === element) ||
-                    ({} as AssetsData)),
-                  ...unifiedBalance?.balancesByAsset[element],
-                };
-          }),
-        );
-        setCoins(normalizedList);
-        setIsLoading(false);
-      }
-    })();
-  }, [dispatch, unifiedBalance, unifiedBalance?.balancesByAsset]);
 
   const hideBalance = useMemo(
     () =>
@@ -103,37 +78,41 @@ export const BalancesList: FC<{
   const filteredWallets = useMemo(() => {
     if (hideZeroBalance) {
       if (hideBalance) {
-        return coins.filter(el => Number(el?.balanceUsd ?? 0) > 1);
+        return unifiedBalanceByNetwork?.filter(
+          el => Number(el?.totalBalanceAcrossNetworks.balanceUsd ?? 0) > 1,
+        );
       }
-      return coins.filter(el => Number(el?.balanceUsd ?? 0) > 0);
+      return unifiedBalanceByNetwork?.filter(
+        el => Number(el?.totalBalanceAcrossNetworks.balanceUsd ?? 0) > 0,
+      );
     }
-    return coins;
-  }, [hideBalance, hideZeroBalance, coins]);
+    return unifiedBalanceByNetwork;
+  }, [hideBalance, hideZeroBalance, unifiedBalanceByNetwork]);
 
-  const renderItem = useCallback<ListRenderItem<WalletAssetWithBalance>>(
+  const renderItem = useCallback<ListRenderItem<UnifiedBalanceByNetworkDto>>(
     ({ item }) => (
       <BalanceItem
         hasAssets={hasAssets}
         showAssets={showAssets}
-        showNetwork={showNetwork}
         onPress={onPress}
         item={item}
       />
     ),
-    [hasAssets, showAssets, showNetwork, onPress],
+    [hasAssets, showAssets, onPress],
   );
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
       void dispatch(getUnifiedBalanceThunk());
+      void dispatch(getUnifiedBalanceByNetworkThunk());
       setRefreshing(false);
     }, 1000);
   }, [dispatch]);
 
   return (
     <AppView flex={1}>
-      {isAssetsLoading || isUnifiedBalanceLoading || isLoading ? (
+      {isUnifiedBalanceByNetworkLoading ? (
         <AppActivityIndicator absoluteFill />
       ) : (
         <>
@@ -152,7 +131,7 @@ export const BalancesList: FC<{
           )}
           <FlatList
             ListHeaderComponent={
-              title && coins.length ? (
+              title && unifiedBalanceByNetwork?.length ? (
                 <AppText
                   marginTop={20}
                   marginBottom={10}
@@ -171,9 +150,7 @@ export const BalancesList: FC<{
                 />
               ) : undefined
             }
-            keyExtractor={item =>
-              `${item.id}/${item.name}/${item.symbol}/${item.networkId}`
-            }
+            keyExtractor={item => `${item.symbol}/${item.name}`}
             ListEmptyComponent={
               <EmptyListPlaceholder
                 onPressPlaceholderButton={onPressPlaceholderButton}

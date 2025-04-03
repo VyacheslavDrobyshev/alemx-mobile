@@ -8,10 +8,8 @@ import {
 } from '@react-navigation/native';
 import { WalletParamList } from '@app/walletFeature/wallet/navigation/types';
 import { WalletRoute } from '@app/walletFeature/wallet/navigation/constants';
-import {
-  BalancesList,
-  WalletAssetWithBalance,
-} from '@app/walletFeature/wallet/components/BalancesList/BalancesList';
+import { BalancesList } from '@app/walletFeature/wallet/components/BalancesList/BalancesList';
+import { UnifiedBalanceByNetworkDto } from '@app/walletFeature/wallet/redux/types';
 
 export const TransferAssetScreen: FC = () => {
   const { navigate } = useNavigation<NavigationProp<WalletParamList>>();
@@ -21,7 +19,7 @@ export const TransferAssetScreen: FC = () => {
   } = useRoute<RouteProp<WalletParamList, WalletRoute.TransferAsset>>();
 
   const onPress = useCallback(
-    (item: WalletAssetWithBalance) => {
+    (item: UnifiedBalanceByNetworkDto) => {
       navigate(WalletRoute.TransferDetails, { user, item });
     },
     [navigate, user],

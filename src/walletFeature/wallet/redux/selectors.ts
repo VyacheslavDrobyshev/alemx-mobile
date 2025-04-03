@@ -10,7 +10,11 @@ export const selectUnifiedBalance = ({ wallets }: CoreReduxState) =>
   wallets.unifiedBalance;
 
 export const selectUnifiedBalanceByNetwork = ({ wallets }: CoreReduxState) =>
-  wallets.unifiedBalance;
+  wallets.unifiedBalanceByNetwork;
+
+export const selectIsUnifiedBalanceByNetworkLoading = ({
+  wallets,
+}: CoreReduxState) => wallets.isUnifiedBalanceByNetworkLoading;
 
 export const selectAssets = ({ wallets }: CoreReduxState) => wallets.assets;
 export const selectUsers = ({ wallets }: CoreReduxState) => wallets.users;

@@ -1,13 +1,16 @@
-import { AppUserWalletsDto, UserData } from '@app/walletFeature/wallet/redux/types';
+import {
+  AppUserWalletsDto,
+  UnifiedBalanceByNetworkDto,
+  UserData,
+} from '@app/walletFeature/wallet/redux/types';
 import { ModifiedWallet } from '@app/walletFeature/wallet/components/WalletsList/WalletsList';
 import { ReactElement } from 'react';
-import { WalletAssetWithBalance } from '@app/walletFeature/wallet/components/BalancesList/BalancesList';
 
 import { WalletRoute } from './constants';
 
 export type WalletParamList = {
   [WalletRoute.Wallet]: undefined;
-  [WalletRoute.WalletDetails]: { item: WalletAssetWithBalance };
+  [WalletRoute.WalletDetails]: { item: UnifiedBalanceByNetworkDto };
   [WalletRoute.Deposit]: undefined;
   [WalletRoute.DepositDetails]: { item?: AppUserWalletsDto };
   [WalletRoute.Withdraw]: undefined;
@@ -18,11 +21,11 @@ export type WalletParamList = {
     title: string;
     rows: { [key: string]: string };
   };
-  [WalletRoute.TransferUser]: { item: WalletAssetWithBalance } | undefined;
+  [WalletRoute.TransferUser]: { item: UnifiedBalanceByNetworkDto } | undefined;
   [WalletRoute.TransferAsset]: { user: UserData };
   [WalletRoute.TransferDetails]: {
     user: UserData;
-    item: WalletAssetWithBalance;
+    item: UnifiedBalanceByNetworkDto;
   };
   [WalletRoute.NetworkLogger]: undefined;
   [WalletRoute.Swap]: undefined;

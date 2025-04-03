@@ -1,18 +1,24 @@
-import { AppText, AppTouchable, AppView } from '@app/walletFeature/wallet/common/components';
+import {
+  AppText,
+  AppTouchable,
+  AppView,
+} from '@app/walletFeature/wallet/common/components';
 import { FC } from 'react';
 import { useAppTheme } from '@app/walletFeature/wallet/common/theme';
-import { formatNumber, getDecimals } from '@app/walletFeature/wallet/common/utils/number';
+import {
+  formatNumber,
+  getDecimals,
+} from '@app/walletFeature/wallet/common/utils/number';
 import { AppImage } from '@app/walletFeature/wallet/common/components/AppImage/AppImage';
 import { NetworkItem } from '@app/walletFeature/wallet/screens/WalletDetails/components/NetworkItem/NetworkItem';
-import { WalletAssetWithBalance } from '@app/walletFeature/wallet/components/BalancesList/BalancesList';
+import { UnifiedBalanceByNetworkDto } from '@app/walletFeature/wallet/redux/types';
 
 export const BalanceItem: FC<{
-  item: WalletAssetWithBalance;
-  onPress?: (item: WalletAssetWithBalance) => void;
+  item: UnifiedBalanceByNetworkDto;
+  onPress?: (item: UnifiedBalanceByNetworkDto) => void;
   showAssets?: boolean;
   hasAssets?: boolean;
-  showNetwork?: boolean;
-}> = ({ item, onPress, showAssets = false, hasAssets, showNetwork }) => {
+}> = ({ item, onPress, showAssets = false, hasAssets }) => {
   const {
     colors,
     cryptoCurrencyList: { secondaryTextColor, itemContainer, icon },
@@ -39,17 +45,6 @@ export const BalanceItem: FC<{
               width={icon.width}
               marginRight={icon.marginRight}
             />
-            {showNetwork && item.network.image ? (
-              <AppView
-                bottom={0}
-                left={20}
-                position="absolute"
-                borderWidth={2}
-                borderRadius={15}
-                borderColor={colors.primaryLightColor}>
-                <AppImage height={10} width={10} uri={item.network.image} />
-              </AppView>
-            ) : null}
           </AppView>
         ) : (
           <AppView
@@ -71,40 +66,24 @@ export const BalanceItem: FC<{
             <AppText textStyle="medium_14_20">{item.symbol}</AppText>
             <AppText textStyle="regular_12_18">{item.name}</AppText>
           </AppView>
-          {showNetwork ? (
-            <AppView alignItems="center" flexDirection="row">
-              {!!item.network.image && (
-                <AppImage
-                  marginRight={10}
-                  height={20}
-                  width={20}
-                  uri={item.network.image}
-                />
+          <AppView alignItems="flex-end" justifyContent="space-between">
+            <AppText textStyle="medium_14_20">
+              {formatNumber(
+                Number(item?.totalBalanceAcrossNetworks.balance ?? 0),
+                undefined,
+                2,
+                getDecimals(item.networks[0].asset.decimals),
               )}
-              <AppText textStyle="medium_12_18">{item.network.name}</AppText>
-            </AppView>
-          ) : (
-            <AppView alignItems="flex-end" justifyContent="space-between">
-              <AppText textStyle="medium_14_20">
-                {formatNumber(
-                  Number(item?.balance ?? 0),
-                  undefined,
-                  2,
-                  getDecimals(item.decimals),
-                )}
-              </AppText>
-              <AppText
-                textStyle="regular_12_18"
-                color={secondaryTextColor.color}>
-                {formatNumber(
-                  Number(item?.balanceUsd ?? 0),
-                  'currency',
-                  2,
-                  getDecimals(item.decimals),
-                )}
-              </AppText>
-            </AppView>
-          )}
+            </AppText>
+            <AppText textStyle="regular_12_18" color={secondaryTextColor.color}>
+              {formatNumber(
+                Number(item?.totalBalanceAcrossNetworks.balanceUsd ?? 0),
+                'currency',
+                2,
+                getDecimals(item.networks[0].asset.decimals),
+              )}
+            </AppText>
+          </AppView>
         </AppView>
         <AppView />
       </AppTouchable>
@@ -118,7 +97,7 @@ export const BalanceItem: FC<{
             marginVertical={15}
           />
           <AppView marginLeft={25}>
-            <NetworkItem item={item} />
+            <NetworkItem networks={item.networks} />
           </AppView>
         </>
       )}

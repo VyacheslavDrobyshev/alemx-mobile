@@ -99,12 +99,9 @@ export const getUserinfoApi = async (): Promise<UserInfoDto> => {
   return response.data;
 };
 
-export const getUnifiedBalanceByNetworkApi = async (params: {
-  asset: string;
-}) => {
-  const response = await instance.get<UnifiedBalanceByNetworkDto>(
+export const getUnifiedBalanceByNetworkApi = async () => {
+  const response = await instance.get<UnifiedBalanceByNetworkDto[]>(
     'balance/unified-asset-balance-by-networks',
-    { params },
   );
   return response.data;
 };

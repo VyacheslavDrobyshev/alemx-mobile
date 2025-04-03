@@ -1,20 +1,23 @@
-import { AppIcon, AppText, AppView, useAppBottomDrawer } from '@app/walletFeature/wallet/common/components';
+import {
+  AppIcon,
+  AppText,
+  AppView,
+  useAppBottomDrawer,
+} from '@app/walletFeature/wallet/common/components';
 import { AccountValue } from '@app/walletFeature/wallet/screens/Wallet/components/AccountValue/AccountValue';
 import { useAppTheme } from '@app/walletFeature/wallet/common/theme';
 import { useCallback, useEffect } from 'react';
 import { SettingsModalContent } from '@app/walletFeature/wallet/modals/SettingsModalContent/SettingsModalContent';
 import {
+  getUnifiedBalanceByNetworkThunk,
   getUnifiedBalanceThunk,
-  getUserWalletsThunk,
 } from '@app/walletFeature/wallet/redux/thunks';
 import { useAppDispatch } from '@app/walletFeature/wallet/common/redux';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { WalletParamList } from '@app/walletFeature/wallet/navigation/types';
 import { WalletRoute } from '@app/walletFeature/wallet/navigation/constants';
-import {
-  BalancesList,
-  WalletAssetWithBalance,
-} from '@app/walletFeature/wallet/components/BalancesList/BalancesList';
+import { BalancesList } from '@app/walletFeature/wallet/components/BalancesList/BalancesList';
+import { UnifiedBalanceByNetworkDto } from '@app/walletFeature/wallet/redux/types';
 
 export function DigitalAssetsTab() {
   const { colors } = useAppTheme();
@@ -31,7 +34,7 @@ export function DigitalAssetsTab() {
   }, [openBottomDrawer]);
 
   const onPress = useCallback(
-    (item: WalletAssetWithBalance) => {
+    (item: UnifiedBalanceByNetworkDto) => {
       navigate(WalletRoute.WalletDetails, { item });
     },
     [navigate],
@@ -42,8 +45,8 @@ export function DigitalAssetsTab() {
   }, [navigate]);
 
   useEffect(() => {
-    void dispatch(getUserWalletsThunk());
     void dispatch(getUnifiedBalanceThunk());
+    void dispatch(getUnifiedBalanceByNetworkThunk());
   }, [dispatch]);
 
   return (

@@ -17,10 +17,7 @@ import {
 import { WalletParamList } from '@app/walletFeature/wallet/navigation/types';
 import { WalletRoute } from '@app/walletFeature/wallet/navigation/constants';
 import { useAppTheme } from '@app/walletFeature/wallet/common/theme';
-import {
-  AppWithdrawError,
-  AssetsData,
-} from '@app/walletFeature/wallet/redux/types';
+import { AppWithdrawError } from '@app/walletFeature/wallet/redux/types';
 import { FormikConfig } from 'formik';
 import { useForm } from '@app/walletFeature/wallet/common/form';
 import { AppButton } from '@app/walletFeature/wallet/common/components/AppButton/AppButton';
@@ -39,13 +36,13 @@ import {
 } from '@app/walletFeature/wallet/common/utils/number';
 
 const InputAmountRightContent: FC<{
-  item: AssetsData;
+  symbol: string;
   onPress: () => void;
-}> = ({ item, onPress }) => {
+}> = ({ symbol, onPress }) => {
   const { colors } = useAppTheme();
   return (
     <AppView flexDirection="row">
-      <AppText>{item.symbol}</AppText>
+      <AppText>{symbol}</AppText>
       <AppView
         marginHorizontal={10}
         height={20}
@@ -76,7 +73,7 @@ export const TransferDetailsScreen: FC = () => {
       setIsLoading(true);
       try {
         await createTransferApi({
-          assetId: item.id,
+          assetId: item.networks[0].asset.assetId,
           amount,
           feeLevel,
           receiverUserId: user.id,
@@ -93,7 +90,7 @@ export const TransferDetailsScreen: FC = () => {
         setIsLoading(false);
       }
     },
-    [item.id, navigate, user.id],
+    [item.networks, navigate, user.id],
   );
   const validationSchema = useTransferFormValidation();
 
@@ -176,14 +173,14 @@ export const TransferDetailsScreen: FC = () => {
               onPress={() =>
                 fields.amount.setValue(
                   formatNumber(
-                    Number(item?.balance),
+                    Number(item?.totalBalanceAcrossNetworks.balance),
                     undefined,
                     0,
-                    getDecimals(item.decimals),
+                    getDecimals(item.networks[0].asset.decimals),
                   ),
                 )
               }
-              item={item}
+              symbol={item.symbol}
             />
           }
         />
@@ -191,10 +188,10 @@ export const TransferDetailsScreen: FC = () => {
           Available:{' '}
           <AppText>
             {formatNumber(
-              Number(item?.balance),
+              Number(item?.totalBalanceAcrossNetworks.balance),
               undefined,
               0,
-              getDecimals(item.decimals),
+              getDecimals(item.networks[0].asset.decimals),
             )}
           </AppText>
         </AppText>
