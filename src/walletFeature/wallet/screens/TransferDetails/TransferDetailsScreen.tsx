@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { FC, useCallback, useMemo, useState } from 'react';
 import {
   AppIcon,
   AppInput,
@@ -11,6 +11,7 @@ import {
   NavigationProp,
   RouteProp,
   StackActions,
+  useFocusEffect,
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
@@ -115,11 +116,13 @@ export const TransferDetailsScreen: FC = () => {
     dispatch(StackActions.push(WalletRoute.TransferAsset, { user }));
   }, [dispatch, user]);
 
-  useEffect(() => {
-    fields.amount.setValue('');
-    formik.setErrors({});
-    void formik.setTouched({ amount: false });
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useFocusEffect(
+    useCallback(() => {
+      fields.amount.setValue('');
+      formik.setErrors({});
+      void formik.setTouched({ amount: false });
+    }, []), // eslint-disable-line react-hooks/exhaustive-deps
+  );
 
   return (
     <AppScreen isLoading={isLoading} title="Transfer">
