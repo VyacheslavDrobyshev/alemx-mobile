@@ -124,8 +124,10 @@ const slice = createSlice({
     builder.addCase(getUsersThunk.rejected, state => {
       state.isUsersLoading = false;
     });
-    builder.addCase(getUsersThunk.pending, state => {
-      state.isUsersLoading = true;
+    builder.addCase(getUsersThunk.pending, (state, { meta }) => {
+      if (meta.arg.cursor === 1) {
+        state.isUsersLoading = true;
+      }
     });
 
     builder.addCase(
