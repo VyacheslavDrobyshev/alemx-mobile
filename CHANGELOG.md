@@ -68,3 +68,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added UnifiedBalanceNetwork endpoint LMX-125
 - Fixed validation on Withdrawal screen LMX-109
 - Clear input field after changing Transfer screen LMX-112
+
+      build(15)
+- Added commissions LMX-129

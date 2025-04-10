@@ -1,4 +1,4 @@
-import { FC, useCallback, useMemo, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import {
   AppIcon,
   AppInput,
@@ -22,8 +22,14 @@ import { AppWithdrawError } from '@app/walletFeature/wallet/redux/types';
 import { FormikConfig } from 'formik';
 import { useForm } from '@app/walletFeature/wallet/common/form';
 import { AppButton } from '@app/walletFeature/wallet/common/components/AppButton/AppButton';
-import { createTransferApi } from '@app/walletFeature/wallet/api';
-import { LevelFee } from '@app/walletFeature/wallet/screens/Wallet/constants';
+import {
+  createTransferApi,
+  getPlatformFeeApi,
+} from '@app/walletFeature/wallet/api';
+import {
+  LevelFee,
+  TransactionType,
+} from '@app/walletFeature/wallet/screens/Wallet/constants';
 import {
   getTransferFormInitialValues,
   useTransferFormValidation,
@@ -34,7 +40,10 @@ import { AxiosError } from 'axios';
 import {
   formatNumber,
   getDecimals,
+  isNumber,
 } from '@app/walletFeature/wallet/common/utils/number';
+import _ from 'lodash';
+import { AppActivityIndicator } from '@app/walletFeature/wallet/common/components/AppActivityIndicator/AppActivityIndicator';
 
 const InputAmountRightContent: FC<{
   symbol: string;
@@ -68,6 +77,9 @@ export const TransferDetailsScreen: FC = () => {
     useNavigation<NavigationProp<WalletParamList>>();
   const { colors } = useAppTheme();
   const [isLoading, setIsLoading] = useState(false);
+  const [isFeeLoading, setIsFeeLoading] = useState(false);
+  const [commissionAmount, setCommissionAmount] = useState('0');
+  const [commissionPercentage, setCommissionPercentage] = useState('1');
 
   const onSubmit = useCallback<FormikConfig<TransferFormValues>['onSubmit']>(
     async ({ amount }, { setErrors }) => {
@@ -116,6 +128,41 @@ export const TransferDetailsScreen: FC = () => {
     dispatch(StackActions.push(WalletRoute.TransferAsset, { user }));
   }, [dispatch, user]);
 
+  const receivedAmount = useMemo(
+    () =>
+      isNumber(Number(fields.amount.value)) && Number(fields.amount.value) > 0
+        ? formatNumber(
+            Number(fields.amount.value) - Number(commissionAmount),
+            undefined,
+            2,
+            getDecimals(item.networks[0].asset.decimals),
+          )
+        : '0.00',
+    [commissionAmount, fields.amount.value, item.networks],
+  );
+
+  const isValidAmount = useMemo(
+    () =>
+      isNumber(Number(fields.amount.value)) && Number(fields.amount.value) > 0,
+    [fields.amount.value],
+  );
+
+  const getFee = useCallback(async () => {
+    setIsFeeLoading(true);
+    try {
+      const platformFeeResponse = await getPlatformFeeApi({
+        amount: fields.amount.value,
+        transaction_type: TransactionType.Transfer,
+      });
+      setCommissionAmount(platformFeeResponse.commissionAmount);
+      setCommissionPercentage(platformFeeResponse.commissionPercentage);
+    } catch (e) {
+      /* empty */
+    } finally {
+      setIsFeeLoading(false);
+    }
+  }, [fields.amount.value]);
+
   useFocusEffect(
     useCallback(() => {
       fields.amount.setValue('');
@@ -123,6 +170,19 @@ export const TransferDetailsScreen: FC = () => {
       void formik.setTouched({ amount: false });
     }, []), // eslint-disable-line react-hooks/exhaustive-deps
   );
+
+  useEffect(() => {
+    const debouncedValidateAmount = _.debounce(getFee, 500);
+    if (isValidAmount) {
+      void debouncedValidateAmount();
+    } else {
+      setCommissionAmount('0');
+      setCommissionPercentage('1');
+    }
+    return () => {
+      debouncedValidateAmount.cancel();
+    };
+  }, [fields.amount.value, getFee, isValidAmount]);
 
   return (
     <AppScreen isLoading={isLoading} title="Transfer">
@@ -199,7 +259,51 @@ export const TransferDetailsScreen: FC = () => {
           </AppText>
         </AppText>
       </AppView>
+      <AppView marginVertical={10}>
+        <AppView flexDirection="row" justifyContent="space-between">
+          <AppText color={colors.inputLabelColor}>
+            {`Processing fee (${formatNumber(
+              Number(commissionPercentage),
+              undefined,
+              0,
+              2,
+            )}%)`}
+          </AppText>
+          <AppView width="50%" flexDirection="row" justifyContent="flex-end">
+            {isFeeLoading ? (
+              <AppActivityIndicator size="small" />
+            ) : (
+              <AppText>
+                {formatNumber(
+                  Number(commissionAmount),
+                  undefined,
+                  2,
+                  getDecimals(item.networks[0].asset.decimals),
+                )}
+              </AppText>
+            )}
+            <AppText marginLeft={10}>{item.symbol}</AppText>
+          </AppView>
+        </AppView>
 
+        <AppView flexDirection="row" justifyContent="space-between">
+          <AppText color={colors.inputLabelColor}>Receive Amount</AppText>
+          <AppView width="50%" justifyContent="flex-end" flexDirection="row">
+            {isFeeLoading ? (
+              <AppActivityIndicator size="small" />
+            ) : (
+              <AppText
+                textAlign="right"
+                ellipsizeMode="middle"
+                numberOfLines={1}
+                textStyle="medium_14_20">
+                {receivedAmount}
+              </AppText>
+            )}
+            <AppText marginLeft={10}>{item.symbol}</AppText>
+          </AppView>
+        </AppView>
+      </AppView>
       <AppButton
         disabled={!formik.isValid || !formik.dirty}
         title="SUBMIT"

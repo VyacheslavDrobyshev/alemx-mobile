@@ -313,3 +313,13 @@ export type UserInfoDto = {
   email: string;
   vaultAccountId: string;
 };
+
+export type PlatformFeeDto = {
+  commissionPercentage: string;
+  commissionAmount: string;
+};
+
+export type PlatformFeeParams = {
+  amount: string;
+  transaction_type: TransactionType;
+};

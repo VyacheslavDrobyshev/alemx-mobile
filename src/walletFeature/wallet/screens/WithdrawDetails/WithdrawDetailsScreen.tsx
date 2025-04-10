@@ -16,8 +16,8 @@ import { WalletParamList } from '@app/walletFeature/wallet/navigation/types';
 import { WalletRoute } from '@app/walletFeature/wallet/navigation/constants';
 import { useAppTheme } from '@app/walletFeature/wallet/common/theme';
 import {
-  AssetsData,
   AppWithdrawError,
+  AssetsData,
 } from '@app/walletFeature/wallet/redux/types';
 import { FormikConfig } from 'formik';
 import { useForm } from '@app/walletFeature/wallet/common/form';
@@ -29,10 +29,14 @@ import {
 import { AppButton } from '@app/walletFeature/wallet/common/components/AppButton/AppButton';
 import {
   createWithdrawApi,
+  getPlatformFeeApi,
   getTransactionFeeApi,
 } from '@app/walletFeature/wallet/api';
 import { AxiosError } from 'axios';
-import { LevelFee } from '@app/walletFeature/wallet/screens/Wallet/constants';
+import {
+  LevelFee,
+  TransactionType,
+} from '@app/walletFeature/wallet/screens/Wallet/constants';
 import {
   formatNumber,
   getDecimals,
@@ -73,6 +77,8 @@ export const WithdrawDetailsScreen: FC = () => {
   const { navigate } = useNavigation<NavigationProp<WalletParamList>>();
   const { colors } = useAppTheme();
   const [fee, setFee] = useState(0);
+  const [commissionAmount, setCommissionAmount] = useState('0');
+  const [commissionPercentage, setCommissionPercentage] = useState('3');
   const [isLoading, setIsLoading] = useState(false);
   const [isFeeLoading, setIsFeeLoading] = useState(false);
 
@@ -122,6 +128,12 @@ export const WithdrawDetailsScreen: FC = () => {
   const getFee = useCallback(async () => {
     setIsFeeLoading(true);
     try {
+      const platformFeeResponse = await getPlatformFeeApi({
+        amount: fields.amount.value,
+        transaction_type: TransactionType.Withdrawal,
+      });
+      setCommissionAmount(platformFeeResponse.commissionAmount);
+      setCommissionPercentage(platformFeeResponse.commissionPercentage);
       const response = await getTransactionFeeApi({
         assetId: item.cryptoAsset.id,
         amount: fields.amount.value,
@@ -150,13 +162,15 @@ export const WithdrawDetailsScreen: FC = () => {
     () =>
       isNumber(Number(fields.amount.value)) && Number(fields.amount.value) > 0
         ? formatNumber(
-            Number(fields.amount.value) - fee,
+            Number(fields.amount.value) -
+              Number(fee) -
+              Number(commissionAmount),
             undefined,
             2,
             getDecimals(item.cryptoAsset.decimals),
           )
         : '0.00',
-    [fee, fields.amount.value, item.cryptoAsset.decimals],
+    [commissionAmount, fee, fields.amount.value, item.cryptoAsset.decimals],
   );
 
   const isValidAmount = useMemo(
@@ -228,6 +242,32 @@ export const WithdrawDetailsScreen: FC = () => {
         </AppText>
       </AppView>
       <AppView marginVertical={10}>
+        <AppView flexDirection="row" justifyContent="space-between">
+          <AppText color={colors.inputLabelColor}>
+            {`Processing fee (${formatNumber(
+              Number(commissionPercentage),
+              undefined,
+              0,
+              2,
+            )}%)`}
+          </AppText>
+          <AppView width="50%" flexDirection="row" justifyContent="flex-end">
+            {isFeeLoading ? (
+              <AppActivityIndicator size="small" />
+            ) : (
+              <AppText>
+                {formatNumber(
+                  Number(commissionAmount),
+                  undefined,
+                  2,
+                  getDecimals(item.cryptoAsset.decimals),
+                )}
+              </AppText>
+            )}
+            <AppText marginLeft={10}>{item.cryptoAsset.symbol}</AppText>
+          </AppView>
+        </AppView>
+
         <AppView flexDirection="row" justifyContent="space-between">
           <AppText color={colors.inputLabelColor}>Network fee</AppText>
           <AppView width="50%" flexDirection="row" justifyContent="flex-end">

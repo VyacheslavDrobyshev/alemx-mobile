@@ -9,6 +9,8 @@ import {
   AppUserWalletsDto,
   AppWithdrawParams,
   PaginationParams,
+  PlatformFeeDto,
+  PlatformFeeParams,
   TransactionPaginationParams,
   TransferTransactionDto,
   UnifiedBalanceByNetworkDto,
@@ -102,6 +104,15 @@ export const getUserinfoApi = async (): Promise<UserInfoDto> => {
 export const getUnifiedBalanceByNetworkApi = async () => {
   const response = await instance.get<UnifiedBalanceByNetworkDto[]>(
     'balance/unified-asset-balance-by-networks',
+  );
+  return response.data;
+};
+
+export const getPlatformFeeApi = async (params: PlatformFeeParams) => {
+  const response = await instance.post<PlatformFeeDto>(
+    `transaction/platform-fee`,
+    undefined,
+    { params },
   );
   return response.data;
 };
