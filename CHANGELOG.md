@@ -71,3 +71,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
       build(15)
 - Added commissions LMX-129
+- Fixed pagination on users' list LMX-138

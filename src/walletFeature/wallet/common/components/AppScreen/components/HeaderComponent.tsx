@@ -1,4 +1,9 @@
-import { AppIcon, AppText, AppTouchable, AppView } from '@app/walletFeature/wallet/common/components';
+import {
+  AppIcon,
+  AppText,
+  AppTouchable,
+  AppView,
+} from '@app/walletFeature/wallet/common/components';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { useAppTheme } from '@app/walletFeature/wallet/common/theme';
 import { useAppDispatch } from '@app/walletFeature/wallet/common/redux';
@@ -31,6 +36,7 @@ export const HeaderComponent: FC<AppScreenProps> = ({ title }) => {
       alignItems="center"
       justifyContent="space-between"
       paddingHorizontal={20}
+      marginBottom={10}
       backgroundColor={colors.primary}>
       <AppTouchable
         disabled={!canGoBack()}
