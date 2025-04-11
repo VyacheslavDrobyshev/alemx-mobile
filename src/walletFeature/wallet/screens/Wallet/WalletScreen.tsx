@@ -15,7 +15,7 @@ export const WalletScreen: FC = () => {
   }, [dispatch]);
 
   return (
-    <AppScreen title="Wallet" noScroll>
+    <AppScreen bottomMargin={0} title="Wallet" noScroll>
       <AppTab tabs={walletTabs}>
         <DigitalAssetsTab />
         <BankCardsTab />

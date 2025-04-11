@@ -15,9 +15,9 @@ export const AppScreen: FC<AppScreenProps> = ({
   backgroundColor,
   noScroll = false,
   withHeader = true,
-  withBottomTabs = false,
   title = '',
   isLoading,
+  bottomMargin,
 }) => {
   const { top, bottom } = useSafeAreaInsets();
   const { screen, colors } = useAppTheme();
@@ -27,7 +27,7 @@ export const AppScreen: FC<AppScreenProps> = ({
       <AppView
         flex={1}
         backgroundColor={backgroundColor ?? screen.default.backgroundColor}
-        paddingBottom={bottom || 50}
+        paddingBottom={bottomMargin ?? bottom ?? 50}
         paddingTop={top}>
         {withHeader && <HeaderComponent title={title} />}
         <AppView flex={1} paddingHorizontal={screen.default.paddingHorizontal}>
@@ -41,7 +41,6 @@ export const AppScreen: FC<AppScreenProps> = ({
             </KeyboardAwareScrollView>
           )}
         </AppView>
-        {withBottomTabs && <AppView height={50} />}
       </AppView>
       {isLoading && (
         <AppView
