@@ -95,17 +95,17 @@ export const WithdrawDetailsScreen: FC = () => {
         navigate(WalletRoute.Wallet);
       } catch (e) {
         const error = e as AxiosError<AppWithdrawError>;
-        if (typeof error.response?.data.detail === 'string') {
+        if (typeof error.response?.data.error === 'string') {
           if (
-            error.response?.data.detail.includes('balance') ||
-            error.response?.data.detail.includes('amount')
+            error.response?.data.error.includes('balance') ||
+            error.response?.data.error.includes('amount')
           ) {
             setErrors({
-              amount: error.response?.data.detail,
+              amount: error.response?.data.error,
             });
           } else {
             setErrors({
-              address: error.response?.data.detail,
+              address: error.response?.data.error,
             });
           }
         }
@@ -143,9 +143,9 @@ export const WithdrawDetailsScreen: FC = () => {
       setFee(response[feeLevel.toLowerCase()].networkFee);
     } catch (e) {
       const error = e as AxiosError<AppWithdrawError>;
-      if (typeof error.response?.data.detail === 'string') {
+      if (typeof error.response?.data.error === 'string') {
         setErrors({
-          address: error.response?.data.detail,
+          address: error.response?.data.error,
         });
       }
     } finally {

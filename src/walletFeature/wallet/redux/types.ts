@@ -168,7 +168,7 @@ export type AppUserWalletsState = {
 };
 
 export type AppWithdrawError = {
-  detail:
+  error:
     | {
         message: string;
         available_balance: number;

@@ -94,9 +94,9 @@ export const TransferDetailsScreen: FC = () => {
         navigate(WalletRoute.Wallet);
       } catch (e) {
         const error = e as AxiosError<AppWithdrawError>;
-        if (typeof error.response?.data.detail === 'string') {
+        if (typeof error.response?.data.error === 'string') {
           setErrors({
-            amount: error.response?.data.detail,
+            amount: error.response?.data.error,
           });
         }
       } finally {
