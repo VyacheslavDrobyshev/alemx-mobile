@@ -9,5 +9,5 @@ export type AppScreenProps = {
   withBottomTabs?: boolean;
   title?: string;
   isLoading?: boolean;
-  bottomMargin?: number;
+  paddingBottom?: number;
 };
