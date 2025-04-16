@@ -162,7 +162,9 @@ export const BalancesList: FC<{
             contentContainerStyle={contentContainerStyle}
             showsVerticalScrollIndicator={false}
             renderItem={renderItem}
-            data={filteredWallets}
+            data={filteredWallets?.filter(i =>
+              i.name.toLowerCase().includes(search.toLowerCase()),
+            )}
           />
         </>
       )}

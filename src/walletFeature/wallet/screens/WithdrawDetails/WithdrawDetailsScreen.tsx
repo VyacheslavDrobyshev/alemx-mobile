@@ -185,6 +185,7 @@ export const WithdrawDetailsScreen: FC = () => {
       void debouncedValidateAmount();
     } else {
       setFee(0);
+      setCommissionAmount('0');
     }
     return () => {
       debouncedValidateAmount.cancel();
@@ -306,7 +307,7 @@ export const WithdrawDetailsScreen: FC = () => {
       </AppView>
       <AppButton
         disabled={isFeeLoading || !formik.isValid || !formik.dirty}
-        title="SUBMIT"
+        title="SEND"
         onPress={formik.submitForm}
       />
     </AppScreen>

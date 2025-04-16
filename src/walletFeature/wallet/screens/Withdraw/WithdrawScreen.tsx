@@ -33,7 +33,6 @@ export const WithdrawScreen: FC = () => {
       <WalletsList
         isDeposit
         onPressPlaceholderButton={onPressPlaceholderButton}
-        withBalance
         showNetwork
         onPress={onPress}
       />

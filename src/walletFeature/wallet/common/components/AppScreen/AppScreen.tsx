@@ -27,7 +27,7 @@ export const AppScreen: FC<AppScreenProps> = ({
       <AppView
         flex={1}
         backgroundColor={backgroundColor ?? screen.default.backgroundColor}
-        paddingBottom={paddingBottom ?? (bottom || 50)}
+        paddingBottom={paddingBottom ?? (bottom || 15)}
         paddingTop={top}>
         {withHeader && <HeaderComponent title={title} />}
         <AppView flex={1} paddingHorizontal={screen.default.paddingHorizontal}>

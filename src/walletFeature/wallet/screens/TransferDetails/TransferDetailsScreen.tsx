@@ -306,7 +306,7 @@ export const TransferDetailsScreen: FC = () => {
       </AppView>
       <AppButton
         disabled={!formik.isValid || !formik.dirty}
-        title="SUBMIT"
+        title="SEND"
         onPress={formik.submitForm}
       />
     </AppScreen>
