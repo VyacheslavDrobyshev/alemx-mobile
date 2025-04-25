@@ -16,8 +16,8 @@ import { WalletParamList } from '@app/walletFeature/wallet/navigation/types';
 import { WalletRoute } from '@app/walletFeature/wallet/navigation/constants';
 import { useAppTheme } from '@app/walletFeature/wallet/common/theme';
 import {
-  AppWithdrawError,
   AssetsData,
+  AppWithdrawError,
 } from '@app/walletFeature/wallet/redux/types';
 import { FormikConfig } from 'formik';
 import { useForm } from '@app/walletFeature/wallet/common/form';
@@ -30,7 +30,8 @@ import { AppButton } from '@app/walletFeature/wallet/common/components/AppButton
 import {
   createWithdrawApi,
   getPlatformFeeApi,
-  getTransactionFeeApi,
+  getTransactionMaxAmountApi,
+  getValidateAmountApi,
 } from '@app/walletFeature/wallet/api';
 import { AxiosError } from 'axios';
 import {
@@ -44,6 +45,7 @@ import {
 } from '@app/walletFeature/wallet/common/utils/number';
 import _ from 'lodash';
 import { AppActivityIndicator } from '@app/walletFeature/wallet/common/components/AppActivityIndicator/AppActivityIndicator';
+import { AmountValue } from '@app/walletFeature/wallet/components/AmountValue/AmountValue';
 
 const InputAmountRightContent: FC<{
   item: AssetsData;
@@ -68,7 +70,7 @@ const InputAmountRightContent: FC<{
   );
 };
 
-const feeLevel = LevelFee.High;
+const feeLevel = LevelFee.Low;
 
 export const WithdrawDetailsScreen: FC = () => {
   const {
@@ -125,22 +127,48 @@ export const WithdrawDetailsScreen: FC = () => {
     onSubmit,
   });
 
+  const validateAmount = useCallback(async () => {
+    try {
+      await getValidateAmountApi({
+        assetId: item.cryptoAsset.id,
+        amount: fields.amount.value,
+        feeLevel,
+        receiverOneTimeAddress: fields.address.value,
+      });
+    } catch (e) {
+      const error = e as AxiosError<AppWithdrawError>;
+      if (typeof error.response?.data.error !== 'string') {
+        setErrors({
+          amount: `${error.response?.data.error.message}`,
+        });
+      }
+    }
+  }, [
+    fields.address.value,
+    fields.amount.value,
+    item.cryptoAsset.id,
+    setErrors,
+  ]);
+
   const getFee = useCallback(async () => {
     setIsFeeLoading(true);
     try {
+      await validateAmount();
       const platformFeeResponse = await getPlatformFeeApi({
         amount: fields.amount.value,
         transaction_type: TransactionType.Withdrawal,
       });
       setCommissionAmount(platformFeeResponse.commissionAmount);
       setCommissionPercentage(platformFeeResponse.commissionPercentage);
-      const response = await getTransactionFeeApi({
-        assetId: item.cryptoAsset.id,
-        amount: fields.amount.value,
-        feeLevel,
-        receiverOneTimeAddress: fields.address.value,
+      const response = await getTransactionMaxAmountApi({
+        withdraw_data: {
+          assetId: item.cryptoAsset.id,
+          amount: fields.amount.value,
+          feeLevel,
+          receiverOneTimeAddress: fields.address.value,
+        },
       });
-      setFee(response[feeLevel.toLowerCase()].networkFee);
+      setFee(Number(response?.convertedNetworkFee ?? 0));
     } catch (e) {
       const error = e as AxiosError<AppWithdrawError>;
       if (typeof error.response?.data.error === 'string') {
@@ -156,21 +184,15 @@ export const WithdrawDetailsScreen: FC = () => {
     fields.amount.value,
     item.cryptoAsset.id,
     setErrors,
+    validateAmount,
   ]);
 
   const receivedAmount = useMemo(
     () =>
       isNumber(Number(fields.amount.value)) && Number(fields.amount.value) > 0
-        ? formatNumber(
-            Number(fields.amount.value) -
-              Number(fee) -
-              Number(commissionAmount),
-            undefined,
-            2,
-            getDecimals(item.cryptoAsset.decimals),
-          )
+        ? Number(fields.amount.value) - Number(fee) - Number(commissionAmount)
         : '0.00',
-    [commissionAmount, fee, fields.amount.value, item.cryptoAsset.decimals],
+    [commissionAmount, fee, fields.amount.value],
   );
 
   const isValidAmount = useMemo(
@@ -210,7 +232,7 @@ export const WithdrawDetailsScreen: FC = () => {
         />
         <AppInput
           keyboardType="numeric"
-          placeholder="Paste amount"
+          placeholder="Min amount 10 USDT "
           title="Withdraw amount"
           {...fields.amount}
           value={fields.amount.value.replace(',', '.').replace(' ', '')}
@@ -219,7 +241,7 @@ export const WithdrawDetailsScreen: FC = () => {
               onPress={() =>
                 fields.amount.setValue(
                   formatNumber(
-                    Number(item.balancesByAsset?.balance),
+                    Number(item.balancesByAsset?.balance ?? 0),
                     undefined,
                     0,
                     getDecimals(item.cryptoAsset.decimals),
@@ -256,14 +278,7 @@ export const WithdrawDetailsScreen: FC = () => {
             {isFeeLoading ? (
               <AppActivityIndicator size="small" />
             ) : (
-              <AppText>
-                {formatNumber(
-                  Number(commissionAmount),
-                  undefined,
-                  2,
-                  getDecimals(item.cryptoAsset.decimals),
-                )}
-              </AppText>
+              <AmountValue value={commissionAmount} />
             )}
             <AppText marginLeft={10}>{item.cryptoAsset.symbol}</AppText>
           </AppView>
@@ -275,14 +290,7 @@ export const WithdrawDetailsScreen: FC = () => {
             {isFeeLoading ? (
               <AppActivityIndicator size="small" />
             ) : (
-              <AppText>
-                {formatNumber(
-                  fee,
-                  undefined,
-                  2,
-                  getDecimals(item.cryptoAsset.decimals),
-                )}
-              </AppText>
+              <AmountValue value={fee} />
             )}
             <AppText marginLeft={10}>{item.cryptoAsset.symbol}</AppText>
           </AppView>
@@ -293,13 +301,18 @@ export const WithdrawDetailsScreen: FC = () => {
             {isFeeLoading ? (
               <AppActivityIndicator size="small" />
             ) : (
-              <AppText
-                textAlign="right"
-                ellipsizeMode="middle"
-                numberOfLines={1}
-                textStyle="medium_14_20">
-                {receivedAmount}
-              </AppText>
+              <AmountValue
+                hideNegative
+                value={receivedAmount}
+                Component={
+                  <AppText
+                    textAlign="right"
+                    ellipsizeMode="middle"
+                    numberOfLines={1}
+                    textStyle="medium_14_20"
+                  />
+                }
+              />
             )}
             <AppText marginLeft={10}>{item.cryptoAsset.symbol}</AppText>
           </AppView>

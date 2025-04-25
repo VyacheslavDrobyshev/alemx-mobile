@@ -16,6 +16,7 @@ import dayjs from 'dayjs';
 import { TransactionDetailsHeader } from '@app/walletFeature/wallet/components/HistoryTabContent/components/TransactionDetailsHeader/TransactionDetailsHeader';
 import { useSelector } from 'react-redux';
 import { selectUserInfo } from '@app/walletFeature/wallet/redux/selectors';
+import { AmountValue } from '@app/walletFeature/wallet/components/AmountValue/AmountValue';
 
 export const TransferItem: FC<{ item: TransferTransaction }> = ({ item }) => {
   const { colors } = useAppTheme();
@@ -31,17 +32,53 @@ export const TransferItem: FC<{ item: TransferTransaction }> = ({ item }) => {
     [item.createdAt, item.receiverUser.username, item.transactionType],
   );
 
+  const commission = useMemo(
+    () =>
+      item.commissionTotalAmount ??
+      item.commissions.reduce(
+        (acc, el) => acc + Number(el.commissionAmount),
+        0,
+      ),
+    [item.commissionTotalAmount, item.commissions],
+  );
+
+  const commissionInUsd = useMemo(
+    () =>
+      item.commissions.reduce(
+        (acc, el) =>
+          (Number(el.commissionType.commissionPercentage) / 100) * item.amount +
+          acc,
+        0,
+      ),
+    [item.amount, item.commissions],
+  );
+
+  const isReceiver = useMemo(
+    () => item.receiverUser.id === userInfo?.id,
+    [item.receiverUser.id, userInfo?.id],
+  );
+
   const onPress = useCallback(() => {
     navigate(WalletRoute.TransactionDetails, {
-      header: <TransactionDetailsHeader item={item} />,
+      header: (
+        <TransactionDetailsHeader
+          item={item}
+          commission={commission}
+          commissionInUsd={commissionInUsd}
+          isReceiver={isReceiver}
+        />
+      ),
       title: `Transfer ${item.cryptoAsset.symbol}`,
       rows: renderedRows,
     });
-  }, [item, navigate, renderedRows]);
+  }, [commission, commissionInUsd, isReceiver, item, navigate, renderedRows]);
 
   const amount = useMemo(
-    () => (item.receiverUser.id === userInfo?.id ? item.amount : -item.amount),
-    [item.amount, item.receiverUser.id, userInfo?.id],
+    () =>
+      isReceiver
+        ? Number(item.amount)
+        : -(Number(item.amount) + Number(commission)),
+    [commission, item.amount, isReceiver],
   );
 
   return (
@@ -76,23 +113,43 @@ export const TransferItem: FC<{ item: TransferTransaction }> = ({ item }) => {
         </AppText>
       </AppView>
       <AppView width="50%" alignItems="flex-end">
-        <AppText
-          ellipsizeMode="middle"
-          numberOfLines={1}
-          textStyle="medium_14_20"
-          color={amount > 0 ? colors.positiveStatus : colors.negativeStatus}>
-          {`${amount > 0 ? '+' : ''}${formatNumber(
-            amount,
-            undefined,
-            0,
-            item.cryptoAsset.decimals,
-          )} `}
-          {item.cryptoAsset.symbol}
-        </AppText>
+        <AppView flexDirection="row">
+          <AppText
+            textStyle="medium_14_20"
+            color={amount > 0 ? colors.positiveStatus : colors.negativeStatus}>
+            {`${amount > 0 ? '+' : ''}`}
+          </AppText>
+          <AmountValue
+            value={formatNumber(
+              amount,
+              undefined,
+              2,
+              item.cryptoAsset.decimals,
+            )}
+            Component={
+              <AppText
+                ellipsizeMode="middle"
+                numberOfLines={1}
+                textStyle="medium_14_20"
+                color={
+                  amount > 0 ? colors.positiveStatus : colors.negativeStatus
+                }
+              />
+            }
+          />
+          <AppText
+            textStyle="medium_14_20"
+            color={amount > 0 ? colors.positiveStatus : colors.negativeStatus}>
+            {' '}
+            {item.cryptoAsset.symbol}
+          </AppText>
+        </AppView>
         <AppText textStyle="regular_12_18" color={colors.inputLabelColor}>
           =
           {formatNumber(
-            item.amountUsd,
+            isReceiver
+              ? Number(item.amountUsd)
+              : Number(item.amountUsd) + commissionInUsd,
             'currency',
             2,
             item.cryptoAsset.decimals,

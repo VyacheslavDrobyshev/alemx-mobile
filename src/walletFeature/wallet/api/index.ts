@@ -3,6 +3,9 @@ import {
   AppAssetsDto,
   AppCreateWalletParams,
   AppFeeDto,
+  AppMaxAmountDto,
+  AppMaxAmountTransferParams,
+  AppMaxAmountWithdrawParams,
   AppTransferParams,
   AppUsersDto,
   AppUserUnifiedBalanceDto,
@@ -12,6 +15,7 @@ import {
   PlatformFeeDto,
   PlatformFeeParams,
   TransactionPaginationParams,
+  TransferFeeParams,
   TransferTransactionDto,
   UnifiedBalanceByNetworkDto,
   UserInfoDto,
@@ -101,18 +105,36 @@ export const getUserinfoApi = async (): Promise<UserInfoDto> => {
   return response.data;
 };
 
-export const getUnifiedBalanceByNetworkApi = async () => {
-  const response = await instance.get<UnifiedBalanceByNetworkDto[]>(
-    'balance/unified-asset-balance-by-networks',
+export const getPlatformFeeApi = async (params: PlatformFeeParams) => {
+  const response = await instance.post<PlatformFeeDto>(
+    'transaction/platform-fee',
+    undefined,
+    { params },
   );
   return response.data;
 };
 
-export const getPlatformFeeApi = async (params: PlatformFeeParams) => {
-  const response = await instance.post<PlatformFeeDto>(
-    `transaction/platform-fee`,
-    undefined,
-    { params },
+export const getTransferFeeApi = async (params: TransferFeeParams) => {
+  const response = await instance.post<AppFeeDto>(
+    'transaction/transfer/estimate-fee',
+    params,
+  );
+  return response.data;
+};
+
+export const getTransactionMaxAmountApi = async (
+  params: AppMaxAmountWithdrawParams | AppMaxAmountTransferParams,
+) => {
+  const response = await instance.post<AppMaxAmountDto>(
+    'transaction/max-amount',
+    params,
+  );
+  return response.data;
+};
+
+export const getUnifiedBalanceByNetworkApi = async () => {
+  const response = await instance.get<UnifiedBalanceByNetworkDto[]>(
+    'balance/unified-asset-balance-by-networks',
   );
   return response.data;
 };

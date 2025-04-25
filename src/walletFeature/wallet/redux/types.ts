@@ -241,6 +241,31 @@ export type TransferTransaction = {
     updatedAt: string;
   };
   cryptoAsset: CryptoAssetTransaction;
+  user: string | null;
+  externalSenderAddress: string | null;
+  externalDestinationAddress: string | null;
+  toCryptoAssetId: string | null;
+  toCryptoAsset: string | null;
+  toAmount: string | null;
+  toAmountUsd: string | null;
+  commissionTotalAmount: string;
+  commissions: {
+    id: number;
+    created: string | null;
+    updated: string | null;
+    createdAt: string;
+    updatedAt: string;
+    commissionAmount: number;
+    commissionType: {
+      id: number;
+      created: string | null;
+      updated: string | null;
+      createdAt: string;
+      updatedAt: string;
+      type: string;
+      commissionPercentage: number;
+    };
+  }[];
 };
 export type SwapTransaction = {
   transactionType: TransactionType;
@@ -322,4 +347,39 @@ export type PlatformFeeDto = {
 export type PlatformFeeParams = {
   amount: string;
   transaction_type: TransactionType;
+};
+
+export type TransferFeeParams = {
+  assetId: number;
+  amount: string;
+  feeLevel: LevelFee;
+  receiverUserId: number;
+};
+
+export type AppLoginError = {
+  detail: string;
+};
+
+export type AppMaxAmountWithdrawParams = {
+  withdraw_data?: {
+    assetId: number;
+    amount: string;
+    feeLevel: LevelFee;
+    receiverOneTimeAddress: string;
+  };
+};
+
+export type AppMaxAmountTransferParams = {
+  transfer_data?: {
+    assetId: number;
+    amount: string;
+    feeLevel: LevelFee;
+    receiverUserId: number;
+  };
+};
+
+export type AppMaxAmountDto = {
+  availableBalance: string;
+  convertedNetworkFee: string;
+  maxTransactionAmount: string;
 };

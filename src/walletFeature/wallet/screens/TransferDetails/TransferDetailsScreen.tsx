@@ -25,6 +25,7 @@ import { AppButton } from '@app/walletFeature/wallet/common/components/AppButton
 import {
   createTransferApi,
   getPlatformFeeApi,
+  getTransactionMaxAmountApi,
 } from '@app/walletFeature/wallet/api';
 import {
   LevelFee,
@@ -44,6 +45,7 @@ import {
 } from '@app/walletFeature/wallet/common/utils/number';
 import _ from 'lodash';
 import { AppActivityIndicator } from '@app/walletFeature/wallet/common/components/AppActivityIndicator/AppActivityIndicator';
+import { AmountValue } from '@app/walletFeature/wallet/components/AmountValue/AmountValue';
 
 const InputAmountRightContent: FC<{
   symbol: string;
@@ -66,7 +68,7 @@ const InputAmountRightContent: FC<{
   );
 };
 
-const feeLevel = LevelFee.High;
+const feeLevel = LevelFee.Low;
 
 export const TransferDetailsScreen: FC = () => {
   const {
@@ -80,13 +82,14 @@ export const TransferDetailsScreen: FC = () => {
   const [isFeeLoading, setIsFeeLoading] = useState(false);
   const [commissionAmount, setCommissionAmount] = useState('0');
   const [commissionPercentage, setCommissionPercentage] = useState('1');
+  const [fee, setFee] = useState(0);
 
   const onSubmit = useCallback<FormikConfig<TransferFormValues>['onSubmit']>(
     async ({ amount }, { setErrors }) => {
       setIsLoading(true);
       try {
         await createTransferApi({
-          assetId: item.networks[0].asset.assetId,
+          assetId: 799, // TRX_USDT_S2UZ
           amount,
           feeLevel,
           receiverUserId: user.id,
@@ -103,13 +106,13 @@ export const TransferDetailsScreen: FC = () => {
         setIsLoading(false);
       }
     },
-    [item.networks, navigate, user.id],
+    [navigate, user.id],
   );
   const validationSchema = useTransferFormValidation();
 
   const initialValues = useMemo(() => getTransferFormInitialValues(), []);
 
-  const { fields, formik } = useForm({
+  const { fields, formik, setErrors } = useForm({
     initialValues,
     validationSchema,
     onSubmit,
@@ -131,14 +134,9 @@ export const TransferDetailsScreen: FC = () => {
   const receivedAmount = useMemo(
     () =>
       isNumber(Number(fields.amount.value)) && Number(fields.amount.value) > 0
-        ? formatNumber(
-            Number(fields.amount.value) - Number(commissionAmount),
-            undefined,
-            2,
-            getDecimals(item.networks[0].asset.decimals),
-          )
+        ? Number(fields.amount.value) - Number(commissionAmount) - Number(fee)
         : '0.00',
-    [commissionAmount, fields.amount.value, item.networks],
+    [commissionAmount, fee, fields.amount.value],
   );
 
   const isValidAmount = useMemo(
@@ -156,16 +154,31 @@ export const TransferDetailsScreen: FC = () => {
       });
       setCommissionAmount(platformFeeResponse.commissionAmount);
       setCommissionPercentage(platformFeeResponse.commissionPercentage);
+
+      const response = await getTransactionMaxAmountApi({
+        transfer_data: {
+          assetId: 799, // TRX_USDT_S2UZ
+          amount: fields.amount.value,
+          feeLevel,
+          receiverUserId: user.id,
+        },
+      });
+      if (Number(fields.amount.value) > Number(response.maxTransactionAmount)) {
+        setErrors({ amount: 'Insufficient balance' });
+      }
+      setFee(Number(response?.convertedNetworkFee ?? 0));
     } catch (e) {
-      /* empty */
+      const error = e as AxiosError<AppWithdrawError>;
+      if (typeof error.response?.data.error === 'string') {
+        setErrors({ amount: error.response?.data.error });
+      }
     } finally {
       setIsFeeLoading(false);
     }
-  }, [fields.amount.value]);
+  }, [fields.amount.value, setErrors, user.id]);
 
   useFocusEffect(
     useCallback(() => {
-      fields.amount.setValue('');
       formik.setErrors({});
       void formik.setTouched({ amount: false });
     }, []), // eslint-disable-line react-hooks/exhaustive-deps
@@ -215,7 +228,21 @@ export const TransferDetailsScreen: FC = () => {
           onPress={changeAssetHandler}
           editable={false}
           value={item.name}
-          leftContent={<AppImage height={30} width={30} uri={item.image} />}
+          leftContent={
+            item.image ? (
+              <AppImage height={30} width={30} uri={item.image} />
+            ) : (
+              <AppView
+                justifyContent="center"
+                alignItems="center"
+                height={30}
+                width={30}
+                borderRadius={30}
+                backgroundColor={colors.buttonPrimary}>
+                <AppText>{item.name.slice(0, 1).toUpperCase()}</AppText>
+              </AppView>
+            )
+          }
           title="Coin"
           rightContent={
             <AppIcon
@@ -239,7 +266,7 @@ export const TransferDetailsScreen: FC = () => {
                     Number(item?.totalBalanceAcrossNetworks.balance),
                     undefined,
                     0,
-                    getDecimals(item.networks[0].asset.decimals),
+                    getDecimals(item.networks[0]?.asset.decimals),
                   ),
                 )
               }
@@ -254,7 +281,7 @@ export const TransferDetailsScreen: FC = () => {
               Number(item?.totalBalanceAcrossNetworks.balance),
               undefined,
               0,
-              getDecimals(item.networks[0].asset.decimals),
+              getDecimals(item.networks[0]?.asset.decimals),
             )}
           </AppText>
         </AppText>
@@ -273,14 +300,18 @@ export const TransferDetailsScreen: FC = () => {
             {isFeeLoading ? (
               <AppActivityIndicator size="small" />
             ) : (
-              <AppText>
-                {formatNumber(
-                  Number(commissionAmount),
-                  undefined,
-                  2,
-                  getDecimals(item.networks[0].asset.decimals),
-                )}
-              </AppText>
+              <AmountValue value={commissionAmount} />
+            )}
+            <AppText marginLeft={10}>{item.symbol}</AppText>
+          </AppView>
+        </AppView>
+        <AppView flexDirection="row" justifyContent="space-between">
+          <AppText color={colors.inputLabelColor}>Network fee</AppText>
+          <AppView width="50%" flexDirection="row" justifyContent="flex-end">
+            {isFeeLoading ? (
+              <AppActivityIndicator size="small" />
+            ) : (
+              <AmountValue value={fee} />
             )}
             <AppText marginLeft={10}>{item.symbol}</AppText>
           </AppView>
@@ -292,13 +323,18 @@ export const TransferDetailsScreen: FC = () => {
             {isFeeLoading ? (
               <AppActivityIndicator size="small" />
             ) : (
-              <AppText
-                textAlign="right"
-                ellipsizeMode="middle"
-                numberOfLines={1}
-                textStyle="medium_14_20">
-                {receivedAmount}
-              </AppText>
+              <AmountValue
+                hideNegative
+                value={receivedAmount}
+                Component={
+                  <AppText
+                    textAlign="right"
+                    ellipsizeMode="middle"
+                    numberOfLines={1}
+                    textStyle="medium_14_20"
+                  />
+                }
+              />
             )}
             <AppText marginLeft={10}>{item.symbol}</AppText>
           </AppView>

@@ -1,6 +1,11 @@
 import { FC, useCallback, useMemo } from 'react';
 import { WithdrawalTransaction } from '@app/walletFeature/wallet/redux/types';
-import { AppIcon, AppText, AppTouchable, AppView } from '@app/walletFeature/wallet/common/components';
+import {
+  AppIcon,
+  AppText,
+  AppTouchable,
+  AppView,
+} from '@app/walletFeature/wallet/common/components';
 import { useAppTheme } from '@app/walletFeature/wallet/common/theme';
 import { capitalizeFirstLetter } from '@app/walletFeature/wallet/common/utils/common';
 import { formatNumber } from '@app/walletFeature/wallet/common/utils/number';
@@ -9,6 +14,7 @@ import { WalletParamList } from '@app/walletFeature/wallet/navigation/types';
 import dayjs from 'dayjs';
 import { WalletRoute } from '@app/walletFeature/wallet/navigation/constants';
 import { TransactionDetailsHeader } from '@app/walletFeature/wallet/components/HistoryTabContent/components/TransactionDetailsHeader/TransactionDetailsHeader';
+import { AmountValue } from '@app/walletFeature/wallet/components/AmountValue/AmountValue';
 
 export const WithdrawalItem: FC<{ item: WithdrawalTransaction }> = ({
   item,
@@ -81,14 +87,27 @@ export const WithdrawalItem: FC<{ item: WithdrawalTransaction }> = ({
         </AppText>
       </AppView>
       <AppView width="50%" alignItems="flex-end">
-        <AppText
-          ellipsizeMode="middle"
-          numberOfLines={1}
-          textStyle="medium_14_20"
-          color={colors.negativeStatus}>
-          -{formatNumber(item.amount, undefined, 0, item.cryptoAsset.decimals)}{' '}
-          {item.cryptoAsset.symbol}
-        </AppText>
+        <AppView flexDirection="row">
+          <AppText textStyle="medium_14_20" color={colors.negativeStatus}>
+            {'- '}
+          </AppText>
+          <AmountValue
+            value={formatNumber(
+              item.amount,
+              undefined,
+              2,
+              item.cryptoAsset.decimals,
+            )}
+            Component={
+              <AppText textStyle="medium_14_20" color={colors.negativeStatus} />
+            }
+          />
+          <AppText textStyle="medium_14_20" color={colors.negativeStatus}>
+            {' '}
+            {item.cryptoAsset.symbol}
+          </AppText>
+        </AppView>
+
         <AppText textStyle="regular_12_18" color={colors.inputLabelColor}>
           =
           {formatNumber(

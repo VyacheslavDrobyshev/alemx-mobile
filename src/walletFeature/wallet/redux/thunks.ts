@@ -12,6 +12,7 @@ import {
   TransferTransactionDto,
   UnifiedBalanceByNetworkDto,
   UserInfoDto,
+  AppLoginError,
 } from '@app/walletFeature/wallet/redux/types';
 import {
   createUserWalletApi,
@@ -24,7 +25,6 @@ import {
   getUserUnifiedBalanceApi,
   getUserWalletsApi,
 } from '@app/walletFeature/wallet/api';
-import { AppLoginError } from '@app/walletFeature/auth/redux/types';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const getUserInfoThunk = createAsyncThunk<UserInfoDto>(

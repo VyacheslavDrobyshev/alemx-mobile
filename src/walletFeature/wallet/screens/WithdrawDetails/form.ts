@@ -15,7 +15,7 @@ export const useWithdrawFormValidation = () =>
         address: string().required('Please enter receiving address'),
         amount: number()
           .typeError('Amount must be a number')
-          .moreThan(0, 'Amount must be positive value')
+          .min(10, 'Minimum withdrawal amount is 10 USDT')
           .required('Amount is required'),
       }),
     [],

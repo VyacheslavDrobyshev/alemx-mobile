@@ -48,7 +48,7 @@ export const WalletDetailsScreen: FC = () => {
           Number(item?.totalBalanceAcrossNetworks.balance ?? 0),
           undefined,
           2,
-          getDecimals(item.networks[0].asset.decimals),
+          getDecimals(item.networks[0]?.asset.decimals),
         )} ${item.symbol}`}</AppText>
         <AppText
           color={colors.inputLabelColor}
@@ -56,7 +56,7 @@ export const WalletDetailsScreen: FC = () => {
           Number(item?.totalBalanceAcrossNetworks.balanceUsd ?? 0),
           'currency',
           2,
-          getDecimals(item.networks[0].asset.decimals),
+          getDecimals(item.networks[0]?.asset.decimals),
         )}`}</AppText>
       </AppView>
       <AppView

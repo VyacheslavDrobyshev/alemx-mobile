@@ -1,4 +1,9 @@
-import { AppIcon, AppInput, AppText, AppView } from '@app/walletFeature/wallet/common/components';
+import {
+  AppIcon,
+  AppInput,
+  AppText,
+  AppView,
+} from '@app/walletFeature/wallet/common/components';
 import { FlatList, ListRenderItem, RefreshControl } from 'react-native';
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import {
@@ -78,7 +83,7 @@ export const WalletsList: FC<{
       wallets?.map(el => ({
         ...el,
         balancesByAsset:
-          unifiedBalance?.balancesByAsset?.[el.cryptoAsset.symbol],
+          unifiedBalance?.balancesByAsset?.[el.cryptoAsset.externalId],
       })) ?? [];
     setMappedWallets(modifiedWallets);
   }, [unifiedBalance?.balancesByAsset, wallets]);

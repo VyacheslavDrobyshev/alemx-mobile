@@ -10,9 +10,12 @@ import { TransactionType } from '@app/walletFeature/wallet/screens/Wallet/consta
 import { useSelector } from 'react-redux';
 import { selectUserInfo } from '@app/walletFeature/wallet/redux/selectors';
 
-export const TransactionDetailsHeader: FC<{ item: UnionTransaction }> = ({
-  item,
-}) => {
+export const TransactionDetailsHeader: FC<{
+  item: UnionTransaction;
+  commission?: string;
+  commissionInUsd?: number;
+  isReceiver?: boolean;
+}> = ({ item, commission, commissionInUsd, isReceiver }) => {
   const userInfo = useSelector(selectUserInfo);
   const { colors } = useAppTheme();
   const amount = useMemo(() => {
@@ -23,15 +26,15 @@ export const TransactionDetailsHeader: FC<{ item: UnionTransaction }> = ({
         return -item.amount;
       case TransactionType.Transfer:
         return userInfo?.id === (item as TransferTransaction).receiverUser.id
-          ? item.amount
-          : -item.amount;
+          ? Number(item.amount)
+          : -(Number(item.amount) + Number(commission));
       case TransactionType.Base:
         return item.amount;
       default:
         const _: never = item.transactionType;
         return _;
     }
-  }, [item, userInfo?.id]);
+  }, [commission, item, userInfo?.id]);
 
   return (
     <AppView alignItems="center" marginVertical={20} gap={10}>
@@ -43,7 +46,7 @@ export const TransactionDetailsHeader: FC<{ item: UnionTransaction }> = ({
         {`${amount > 0 ? '+' : ''}${formatNumber(
           amount,
           undefined,
-          0,
+          2,
           item.cryptoAsset.decimals,
         )} `}
         {item.cryptoAsset.symbol}
@@ -53,7 +56,14 @@ export const TransactionDetailsHeader: FC<{ item: UnionTransaction }> = ({
         textStyle="regular_12_18"
         color={colors.inputLabelColor}>
         =
-        {formatNumber(item.amountUsd, 'currency', 2, item.cryptoAsset.decimals)}
+        {formatNumber(
+          isReceiver
+            ? Number(item.amountUsd)
+            : Number(item.amountUsd) + Number(commissionInUsd ?? 0),
+          'currency',
+          2,
+          item.cryptoAsset.decimals,
+        )}
       </AppText>
     </AppView>
   );

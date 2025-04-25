@@ -72,7 +72,7 @@ export const BalanceItem: FC<{
                 Number(item?.totalBalanceAcrossNetworks.balance ?? 0),
                 undefined,
                 2,
-                getDecimals(item.networks[0].asset.decimals),
+                getDecimals(item.networks[0]?.asset.decimals),
               )}
             </AppText>
             <AppText textStyle="regular_12_18" color={secondaryTextColor.color}>
@@ -80,7 +80,7 @@ export const BalanceItem: FC<{
                 Number(item?.totalBalanceAcrossNetworks.balanceUsd ?? 0),
                 'currency',
                 2,
-                getDecimals(item.networks[0].asset.decimals),
+                getDecimals(item.networks[0]?.asset.decimals),
               )}
             </AppText>
           </AppView>
