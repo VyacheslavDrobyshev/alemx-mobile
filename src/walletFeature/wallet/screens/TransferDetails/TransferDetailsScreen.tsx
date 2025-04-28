@@ -89,7 +89,7 @@ export const TransferDetailsScreen: FC = () => {
       setIsLoading(true);
       try {
         await createTransferApi({
-          assetId: 799, // TRX_USDT_S2UZ
+          assetId: 961, // 799 for external app
           amount,
           feeLevel,
           receiverUserId: user.id,
@@ -157,7 +157,7 @@ export const TransferDetailsScreen: FC = () => {
 
       const response = await getTransactionMaxAmountApi({
         transfer_data: {
-          assetId: 799, // TRX_USDT_S2UZ
+          assetId: 961, // 799 for external app
           amount: fields.amount.value,
           feeLevel,
           receiverUserId: user.id,
