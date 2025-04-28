@@ -163,7 +163,11 @@ export const TransferDetailsScreen: FC = () => {
           receiverUserId: user.id,
         },
       });
-      if (Number(fields.amount.value) > Number(response.maxTransactionAmount)) {
+
+      const amount = Number(fields.amount.value);
+      const maxAmount = Number(response.maxTransactionAmount);
+
+      if (amount > maxAmount) {
         setErrors({ amount: 'Insufficient balance' });
       }
       setFee(Number(response?.convertedNetworkFee ?? 0));
