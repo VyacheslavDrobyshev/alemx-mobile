@@ -96,9 +96,9 @@ export const TransferDetailsScreen: FC = () => {
         navigate(WalletRoute.Wallet);
       } catch (e) {
         const error = e as AxiosError<AppWithdrawError>;
-        if (typeof error.response?.data.error === 'string') {
+        if (typeof error.response?.data.detail === 'string') {
           setErrors({
-            amount: error.response?.data.error,
+            amount: error.response?.data.detail,
           });
         }
       } finally {
@@ -162,8 +162,8 @@ export const TransferDetailsScreen: FC = () => {
       setPlatformFeePercentage(platformFeeResponse.commissionPercentage);
     } catch (e) {
       const error = e as AxiosError<AppWithdrawError>;
-      if (typeof error.response?.data.error === 'string') {
-        setErrors({ amount: error.response?.data.error });
+      if (typeof error.response?.data.detail === 'string') {
+        setErrors({ amount: error.response?.data.detail });
       }
     } finally {
       setIsFeeLoading(false);
