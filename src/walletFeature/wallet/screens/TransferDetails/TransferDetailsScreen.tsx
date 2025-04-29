@@ -25,7 +25,6 @@ import { AppButton } from '@app/walletFeature/wallet/common/components/AppButton
 import {
   createTransferApi,
   getPlatformFeeApi,
-  getTransactionMaxAmountApi,
 } from '@app/walletFeature/wallet/api';
 import {
   LevelFee,
@@ -80,9 +79,9 @@ export const TransferDetailsScreen: FC = () => {
   const { colors } = useAppTheme();
   const [isLoading, setIsLoading] = useState(false);
   const [isFeeLoading, setIsFeeLoading] = useState(false);
-  const [commissionAmount, setCommissionAmount] = useState('0');
-  const [commissionPercentage, setCommissionPercentage] = useState('1');
-  const [fee, setFee] = useState(0);
+
+  const [platformFeeAmount, setPlatformFeeAmount] = useState('0');
+  const [platformFeePercentage, setPlatformFeePercentage] = useState('1');
 
   const onSubmit = useCallback<FormikConfig<TransferFormValues>['onSubmit']>(
     async ({ amount }, { setErrors }) => {
@@ -108,7 +107,14 @@ export const TransferDetailsScreen: FC = () => {
     },
     [navigate, user.id],
   );
-  const validationSchema = useTransferFormValidation();
+  const validationSchema = useTransferFormValidation(
+    formatNumber(
+      Number(item?.totalBalanceAcrossNetworks.balance),
+      undefined,
+      0,
+      getDecimals(item.networks[0]?.asset.decimals),
+    ),
+  );
 
   const initialValues = useMemo(() => getTransferFormInitialValues(), []);
 
@@ -134,9 +140,9 @@ export const TransferDetailsScreen: FC = () => {
   const receivedAmount = useMemo(
     () =>
       isNumber(Number(fields.amount.value)) && Number(fields.amount.value) > 0
-        ? Number(fields.amount.value) - Number(commissionAmount) - Number(fee)
+        ? Number(fields.amount.value) - Number(platformFeeAmount)
         : '0.00',
-    [commissionAmount, fee, fields.amount.value],
+    [platformFeeAmount, fields.amount.value],
   );
 
   const isValidAmount = useMemo(
@@ -152,25 +158,8 @@ export const TransferDetailsScreen: FC = () => {
         amount: fields.amount.value,
         transaction_type: TransactionType.Transfer,
       });
-      setCommissionAmount(platformFeeResponse.commissionAmount);
-      setCommissionPercentage(platformFeeResponse.commissionPercentage);
-
-      const response = await getTransactionMaxAmountApi({
-        transfer_data: {
-          assetId: 961, // 799 for external app
-          amount: fields.amount.value,
-          feeLevel,
-          receiverUserId: user.id,
-        },
-      });
-
-      const amount = Number(fields.amount.value);
-      const maxAmount = Number(response.maxTransactionAmount);
-
-      if (amount > maxAmount) {
-        setErrors({ amount: 'Insufficient balance' });
-      }
-      setFee(Number(response?.convertedNetworkFee ?? 0));
+      setPlatformFeeAmount(platformFeeResponse.commissionAmount);
+      setPlatformFeePercentage(platformFeeResponse.commissionPercentage);
     } catch (e) {
       const error = e as AxiosError<AppWithdrawError>;
       if (typeof error.response?.data.error === 'string') {
@@ -179,7 +168,7 @@ export const TransferDetailsScreen: FC = () => {
     } finally {
       setIsFeeLoading(false);
     }
-  }, [fields.amount.value, setErrors, user.id]);
+  }, [fields.amount.value, setErrors]);
 
   useFocusEffect(
     useCallback(() => {
@@ -193,8 +182,8 @@ export const TransferDetailsScreen: FC = () => {
     if (isValidAmount) {
       void debouncedValidateAmount();
     } else {
-      setCommissionAmount('0');
-      setCommissionPercentage('1');
+      setPlatformFeeAmount('0');
+      setPlatformFeePercentage('1');
     }
     return () => {
       debouncedValidateAmount.cancel();
@@ -294,7 +283,7 @@ export const TransferDetailsScreen: FC = () => {
         <AppView flexDirection="row" justifyContent="space-between">
           <AppText color={colors.inputLabelColor}>
             {`Processing fee (${formatNumber(
-              Number(commissionPercentage),
+              Number(platformFeePercentage),
               undefined,
               0,
               2,
@@ -304,18 +293,7 @@ export const TransferDetailsScreen: FC = () => {
             {isFeeLoading ? (
               <AppActivityIndicator size="small" />
             ) : (
-              <AmountValue value={commissionAmount} />
-            )}
-            <AppText marginLeft={10}>{item.symbol}</AppText>
-          </AppView>
-        </AppView>
-        <AppView flexDirection="row" justifyContent="space-between">
-          <AppText color={colors.inputLabelColor}>Network fee</AppText>
-          <AppView width="50%" flexDirection="row" justifyContent="flex-end">
-            {isFeeLoading ? (
-              <AppActivityIndicator size="small" />
-            ) : (
-              <AmountValue value={fee} />
+              <AmountValue value={platformFeeAmount} />
             )}
             <AppText marginLeft={10}>{item.symbol}</AppText>
           </AppView>

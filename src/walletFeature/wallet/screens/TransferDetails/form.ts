@@ -7,14 +7,15 @@ export const getTransferFormInitialValues = (): TransferFormValues => ({
   amount: '',
 });
 
-export const useTransferFormValidation = () =>
+export const useTransferFormValidation = (balance: string) =>
   useMemo(
     () =>
       object().shape({
         amount: number()
           .typeError('Amount must be a number')
           .moreThan(0, 'Amount must be positive value')
+          .max(Number(balance), 'Insufficient funds')
           .required('Amount is required'),
       }),
-    [],
+    [balance],
   );

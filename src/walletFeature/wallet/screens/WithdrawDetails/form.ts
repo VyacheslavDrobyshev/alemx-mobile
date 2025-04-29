@@ -8,7 +8,7 @@ export const getWithdrawFormInitialValues = (): WithdrawFormValues => ({
   amount: '',
 });
 
-export const useWithdrawFormValidation = () =>
+export const useWithdrawFormValidation = (balance: string) =>
   useMemo(
     () =>
       object().shape({
@@ -16,7 +16,8 @@ export const useWithdrawFormValidation = () =>
         amount: number()
           .typeError('Amount must be a number')
           .min(10, 'Minimum withdrawal amount is 10 USDT')
+          .max(Number(balance), 'Insufficient funds.')
           .required('Amount is required'),
       }),
-    [],
+    [balance],
   );

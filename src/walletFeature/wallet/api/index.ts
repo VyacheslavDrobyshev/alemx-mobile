@@ -2,10 +2,7 @@ import { TransactionType } from '@app/walletFeature/wallet/screens/Wallet/consta
 import {
   AppAssetsDto,
   AppCreateWalletParams,
-  AppFeeDto,
-  AppMaxAmountDto,
-  AppMaxAmountTransferParams,
-  AppMaxAmountWithdrawParams,
+  NetworkFeeDto,
   AppTransferParams,
   AppUsersDto,
   AppUserUnifiedBalanceDto,
@@ -15,7 +12,6 @@ import {
   PlatformFeeDto,
   PlatformFeeParams,
   TransactionPaginationParams,
-  TransferFeeParams,
   TransferTransactionDto,
   UnifiedBalanceByNetworkDto,
   UserInfoDto,
@@ -51,18 +47,8 @@ export const getUserUnifiedBalanceApi = async () => {
 };
 
 export const getTransactionFeeApi = async (params: AppWithdrawParams) => {
-  const response = await instance.post<AppFeeDto>(
+  const response = await instance.post<NetworkFeeDto>(
     'transaction/withdrawal/estimate-fee',
-    params,
-  );
-  return response.data;
-};
-
-export const getValidateAmountApi = async (
-  params: AppWithdrawParams,
-): Promise<void> => {
-  const response = await instance.post<void>(
-    'transaction/withdrawal/validate-amount',
     params,
   );
   return response.data;
@@ -110,24 +96,6 @@ export const getPlatformFeeApi = async (params: PlatformFeeParams) => {
     'transaction/platform-fee',
     undefined,
     { params },
-  );
-  return response.data;
-};
-
-export const getTransferFeeApi = async (params: TransferFeeParams) => {
-  const response = await instance.post<AppFeeDto>(
-    'transaction/transfer/estimate-fee',
-    params,
-  );
-  return response.data;
-};
-
-export const getTransactionMaxAmountApi = async (
-  params: AppMaxAmountWithdrawParams | AppMaxAmountTransferParams,
-) => {
-  const response = await instance.post<AppMaxAmountDto>(
-    'transaction/max-amount',
-    params,
   );
   return response.data;
 };

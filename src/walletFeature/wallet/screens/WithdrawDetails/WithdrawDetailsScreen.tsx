@@ -30,8 +30,7 @@ import { AppButton } from '@app/walletFeature/wallet/common/components/AppButton
 import {
   createWithdrawApi,
   getPlatformFeeApi,
-  getTransactionMaxAmountApi,
-  getValidateAmountApi,
+  getTransactionFeeApi,
 } from '@app/walletFeature/wallet/api';
 import { AxiosError } from 'axios';
 import {
@@ -78,9 +77,11 @@ export const WithdrawDetailsScreen: FC = () => {
   } = useRoute<RouteProp<WalletParamList, WalletRoute.WithdrawDetails>>();
   const { navigate } = useNavigation<NavigationProp<WalletParamList>>();
   const { colors } = useAppTheme();
-  const [fee, setFee] = useState(0);
-  const [commissionAmount, setCommissionAmount] = useState('0');
-  const [commissionPercentage, setCommissionPercentage] = useState('3');
+  const [networkFee, setNetworkFee] = useState(0);
+
+  const [platformFeeAmount, setPlatformFeeAmount] = useState('0');
+  const [platformFeePercentage, setPlatformFeePercentage] = useState('3');
+
   const [isLoading, setIsLoading] = useState(false);
   const [isFeeLoading, setIsFeeLoading] = useState(false);
 
@@ -117,7 +118,14 @@ export const WithdrawDetailsScreen: FC = () => {
     },
     [item.cryptoAsset.id, navigate],
   );
-  const validationSchema = useWithdrawFormValidation();
+  const validationSchema = useWithdrawFormValidation(
+    formatNumber(
+      Number(item.balancesByAsset?.balance ?? 0),
+      undefined,
+      0,
+      getDecimals(item.cryptoAsset.decimals),
+    ),
+  );
 
   const initialValues = useMemo(() => getWithdrawFormInitialValues(), []);
 
@@ -127,48 +135,26 @@ export const WithdrawDetailsScreen: FC = () => {
     onSubmit,
   });
 
-  const validateAmount = useCallback(async () => {
+  const getFee = useCallback(async () => {
+    setIsFeeLoading(true);
     try {
-      await getValidateAmountApi({
+      const networkFeeResponse = await getTransactionFeeApi({
         assetId: item.cryptoAsset.id,
         amount: fields.amount.value,
         feeLevel,
         receiverOneTimeAddress: fields.address.value,
       });
-    } catch (e) {
-      const error = e as AxiosError<AppWithdrawError>;
-      if (typeof error.response?.data.error !== 'string') {
-        setErrors({
-          amount: `${error.response?.data.error.message}`,
-        });
-      }
-    }
-  }, [
-    fields.address.value,
-    fields.amount.value,
-    item.cryptoAsset.id,
-    setErrors,
-  ]);
+      setNetworkFee(Number(networkFeeResponse?.networkFeeConverted ?? 0));
 
-  const getFee = useCallback(async () => {
-    setIsFeeLoading(true);
-    try {
-      await validateAmount();
       const platformFeeResponse = await getPlatformFeeApi({
-        amount: fields.amount.value,
+        amount: (
+          Number(fields.amount.value) -
+          Number(networkFeeResponse.networkFeeConverted)
+        ).toString(),
         transaction_type: TransactionType.Withdrawal,
       });
-      setCommissionAmount(platformFeeResponse.commissionAmount);
-      setCommissionPercentage(platformFeeResponse.commissionPercentage);
-      const response = await getTransactionMaxAmountApi({
-        withdraw_data: {
-          assetId: item.cryptoAsset.id,
-          amount: fields.amount.value,
-          feeLevel,
-          receiverOneTimeAddress: fields.address.value,
-        },
-      });
-      setFee(Number(response?.convertedNetworkFee ?? 0));
+      setPlatformFeeAmount(platformFeeResponse.commissionAmount);
+      setPlatformFeePercentage(platformFeeResponse.commissionPercentage);
     } catch (e) {
       const error = e as AxiosError<AppWithdrawError>;
       if (typeof error.response?.data.error === 'string') {
@@ -184,15 +170,16 @@ export const WithdrawDetailsScreen: FC = () => {
     fields.amount.value,
     item.cryptoAsset.id,
     setErrors,
-    validateAmount,
   ]);
 
   const receivedAmount = useMemo(
     () =>
       isNumber(Number(fields.amount.value)) && Number(fields.amount.value) > 0
-        ? Number(fields.amount.value) - Number(fee) - Number(commissionAmount)
+        ? Number(fields.amount.value) -
+          Number(networkFee) -
+          Number(platformFeeAmount)
         : '0.00',
-    [commissionAmount, fee, fields.amount.value],
+    [platformFeeAmount, networkFee, fields.amount.value],
   );
 
   const isValidAmount = useMemo(
@@ -206,8 +193,8 @@ export const WithdrawDetailsScreen: FC = () => {
     if (isValidAmount && fields.address.value) {
       void debouncedValidateAmount();
     } else {
-      setFee(0);
-      setCommissionAmount('0');
+      setNetworkFee(0);
+      setPlatformFeeAmount('0');
     }
     return () => {
       debouncedValidateAmount.cancel();
@@ -268,7 +255,7 @@ export const WithdrawDetailsScreen: FC = () => {
         <AppView flexDirection="row" justifyContent="space-between">
           <AppText color={colors.inputLabelColor}>
             {`Processing fee (${formatNumber(
-              Number(commissionPercentage),
+              Number(platformFeePercentage),
               undefined,
               0,
               2,
@@ -278,7 +265,7 @@ export const WithdrawDetailsScreen: FC = () => {
             {isFeeLoading ? (
               <AppActivityIndicator size="small" />
             ) : (
-              <AmountValue value={commissionAmount} />
+              <AmountValue value={platformFeeAmount} />
             )}
             <AppText marginLeft={10}>{item.cryptoAsset.symbol}</AppText>
           </AppView>
@@ -290,7 +277,7 @@ export const WithdrawDetailsScreen: FC = () => {
             {isFeeLoading ? (
               <AppActivityIndicator size="small" />
             ) : (
-              <AmountValue value={fee} />
+              <AmountValue value={networkFee} />
             )}
             <AppText marginLeft={10}>{item.cryptoAsset.symbol}</AppText>
           </AppView>

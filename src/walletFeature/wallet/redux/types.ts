@@ -179,17 +179,10 @@ export type AppWithdrawError = {
     | string;
 };
 
-export type AppFeeDto = {
-  [p: string]: {
-    feePerByte: number | null;
-    gasPrice: number | null;
-    gasLimit: number | null;
-    networkFee: number;
-    baseFee: number | null;
-    priorityFee: number | null;
-    maxFeePerGasDelta: number | null;
-    l1Fee: number | null;
-  };
+export type NetworkFeeDto = {
+  networkFeeNative: string;
+  networkFeeConverted: string;
+  transactionType: TransactionType;
 };
 
 export type CryptoAssetTransaction = {
@@ -349,37 +342,6 @@ export type PlatformFeeParams = {
   transaction_type: TransactionType;
 };
 
-export type TransferFeeParams = {
-  assetId: number;
-  amount: string;
-  feeLevel: LevelFee;
-  receiverUserId: number;
-};
-
 export type AppLoginError = {
   detail: string;
-};
-
-export type AppMaxAmountWithdrawParams = {
-  withdraw_data?: {
-    assetId: number;
-    amount: string;
-    feeLevel: LevelFee;
-    receiverOneTimeAddress: string;
-  };
-};
-
-export type AppMaxAmountTransferParams = {
-  transfer_data?: {
-    assetId: number;
-    amount: string;
-    feeLevel: LevelFee;
-    receiverUserId: number;
-  };
-};
-
-export type AppMaxAmountDto = {
-  availableBalance: string;
-  convertedNetworkFee: string;
-  maxTransactionAmount: string;
 };

@@ -78,3 +78,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
       build(17)
 - Fixed the error appearing on the TransferDetailsScreen
+
+      build(18)
+- Changes related to Transfer fee LMX-160
+- Removed unused endpoints
