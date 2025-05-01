@@ -85,3 +85,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
       build(19)
 - Added deposit fee
+
+      build(20)
+- Fixed max amount
+- Changed sort of transactions

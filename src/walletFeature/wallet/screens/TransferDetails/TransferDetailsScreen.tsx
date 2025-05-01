@@ -255,12 +255,7 @@ export const TransferDetailsScreen: FC = () => {
             <InputAmountRightContent
               onPress={() =>
                 fields.amount.setValue(
-                  formatNumber(
-                    Number(item?.totalBalanceAcrossNetworks.balance),
-                    undefined,
-                    0,
-                    getDecimals(item.networks[0]?.asset.decimals),
-                  ),
+                  Number(item?.totalBalanceAcrossNetworks.balance).toString(),
                 )
               }
               symbol={item.symbol}

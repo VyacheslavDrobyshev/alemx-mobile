@@ -18,10 +18,8 @@ export const groupTransactionsByDate = (
     {} as Record<string, UnionTransaction[]>,
   );
 
-  return Object.keys(grouped)
-    .sort((a, b) => dayjs(b).valueOf() - dayjs(a).valueOf())
-    .map(date => ({
-      title: date.replaceAll('-', '.'),
-      data: grouped[date],
-    }));
+  return Object.keys(grouped).map(date => ({
+    title: date.replaceAll('-', '.'),
+    data: grouped[date],
+  }));
 };

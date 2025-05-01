@@ -227,12 +227,7 @@ export const WithdrawDetailsScreen: FC = () => {
             <InputAmountRightContent
               onPress={() =>
                 fields.amount.setValue(
-                  formatNumber(
-                    Number(item.balancesByAsset?.balance ?? 0),
-                    undefined,
-                    0,
-                    getDecimals(item.cryptoAsset.decimals),
-                  ) ?? '',
+                  Number(item.balancesByAsset?.balance).toString(),
                 )
               }
               item={item.cryptoAsset}
