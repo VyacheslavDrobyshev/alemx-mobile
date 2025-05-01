@@ -89,3 +89,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
       build(20)
 - Fixed max amount
 - Changed sort of transactions
+
+      build(21)
+- Added disclaimer on deposit page
