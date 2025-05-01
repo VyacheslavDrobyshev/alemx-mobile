@@ -15,6 +15,7 @@ import {
   TransferTransactionDto,
   UnifiedBalanceByNetworkDto,
   UserInfoDto,
+  DepositFeeDto,
 } from '@app/walletFeature/wallet/redux/types';
 import { instance } from '@app/walletFeature/wallet/common/api/interceptor';
 
@@ -103,6 +104,13 @@ export const getPlatformFeeApi = async (params: PlatformFeeParams) => {
 export const getUnifiedBalanceByNetworkApi = async () => {
   const response = await instance.get<UnifiedBalanceByNetworkDto[]>(
     'balance/unified-asset-balance-by-networks',
+  );
+  return response.data;
+};
+
+export const getDepositEstimateFeeApi = async (assetId: string | number) => {
+  const response = await instance.post<DepositFeeDto>(
+    `transaction/deposit/estimate-fee?asset_id=${assetId}`,
   );
   return response.data;
 };

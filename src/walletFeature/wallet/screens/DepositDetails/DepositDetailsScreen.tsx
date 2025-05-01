@@ -1,4 +1,4 @@
-import { FC, useCallback, useMemo } from 'react';
+import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import {
   AppIcon,
   AppScreen,
@@ -19,11 +19,17 @@ import { WalletRoute } from '@app/walletFeature/wallet/navigation/constants';
 import { useAppTheme } from '@app/walletFeature/wallet/common/theme';
 import { useAppToast } from '@app/walletFeature/wallet/common/components/AppToast/useAppToast';
 import { AppIconName } from '@app/walletFeature/wallet/common/components/AppIcon/types';
+import { getDepositEstimateFeeApi } from '@app/walletFeature/wallet/api';
+import { AppActivityIndicator } from '@app/walletFeature/wallet/common/components/AppActivityIndicator/AppActivityIndicator';
+import { AmountValue } from '@app/walletFeature/wallet/components/AmountValue/AmountValue';
 
 export const DepositDetailsScreen: FC = () => {
   const {
     params: { item },
   } = useRoute<RouteProp<WalletParamList, WalletRoute.DepositDetails>>();
+  const [depositFee, setDepositFee] = useState('0');
+  const [isFeeLoading, setIsFeeLoading] = useState(false);
+
   const { colors } = useAppTheme();
   const { goBack } = useNavigation<NavigationProp<WalletParamList>>();
 
@@ -55,6 +61,23 @@ export const DepositDetailsScreen: FC = () => {
     ],
     [copyToClipboard, item?.address, item?.network.name, goBack],
   );
+
+  useEffect(() => {
+    const fetchFee = async () => {
+      try {
+        setIsFeeLoading(true);
+        const data = await getDepositEstimateFeeApi(item.cryptoAsset.id);
+        setDepositFee(data.networkFeeConverted);
+      } catch (e) {
+        /* empty */
+      } finally {
+        setIsFeeLoading(false);
+      }
+    };
+    void fetchFee();
+    const interval = setInterval(fetchFee, 15000);
+    return () => clearInterval(interval);
+  }, [item.cryptoAsset.id]);
 
   return (
     <AppScreen title={`Deposit ${item?.cryptoAsset.symbol}`} noScroll>
@@ -115,22 +138,35 @@ export const DepositDetailsScreen: FC = () => {
           ))}
         </AppView>
       </AppView>
-      <AppView
-        marginTop={15}
-        marginBottom={10}
-        flexDirection="row"
-        justifyContent="space-between">
-        <AppText color={colors.inputLabelColor} textStyle="regular_12_18">
-          Minimum deposit
+      <AppView marginVertical={20}>
+        <AppText color={colors.inputErrorColor}>
+          *Do not transact with Sanctioned Entities
         </AppText>
-        <AppText textStyle="regular_12_18">{`>0.01 ${item?.cryptoAsset.symbol}`}</AppText>
+        <AppText color={colors.inputErrorColor}>
+          *Don’t sent NFTs to this address
+        </AppText>
       </AppView>
-      <AppText color={colors.inputErrorColor}>
-        *Do not transact with Sanctioned Entities
-      </AppText>
-      <AppText color={colors.inputErrorColor}>
-        *Don’t sent NFTs to this address
-      </AppText>
+
+      <AppView justifyContent="flex-end" flex={1} gap={5}>
+        <AppView
+          flexDirection="row"
+          justifyContent="space-between"
+          alignItems="flex-end">
+          <AppText color={colors.inputLabelColor}>Minimum deposit</AppText>
+          <AppText>{`>1.00 ${item?.cryptoAsset.symbol}`}</AppText>
+        </AppView>
+        <AppView flexDirection="row" justifyContent="space-between">
+          <AppText color={colors.inputLabelColor}>Network fee</AppText>
+          <AppView width="50%" flexDirection="row" justifyContent="flex-end">
+            {isFeeLoading ? (
+              <AppActivityIndicator size="small" />
+            ) : (
+              <AmountValue value={depositFee} />
+            )}
+            <AppText marginLeft={10}>{item.cryptoAsset.symbol}</AppText>
+          </AppView>
+        </AppView>
+      </AppView>
     </AppScreen>
   );
 };

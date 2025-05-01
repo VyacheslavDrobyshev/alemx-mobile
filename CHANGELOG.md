@@ -82,3 +82,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
       build(18)
 - Changes related to Transfer fee LMX-160
 - Removed unused endpoints
+
+      build(19)
+- Added deposit fee

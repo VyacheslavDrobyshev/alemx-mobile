@@ -185,6 +185,8 @@ export type NetworkFeeDto = {
   transactionType: TransactionType;
 };
 
+export type DepositFeeDto = NetworkFeeDto;
+
 export type CryptoAssetTransaction = {
   name: string;
   isEssential: boolean;

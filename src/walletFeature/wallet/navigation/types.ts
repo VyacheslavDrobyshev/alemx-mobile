@@ -12,7 +12,7 @@ export type WalletParamList = {
   [WalletRoute.Wallet]: undefined;
   [WalletRoute.WalletDetails]: { item: UnifiedBalanceByNetworkDto };
   [WalletRoute.Deposit]: undefined;
-  [WalletRoute.DepositDetails]: { item?: AppUserWalletsDto };
+  [WalletRoute.DepositDetails]: { item: AppUserWalletsDto };
   [WalletRoute.Withdraw]: undefined;
   [WalletRoute.WithdrawDetails]: { item: ModifiedWallet };
   [WalletRoute.History]: undefined;
