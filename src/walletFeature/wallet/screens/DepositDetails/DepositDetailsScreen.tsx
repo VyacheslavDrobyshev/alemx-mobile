@@ -150,6 +150,27 @@ export const DepositDetailsScreen: FC = () => {
       <AppView justifyContent="flex-end" flex={1} gap={5}>
         <AppView
           flexDirection="row"
+          padding={10}
+          marginBottom={10}
+          backgroundColor={colors.primaryLightColor}
+          width="100%"
+          borderRadius={12}
+          borderWidth={1}
+          borderColor={colors.pendingStatus}>
+          <AppIcon
+            marginRight={10}
+            color={colors.inputLabelColor}
+            name="Bell"
+          />
+          <AppText flexShrink={1}>
+            Only USDT on the BNB Smart Chain (BEP-20) is supported. Do not send
+            tokens from other networks or other tokens — they will be lost and
+            cannot be recovered.
+          </AppText>
+        </AppView>
+
+        <AppView
+          flexDirection="row"
           justifyContent="space-between"
           alignItems="flex-end">
           <AppText color={colors.inputLabelColor}>Minimum deposit</AppText>
