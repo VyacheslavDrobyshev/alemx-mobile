@@ -191,9 +191,16 @@ export const DepositDetailsScreen: FC = () => {
             {isFeeLoading ? (
               <AppActivityIndicator size="small" />
             ) : (
-              <AmountValue value={depositFee} />
+              <AmountValue
+                value={depositFee}
+                Component={
+                  <AppText color={colors.pendingStatus} marginLeft={10} />
+                }
+              />
             )}
-            <AppText marginLeft={10}>{item.cryptoAsset.symbol}</AppText>
+            <AppText color={colors.pendingStatus} marginLeft={10}>
+              {item.cryptoAsset.symbol}
+            </AppText>
           </AppView>
         </AppView>
       </AppView>
