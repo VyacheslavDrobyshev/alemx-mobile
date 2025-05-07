@@ -15,7 +15,8 @@ export const AmountValue: FC<{
   value: string | number;
   hideNegative?: boolean;
   Component?: ReactElement;
-}> = ({ value, Component, hideNegative }) => {
+  hideTooltip?: boolean;
+}> = ({ value, Component, hideNegative, hideTooltip }) => {
   const [isTooltipShown, setIsTooltipShown] = useState(false);
 
   const toggleTooltip = useCallback(() => {
@@ -34,18 +35,18 @@ export const AmountValue: FC<{
   const content =
     decimals >= 4
       ? `${formatNumber(Number(value), undefined, 2, 4)}...`
-      : formatNumber(Number(value), undefined, 2);
+      : formatNumber(Number(value), undefined, 2, 4);
 
   const renderedComponent = isValidElement(Component) ? (
     cloneElement(Component, {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
-      onPress: decimals >= 4 ? toggleTooltip : undefined,
+      onPress: !hideTooltip && decimals >= 4 ? toggleTooltip : undefined,
       children: Number(value) >= 0 ? content : hideNegative ? '--' : content,
     })
   ) : (
     <AppText
-      onPress={decimals >= 4 ? toggleTooltip : undefined}
+      onPress={!hideTooltip && decimals >= 4 ? toggleTooltip : undefined}
       ellipsizeMode="middle"
       numberOfLines={1}>
       {content}

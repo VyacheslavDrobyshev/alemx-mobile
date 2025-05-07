@@ -17,6 +17,7 @@ const ModalItem: FC<SelectMethodModalItem> = ({
   action,
   title,
   subtitle,
+  disabled,
 }) => {
   const { closeBottomDrawer } = useAppBottomDrawer();
   const { colors } = useAppTheme();
@@ -28,6 +29,8 @@ const ModalItem: FC<SelectMethodModalItem> = ({
 
   return (
     <AppTouchable
+      opacity={disabled ? 0.5 : 1}
+      disabled={disabled}
       flexDirection="row"
       padding={10}
       borderRadius={8}
@@ -37,8 +40,7 @@ const ModalItem: FC<SelectMethodModalItem> = ({
       borderColor={colors.inputBorderColor}
       overflow="hidden"
       backgroundColor={colors.primaryLightColor}
-      borderWidth={1}
-    >
+      borderWidth={1}>
       <AppIcon marginRight={10} name={icon} color={colors.white} />
       <AppView justifyContent="space-between" flex={1}>
         <AppText textStyle="medium_14_20">{title}</AppText>
@@ -60,7 +62,7 @@ export const SelectMethodModalContent: FC<SelectMethodModalContentProps> = ({
   items,
 }) => (
   <AppView marginBottom={30} gap={10} justifyContent="space-between">
-    {items.map((item) => (
+    {items.map(item => (
       <ModalItem key={item.title} {...item} />
     ))}
   </AppView>

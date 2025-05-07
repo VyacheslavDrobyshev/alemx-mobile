@@ -12,6 +12,7 @@ import {
 import { AppImage } from '@app/walletFeature/wallet/common/components/AppImage/AppImage';
 import { NetworkItem } from '@app/walletFeature/wallet/screens/WalletDetails/components/NetworkItem/NetworkItem';
 import { UnifiedBalanceByNetworkDto } from '@app/walletFeature/wallet/redux/types';
+import { AmountValue } from '@app/walletFeature/wallet/components/AmountValue/AmountValue';
 
 export const BalanceItem: FC<{
   item: UnifiedBalanceByNetworkDto;
@@ -67,14 +68,11 @@ export const BalanceItem: FC<{
             <AppText textStyle="regular_12_18">{item.name}</AppText>
           </AppView>
           <AppView alignItems="flex-end" justifyContent="space-between">
-            <AppText textStyle="medium_14_20">
-              {formatNumber(
-                Number(item?.totalBalanceAcrossNetworks.balance ?? 0),
-                undefined,
-                2,
-                getDecimals(item.networks[0]?.asset.decimals),
-              )}
-            </AppText>
+            <AmountValue
+              hideTooltip
+              value={Number(item?.totalBalanceAcrossNetworks.balance ?? 0)}
+              Component={<AppText textStyle="medium_14_20" />}
+            />
             <AppText textStyle="regular_12_18" color={secondaryTextColor.color}>
               {formatNumber(
                 Number(item?.totalBalanceAcrossNetworks.balanceUsd ?? 0),

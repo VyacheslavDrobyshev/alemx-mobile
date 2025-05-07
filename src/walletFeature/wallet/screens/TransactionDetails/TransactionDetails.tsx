@@ -1,5 +1,9 @@
 import { FC } from 'react';
-import { AppScreen, AppText, AppView } from '@app/walletFeature/wallet/common/components';
+import {
+  AppScreen,
+  AppText,
+  AppView,
+} from '@app/walletFeature/wallet/common/components';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { WalletParamList } from '@app/walletFeature/wallet/navigation/types';
 import { WalletRoute } from '@app/walletFeature/wallet/navigation/constants';
@@ -19,8 +23,7 @@ export const TransactionDetailsScreen: FC = () => {
         borderWidth={1}
         borderColor={colors.inputBorderColor}
         width="100%"
-        backgroundColor={colors.primaryLightColor}
-      >
+        backgroundColor={colors.primaryLightColor}>
         {Object.entries(rows).map((el, index) => (
           <AppView
             key={el[0]}
@@ -28,18 +31,22 @@ export const TransactionDetailsScreen: FC = () => {
             paddingVertical={15}
             flexDirection="row"
             borderTopWidth={index ? 1 : 0}
-            borderColor={colors.inputBorderColor}
-          >
+            borderColor={colors.inputBorderColor}>
             <AppText color={colors.inputLabelColor}>{el[0]}</AppText>
-            <AppText
-              ellipsizeMode="middle"
-              maxWidth="60%"
-              flexShrink={1}
-              numberOfLines={1}
-              textStyle="medium_14_20"
-            >
-              {el[1]}
-            </AppText>
+            {typeof el[1] === 'string' ? (
+              <AppText
+                ellipsizeMode="middle"
+                maxWidth="60%"
+                flexShrink={1}
+                numberOfLines={1}
+                textStyle="medium_14_20">
+                {el[1]}
+              </AppText>
+            ) : (
+              <AppView alignItems="flex-end" flex={1}>
+                {el[1]}
+              </AppView>
+            )}
           </AppView>
         ))}
       </AppView>

@@ -1,4 +1,4 @@
-import { FC, useCallback, useMemo } from 'react';
+import React, { FC, useCallback, useMemo } from 'react';
 import { TransferTransaction } from '@app/walletFeature/wallet/redux/types';
 import {
   AppIcon,
@@ -23,14 +23,39 @@ export const TransferItem: FC<{ item: TransferTransaction }> = ({ item }) => {
   const { navigate } = useNavigation<NavigationProp<WalletParamList>>();
   const userInfo = useSelector(selectUserInfo);
 
-  const renderedRows = useMemo(
+  const isReceiver = useMemo(
+    () => item.receiverUser.id === userInfo?.id,
+    [item.receiverUser.id, userInfo?.id],
+  );
+
+  const processingFee = useMemo(
+    () => (
+      <AmountValue
+        value={Number(item.commissionTotalAmount)}
+        Component={<AppText textStyle="medium_14_20" />}
+      />
+    ),
+    [item.commissionTotalAmount],
+  );
+
+  const renderedRows: { [key: string]: string | React.ReactNode } = useMemo(
     () => ({
       'Transaction type': capitalizeFirstLetter(item.transactionType),
+      'Processing fee': processingFee,
       Receiver: item.receiverUser.username,
       Date: dayjs(item.createdAt).format('MMM DD, YYYY [at] HH:MM'),
     }),
-    [item.createdAt, item.receiverUser.username, item.transactionType],
+    [
+      item.createdAt,
+      item.receiverUser.username,
+      item.transactionType,
+      processingFee,
+    ],
   );
+
+  if (isReceiver) {
+    delete renderedRows['Processing fee'];
+  }
 
   const commission = useMemo(
     () =>
@@ -53,11 +78,6 @@ export const TransferItem: FC<{ item: TransferTransaction }> = ({ item }) => {
     [item.amount, item.commissions],
   );
 
-  const isReceiver = useMemo(
-    () => item.receiverUser.id === userInfo?.id,
-    [item.receiverUser.id, userInfo?.id],
-  );
-
   const onPress = useCallback(() => {
     navigate(WalletRoute.TransactionDetails, {
       header: (
@@ -76,8 +96,8 @@ export const TransferItem: FC<{ item: TransferTransaction }> = ({ item }) => {
   const amount = useMemo(
     () =>
       isReceiver
-        ? Number(item.amount)
-        : -(Number(item.amount) + Number(commission)),
+        ? Number(item.amount) - Number(commission)
+        : -Number(item.amount),
     [commission, item.amount, isReceiver],
   );
 
@@ -94,25 +114,27 @@ export const TransferItem: FC<{ item: TransferTransaction }> = ({ item }) => {
       flexDirection="row"
       alignItems="center"
       borderColor={colors.inputBorderColor}>
-      <AppIcon
-        marginRight={10}
-        name="TransferTop"
-        color={colors.inputLabelColor}
-      />
-      <AppView flex={1}>
+      <AppView width="10%">
+        <AppIcon
+          marginRight={10}
+          name="TransferTop"
+          color={colors.inputLabelColor}
+        />
+      </AppView>
+
+      <AppView width="45%">
         <AppText textStyle="medium_14_20">
           {capitalizeFirstLetter(item.transactionType)}
         </AppText>
         <AppText
           ellipsizeMode="middle"
-          width={100}
           numberOfLines={1}
           textStyle="regular_12_18">
           <AppText color={colors.inputLabelColor}>To</AppText>{' '}
           {item.receiverUser.username || item.receiverUser.email}
         </AppText>
       </AppView>
-      <AppView width="50%" alignItems="flex-end">
+      <AppView width="45%" alignItems="flex-end">
         <AppView flexDirection="row">
           <AppText
             textStyle="medium_14_20"
@@ -120,12 +142,7 @@ export const TransferItem: FC<{ item: TransferTransaction }> = ({ item }) => {
             {`${amount > 0 ? '+' : ''}`}
           </AppText>
           <AmountValue
-            value={formatNumber(
-              amount,
-              undefined,
-              2,
-              item.cryptoAsset.decimals,
-            )}
+            value={amount}
             Component={
               <AppText
                 ellipsizeMode="middle"
@@ -148,8 +165,8 @@ export const TransferItem: FC<{ item: TransferTransaction }> = ({ item }) => {
           =
           {formatNumber(
             isReceiver
-              ? Number(item.amountUsd)
-              : Number(item.amountUsd) + commissionInUsd,
+              ? Number(item.amountUsd) - commissionInUsd
+              : Number(item.amountUsd),
             'currency',
             2,
             item.cryptoAsset.decimals,

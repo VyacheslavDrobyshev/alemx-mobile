@@ -39,8 +39,8 @@ import { AppImage } from '@app/walletFeature/wallet/common/components/AppImage/A
 import { AxiosError } from 'axios';
 import {
   formatNumber,
-  getDecimals,
   isNumber,
+  roundTo,
 } from '@app/walletFeature/wallet/common/utils/number';
 import _ from 'lodash';
 import { AppActivityIndicator } from '@app/walletFeature/wallet/common/components/AppActivityIndicator/AppActivityIndicator';
@@ -88,7 +88,7 @@ export const TransferDetailsScreen: FC = () => {
       setIsLoading(true);
       try {
         await createTransferApi({
-          assetId: 961, // 799 for external app
+          assetId: 961, // 1043 for external app
           amount,
           feeLevel,
           receiverUserId: user.id,
@@ -108,12 +108,10 @@ export const TransferDetailsScreen: FC = () => {
     [navigate, user.id],
   );
   const validationSchema = useTransferFormValidation(
-    formatNumber(
-      Number(item?.totalBalanceAcrossNetworks.balance),
-      undefined,
-      0,
-      getDecimals(item.networks[0]?.asset.decimals),
-    ),
+    roundTo(
+      Number(item?.totalBalanceAcrossNetworks.balance ?? 0),
+      item.networks[0].asset.decimals,
+    ).toString(),
   );
 
   const initialValues = useMemo(() => getTransferFormInitialValues(), []);
@@ -172,6 +170,7 @@ export const TransferDetailsScreen: FC = () => {
 
   useFocusEffect(
     useCallback(() => {
+      void formik.setValues({ amount: '' });
       formik.setErrors({});
       void formik.setTouched({ amount: false });
     }, []), // eslint-disable-line react-hooks/exhaustive-deps
@@ -255,24 +254,31 @@ export const TransferDetailsScreen: FC = () => {
             <InputAmountRightContent
               onPress={() =>
                 fields.amount.setValue(
-                  Number(item?.totalBalanceAcrossNetworks.balance).toString(),
+                  roundTo(
+                    Number(item?.totalBalanceAcrossNetworks.balance ?? 0),
+                    item.networks[0].asset.decimals,
+                  ).toString(),
                 )
               }
               symbol={item.symbol}
             />
           }
         />
-        <AppText color={colors.inputLabelColor}>
-          Available:{' '}
-          <AppText>
-            {formatNumber(
-              Number(item?.totalBalanceAcrossNetworks.balance),
-              undefined,
-              0,
-              getDecimals(item.networks[0]?.asset.decimals),
-            )}
-          </AppText>
-        </AppText>
+        <AppView flexDirection="row">
+          <AppText color={colors.inputLabelColor}>Available: </AppText>
+          <AmountValue
+            hideNegative
+            value={Number(item?.totalBalanceAcrossNetworks.balance)}
+            Component={
+              <AppText
+                textAlign="right"
+                ellipsizeMode="middle"
+                numberOfLines={1}
+                textStyle="regular_14_20"
+              />
+            }
+          />
+        </AppView>
       </AppView>
       <AppView marginVertical={10}>
         <AppView flexDirection="row" justifyContent="space-between">

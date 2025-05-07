@@ -215,6 +215,8 @@ export type TransferTransaction = {
   cryptoAssetId: number;
   amount: number;
   amountUsd: number;
+  networkFee: string;
+  networkFeeUsd: string;
   transactionHash: string;
   updatedAt: string;
   senderUser: {
@@ -268,6 +270,26 @@ export type SwapTransaction = {
   createdAt: string;
   amount: number;
   amountUsd: number;
+  networkFee: string;
+  networkFeeUsd: string;
+  commissionTotalAmount: string;
+  commissions: {
+    id: number;
+    created: string | null;
+    updated: string | null;
+    createdAt: string;
+    updatedAt: string;
+    commissionAmount: number;
+    commissionType: {
+      id: number;
+      created: string | null;
+      updated: string | null;
+      createdAt: string;
+      updatedAt: string;
+      type: string;
+      commissionPercentage: number;
+    };
+  }[];
   //   todo add more props
 };
 export type DepositTransaction = {
@@ -276,6 +298,8 @@ export type DepositTransaction = {
   createdAt: string;
   amount: number;
   amountUsd: number;
+  networkFee: string;
+  networkFeeUsd: string;
   externalId: string;
   status: string;
   id: number;
@@ -294,6 +318,24 @@ export type DepositTransaction = {
     updatedAt: string;
     cryptoAsset: CryptoAssetTransaction;
   };
+  commissionTotalAmount: string;
+  commissions: {
+    id: number;
+    created: string | null;
+    updated: string | null;
+    createdAt: string;
+    updatedAt: string;
+    commissionAmount: number;
+    commissionType: {
+      id: number;
+      created: string | null;
+      updated: string | null;
+      createdAt: string;
+      updatedAt: string;
+      type: string;
+      commissionPercentage: number;
+    };
+  }[];
 };
 export type WithdrawalTransaction = {
   externalId: string;
@@ -304,6 +346,8 @@ export type WithdrawalTransaction = {
   externalDestinationAddress: string;
   amount: number;
   amountUsd: number;
+  networkFee: string;
+  networkFeeUsd: string;
   cryptoAssetId: number;
   transactionHash: string;
   id: number;
@@ -318,6 +362,24 @@ export type WithdrawalTransaction = {
     updatedAt: string;
   };
   cryptoAsset: CryptoAssetTransaction;
+  commissionTotalAmount: string;
+  commissions: {
+    id: number;
+    created: string | null;
+    updated: string | null;
+    createdAt: string;
+    updatedAt: string;
+    commissionAmount: number;
+    commissionType: {
+      id: number;
+      created: string | null;
+      updated: string | null;
+      createdAt: string;
+      updatedAt: string;
+      type: string;
+      commissionPercentage: number;
+    };
+  }[];
 };
 
 export type TransferTransactionDto = {

@@ -62,6 +62,7 @@ export function AccountValue() {
                 action: () => navigate(WalletRoute.Deposit),
               },
               {
+                disabled: true,
                 icon: 'Money',
                 title: 'Fiat',
                 subtitle:
@@ -83,6 +84,7 @@ export function AccountValue() {
                 action: () => navigate(WalletRoute.Withdraw),
               },
               {
+                disabled: true,
                 icon: 'Money',
                 title: 'Credit card',
                 subtitle:
@@ -169,7 +171,8 @@ export function AccountValue() {
             disabled={
               (id === AccountValueButtonsId.Withdraw &&
                 !unifiedBalance?.totalBalanceUsd) ||
-              id === AccountValueButtonsId.Swap
+              id === AccountValueButtonsId.Swap ||
+              id === AccountValueButtonsId.Buy
             }
             onPress={() => onPressHandler(id)}
             flex={1}
@@ -179,7 +182,8 @@ export function AccountValue() {
               color={
                 (id === AccountValueButtonsId.Withdraw &&
                   !unifiedBalance?.totalBalanceUsd) ||
-                id === AccountValueButtonsId.Swap
+                id === AccountValueButtonsId.Swap ||
+                id === AccountValueButtonsId.Buy
                   ? colors.inputItemColor
                   : colors.white
               }
@@ -188,7 +192,8 @@ export function AccountValue() {
               color={
                 (id === AccountValueButtonsId.Withdraw &&
                   !unifiedBalance?.totalBalanceUsd) ||
-                id === AccountValueButtonsId.Swap
+                id === AccountValueButtonsId.Swap ||
+                id === AccountValueButtonsId.Buy
                   ? colors.inputItemColor
                   : colors.white
               }>

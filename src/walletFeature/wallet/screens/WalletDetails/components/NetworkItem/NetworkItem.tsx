@@ -1,9 +1,6 @@
 import { AppImage } from '@app/walletFeature/wallet/common/components/AppImage/AppImage';
 import { AppText, AppView } from '@app/walletFeature/wallet/common/components';
-import {
-  formatNumber,
-  getDecimals,
-} from '@app/walletFeature/wallet/common/utils/number';
+import { formatNumber } from '@app/walletFeature/wallet/common/utils/number';
 import { FC } from 'react';
 import { useAppTheme } from '@app/walletFeature/wallet/common/theme';
 import { UnifiedBalanceNetwork } from '@app/walletFeature/wallet/redux/types';
@@ -55,7 +52,7 @@ export const NetworkItem: FC<{ networks: UnifiedBalanceNetwork[] }> = ({
                   Number(element?.totalBalanceByNetwork.balance ?? 0),
                   undefined,
                   2,
-                  getDecimals(element.asset.decimals),
+                  element.asset.decimals,
                 )}
               </AppText>
               <AppText color={colors.inputLabelColor}>
@@ -63,7 +60,7 @@ export const NetworkItem: FC<{ networks: UnifiedBalanceNetwork[] }> = ({
                   Number(element.totalBalanceByNetwork.balanceUsd ?? 0),
                   'currency',
                   2,
-                  getDecimals(element.asset.decimals),
+                  element.asset.decimals,
                 )}
               </AppText>
             </AppView>

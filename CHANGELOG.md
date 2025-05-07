@@ -92,3 +92,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
       build(21)
 - Added disclaimer on deposit page
+
+      build(22)
+- Added commissions for transaction history LMX-165
+- Fixed available balance and MAX amount LMX-172
+
+      build(23)
+- Fixed the disabled button when MAX amount was chosen
+
+      build(24)
+- Fixed cropped text on the history screen
+
+      build(25)
+- Disabled features LMX-175
+- Removed input value on transfer scree when token has been changed LMX-172
+
+      build(26)
+- Fixed balance value on WalletDetails and wallet list

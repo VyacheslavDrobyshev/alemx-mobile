@@ -4,7 +4,7 @@ import {
   UserData,
 } from '@app/walletFeature/wallet/redux/types';
 import { ModifiedWallet } from '@app/walletFeature/wallet/components/WalletsList/WalletsList';
-import { ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 
 import { WalletRoute } from './constants';
 
@@ -19,7 +19,7 @@ export type WalletParamList = {
   [WalletRoute.TransactionDetails]: {
     header: ReactElement;
     title: string;
-    rows: { [key: string]: string };
+    rows: { [key: string]: string | React.ReactNode };
   };
   [WalletRoute.TransferUser]: { item: UnifiedBalanceByNetworkDto } | undefined;
   [WalletRoute.TransferAsset]: { user: UserData };

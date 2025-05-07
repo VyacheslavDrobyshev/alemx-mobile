@@ -162,10 +162,19 @@ export const DepositDetailsScreen: FC = () => {
             color={colors.inputLabelColor}
             name="Bell"
           />
-          <AppText flexShrink={1}>
-            Only USDT on the BNB Smart Chain (BEP-20) is supported. Do not send
-            tokens from other networks or other tokens — they will be lost and
-            cannot be recovered.
+          <AppText textStyle="regular_12_18" flexShrink={1}>
+            Only{' '}
+            <AppText textStyle="medium_12_18">
+              USDT on the BNB Smart Chain (BEP-20)
+            </AppText>{' '}
+            is supported.{' '}
+            <AppText textStyle="medium_12_18">
+              Do not send tokens from other networks or other tokens
+            </AppText>
+            — they will be{' '}
+            <AppText textStyle="medium_12_18">
+              lost and cannot be recovered.
+            </AppText>
           </AppText>
         </AppView>
 

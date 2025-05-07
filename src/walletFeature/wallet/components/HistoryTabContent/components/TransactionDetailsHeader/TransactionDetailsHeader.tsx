@@ -26,8 +26,8 @@ export const TransactionDetailsHeader: FC<{
         return -item.amount;
       case TransactionType.Transfer:
         return userInfo?.id === (item as TransferTransaction).receiverUser.id
-          ? Number(item.amount)
-          : -(Number(item.amount) + Number(commission));
+          ? Number(item.amount) - Number(commission)
+          : -Number(item.amount);
       case TransactionType.Base:
         return item.amount;
       default:
@@ -58,8 +58,8 @@ export const TransactionDetailsHeader: FC<{
         =
         {formatNumber(
           isReceiver
-            ? Number(item.amountUsd)
-            : Number(item.amountUsd) + Number(commissionInUsd ?? 0),
+            ? Number(item.amountUsd) - Number(commissionInUsd ?? 0)
+            : Number(item.amountUsd),
           'currency',
           2,
           item.cryptoAsset.decimals,

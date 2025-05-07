@@ -1,7 +1,11 @@
 import { FC, useEffect, useState } from 'react';
 import { useAppTheme } from '@app/walletFeature/wallet/common/theme';
 import { AppTabProps } from '@app/walletFeature/wallet/common/components/AppTab/types';
-import { AppText, AppTouchable, AppView } from '@app/walletFeature/wallet/common/components';
+import {
+  AppText,
+  AppTouchable,
+  AppView,
+} from '@app/walletFeature/wallet/common/components';
 
 export const AppTab: FC<AppTabProps> = ({ tabs, children, onTabChange }) => {
   const { colors } = useAppTheme();
@@ -24,10 +28,10 @@ export const AppTab: FC<AppTabProps> = ({ tabs, children, onTabChange }) => {
         flexDirection="row"
         padding={3}
         marginVertical={12}
-        backgroundColor={colors.primaryLightColor}
-      >
+        backgroundColor={colors.primaryLightColor}>
         {tabs.map((item, index) => (
           <AppTouchable
+            disabled={item === 'Bank cards'} // todo remove it when tab will be implemented
             key={item}
             borderRadius={4}
             onPress={() => setActiveTab(index)}
@@ -37,11 +41,11 @@ export const AppTab: FC<AppTabProps> = ({ tabs, children, onTabChange }) => {
             justifyContent="center"
             backgroundColor={
               index === activeTab ? colors.buttonPrimary : colors.transparent
-            }
-          >
+            }>
             <AppText
-              color={index === activeTab ? colors.white : colors.inputItemColor}
-            >
+              color={
+                index === activeTab ? colors.white : colors.inputItemColor
+              }>
               {item}
             </AppText>
           </AppTouchable>

@@ -23,14 +23,42 @@ export const WithdrawalItem: FC<{ item: WithdrawalTransaction }> = ({
 
   const { navigate } = useNavigation<NavigationProp<WalletParamList>>();
 
+  const networkFee = useMemo(
+    () => (
+      <AmountValue
+        value={Number(item.networkFeeUsd)}
+        Component={<AppText textStyle="medium_14_20" />}
+      />
+    ),
+    [item.networkFeeUsd],
+  );
+
+  const processingFee = useMemo(
+    () => (
+      <AmountValue
+        value={Number(item.commissionTotalAmount)}
+        Component={<AppText textStyle="medium_14_20" />}
+      />
+    ),
+    [item.commissionTotalAmount],
+  );
+
   const renderedRows = useMemo(
     () => ({
       'Transaction type': capitalizeFirstLetter(item.transactionType),
+      'Processing fee': processingFee,
+      'Network Fee': networkFee,
       'Asset type': 'Crypto',
       Receiver: item.externalDestinationAddress,
       Date: dayjs(item.createdAt).format('MMM DD, YYYY [at] HH:MM'),
     }),
-    [item.createdAt, item.externalDestinationAddress, item.transactionType],
+    [
+      item.createdAt,
+      item.externalDestinationAddress,
+      item.transactionType,
+      networkFee,
+      processingFee,
+    ],
   );
 
   const onPress = useCallback(() => {
@@ -54,12 +82,15 @@ export const WithdrawalItem: FC<{ item: WithdrawalTransaction }> = ({
       flexDirection="row"
       alignItems="center"
       borderColor={colors.inputBorderColor}>
-      <AppIcon
-        marginRight={10}
-        name="ExternalLink"
-        color={colors.inputLabelColor}
-      />
-      <AppView flex={1}>
+      <AppView width="10%">
+        <AppIcon
+          marginRight={10}
+          name="ExternalLink"
+          color={colors.inputLabelColor}
+        />
+      </AppView>
+
+      <AppView width="45%">
         <AppView flexDirection="row">
           <AppText textStyle="medium_14_20">
             {capitalizeFirstLetter(item.transactionType)}{' '}
@@ -77,7 +108,6 @@ export const WithdrawalItem: FC<{ item: WithdrawalTransaction }> = ({
 
         <AppText
           ellipsizeMode="middle"
-          width={100}
           numberOfLines={1}
           textStyle="regular_12_18">
           <AppText color={colors.inputLabelColor}>To </AppText>
@@ -86,7 +116,7 @@ export const WithdrawalItem: FC<{ item: WithdrawalTransaction }> = ({
           </AppText>
         </AppText>
       </AppView>
-      <AppView width="50%" alignItems="flex-end">
+      <AppView width="45%" alignItems="flex-end">
         <AppView flexDirection="row">
           <AppText textStyle="medium_14_20" color={colors.negativeStatus}>
             {'- '}

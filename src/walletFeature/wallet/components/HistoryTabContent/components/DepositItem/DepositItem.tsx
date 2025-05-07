@@ -19,14 +19,25 @@ export const DepositItem: FC<{ item: DepositTransaction }> = ({ item }) => {
   const { colors } = useAppTheme();
   const { navigate } = useNavigation<NavigationProp<WalletParamList>>();
 
+  const networkFee = useMemo(
+    () => (
+      <AmountValue
+        value={Number(item.networkFeeUsd ?? 0)}
+        Component={<AppText textStyle="medium_14_20" />}
+      />
+    ),
+    [item.networkFeeUsd],
+  );
+
   const renderedRows = useMemo(
     () => ({
       'Transaction type': 'Receive',
+      'Network fee': networkFee,
       'Asset type': 'Crypto',
       Sender: item.externalSenderAddress,
       Date: dayjs(item.createdAt).format('MMM DD, YYYY [at] HH:MM'),
     }),
-    [item.createdAt, item.externalSenderAddress],
+    [item.createdAt, item.externalSenderAddress, networkFee],
   );
 
   const onPress = useCallback(() => {
@@ -50,12 +61,14 @@ export const DepositItem: FC<{ item: DepositTransaction }> = ({ item }) => {
       flexDirection="row"
       alignItems="center"
       borderColor={colors.inputBorderColor}>
-      <AppIcon
-        marginRight={10}
-        name="ArrowDown"
-        color={colors.inputLabelColor}
-      />
-      <AppView flex={1}>
+      <AppView width="10%">
+        <AppIcon
+          marginRight={10}
+          name="ArrowDown"
+          color={colors.inputLabelColor}
+        />
+      </AppView>
+      <AppView width="45%">
         <AppView flexDirection="row">
           <AppText textStyle="medium_14_20">Receive</AppText>
           <AppView
@@ -70,7 +83,6 @@ export const DepositItem: FC<{ item: DepositTransaction }> = ({ item }) => {
         </AppView>
         <AppText
           ellipsizeMode="middle"
-          width={100}
           numberOfLines={1}
           textStyle="regular_12_18">
           <AppText color={colors.inputLabelColor}>From</AppText>{' '}
@@ -79,7 +91,7 @@ export const DepositItem: FC<{ item: DepositTransaction }> = ({ item }) => {
           </AppText>
         </AppText>
       </AppView>
-      <AppView width="50%">
+      <AppView width="45%">
         <AppView flexDirection="row" justifyContent="flex-end">
           <AppText textStyle="medium_14_20" color={colors.positiveStatus}>
             +

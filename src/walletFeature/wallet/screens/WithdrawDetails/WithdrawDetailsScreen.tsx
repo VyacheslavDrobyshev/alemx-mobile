@@ -39,8 +39,8 @@ import {
 } from '@app/walletFeature/wallet/screens/Wallet/constants';
 import {
   formatNumber,
-  getDecimals,
   isNumber,
+  roundTo,
 } from '@app/walletFeature/wallet/common/utils/number';
 import _ from 'lodash';
 import { AppActivityIndicator } from '@app/walletFeature/wallet/common/components/AppActivityIndicator/AppActivityIndicator';
@@ -119,12 +119,10 @@ export const WithdrawDetailsScreen: FC = () => {
     [item.cryptoAsset.id, navigate],
   );
   const validationSchema = useWithdrawFormValidation(
-    formatNumber(
+    roundTo(
       Number(item.balancesByAsset?.balance ?? 0),
-      undefined,
-      0,
-      getDecimals(item.cryptoAsset.decimals),
-    ),
+      item.cryptoAsset.decimals ?? 4,
+    ).toString(),
   );
 
   const initialValues = useMemo(() => getWithdrawFormInitialValues(), []);
@@ -227,24 +225,31 @@ export const WithdrawDetailsScreen: FC = () => {
             <InputAmountRightContent
               onPress={() =>
                 fields.amount.setValue(
-                  Number(item.balancesByAsset?.balance).toString(),
+                  roundTo(
+                    Number(item.balancesByAsset?.balance ?? 0),
+                    item.cryptoAsset.decimals ?? 4,
+                  ).toString(),
                 )
               }
               item={item.cryptoAsset}
             />
           }
         />
-        <AppText color={colors.inputLabelColor}>
-          Available:{' '}
-          <AppText>
-            {formatNumber(
-              Number(item.balancesByAsset?.balance ?? 0),
-              undefined,
-              2,
-              getDecimals(item.cryptoAsset.decimals),
-            )}
-          </AppText>
-        </AppText>
+        <AppView flexDirection="row">
+          <AppText color={colors.inputLabelColor}>Available: </AppText>
+          <AmountValue
+            hideNegative
+            value={Number(item.balancesByAsset?.balance ?? 0)}
+            Component={
+              <AppText
+                textAlign="right"
+                ellipsizeMode="middle"
+                numberOfLines={1}
+                textStyle="regular_14_20"
+              />
+            }
+          />
+        </AppView>
       </AppView>
       <AppView marginVertical={10}>
         <AppView flexDirection="row" justifyContent="space-between">
