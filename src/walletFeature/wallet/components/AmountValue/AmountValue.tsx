@@ -12,11 +12,12 @@ import { Tooltip } from '@app/walletFeature/wallet/components/AmountValue/Amount
 import { formatNumber } from '@app/walletFeature/wallet/common/utils/number';
 
 export const AmountValue: FC<{
+  symbol?: string;
   value: string | number;
   hideNegative?: boolean;
   Component?: ReactElement;
   hideTooltip?: boolean;
-}> = ({ value, Component, hideNegative, hideTooltip }) => {
+}> = ({ value, Component, hideNegative, hideTooltip, symbol }) => {
   const [isTooltipShown, setIsTooltipShown] = useState(false);
 
   const toggleTooltip = useCallback(() => {
@@ -34,8 +35,12 @@ export const AmountValue: FC<{
 
   const content =
     decimals >= 4
-      ? `${formatNumber(Number(value), undefined, 2, 4)}...`
-      : formatNumber(Number(value), undefined, 2, 4);
+      ? `${formatNumber(Number(value), undefined, 2, 4)}...${
+          symbol ? ` ${symbol}` : ''
+        }`
+      : `${formatNumber(Number(value), undefined, 2, 4)}${
+          symbol ? ` ${symbol}` : ''
+        }`;
 
   const renderedComponent = isValidElement(Component) ? (
     cloneElement(Component, {

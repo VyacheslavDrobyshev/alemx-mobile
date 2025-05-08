@@ -26,21 +26,23 @@ export const WithdrawalItem: FC<{ item: WithdrawalTransaction }> = ({
   const networkFee = useMemo(
     () => (
       <AmountValue
+        symbol={item.cryptoAsset.symbol}
         value={Number(item.networkFeeUsd)}
         Component={<AppText textStyle="medium_14_20" />}
       />
     ),
-    [item.networkFeeUsd],
+    [item.cryptoAsset.symbol, item.networkFeeUsd],
   );
 
   const processingFee = useMemo(
     () => (
       <AmountValue
+        symbol={item.cryptoAsset.symbol}
         value={Number(item.commissionTotalAmount)}
         Component={<AppText textStyle="medium_14_20" />}
       />
     ),
-    [item.commissionTotalAmount],
+    [item.commissionTotalAmount, item.cryptoAsset.symbol],
   );
 
   const renderedRows = useMemo(

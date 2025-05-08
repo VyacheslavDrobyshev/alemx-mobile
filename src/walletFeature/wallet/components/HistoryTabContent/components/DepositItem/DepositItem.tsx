@@ -22,11 +22,12 @@ export const DepositItem: FC<{ item: DepositTransaction }> = ({ item }) => {
   const networkFee = useMemo(
     () => (
       <AmountValue
+        symbol={item.cryptoAsset.symbol}
         value={Number(item.networkFeeUsd ?? 0)}
         Component={<AppText textStyle="medium_14_20" />}
       />
     ),
-    [item.networkFeeUsd],
+    [item.cryptoAsset.symbol, item.networkFeeUsd],
   );
 
   const renderedRows = useMemo(

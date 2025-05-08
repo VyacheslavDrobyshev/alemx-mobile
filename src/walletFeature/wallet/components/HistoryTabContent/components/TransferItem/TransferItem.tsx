@@ -31,11 +31,12 @@ export const TransferItem: FC<{ item: TransferTransaction }> = ({ item }) => {
   const processingFee = useMemo(
     () => (
       <AmountValue
+        symbol={item.cryptoAsset.symbol}
         value={Number(item.commissionTotalAmount)}
         Component={<AppText textStyle="medium_14_20" />}
       />
     ),
-    [item.commissionTotalAmount],
+    [item.commissionTotalAmount, item.cryptoAsset.symbol],
   );
 
   const renderedRows: { [key: string]: string | React.ReactNode } = useMemo(
