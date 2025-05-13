@@ -1,9 +1,17 @@
 import { FC, useCallback, useMemo } from 'react';
 import { SwapTransaction } from '@app/walletFeature/wallet/redux/types';
-import { AppIcon, AppText, AppTouchable, AppView } from '@app/walletFeature/wallet/common/components';
+import {
+  AppIcon,
+  AppText,
+  AppTouchable,
+  AppView,
+} from '@app/walletFeature/wallet/common/components';
 import { useAppTheme } from '@app/walletFeature/wallet/common/theme';
 import { capitalizeFirstLetter } from '@app/walletFeature/wallet/common/utils/common';
-import { formatNumber, getDecimals } from '@app/walletFeature/wallet/common/utils/number';
+import {
+  formatNumber,
+  getDecimals,
+} from '@app/walletFeature/wallet/common/utils/number';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { WalletParamList } from '@app/walletFeature/wallet/navigation/types';
 import dayjs from 'dayjs';
@@ -48,7 +56,7 @@ export const SwapItem: FC<SwatItemProps> = ({ item }) => {
       'Transaction type': capitalizeFirstLetter(item.transactionType),
       'Asset type': 'Crypto',
       Receiver: 'item.externalDestinationAddress',
-      Date: dayjs(item.createdAt).format('MMM DD, YYYY [at] HH:MM'),
+      Date: dayjs(item.createdAt).format('MMM DD, YYYY [at] HH:mm'),
     }),
     [item.createdAt, item.transactionType],
   );

@@ -36,7 +36,7 @@ export const DepositItem: FC<{ item: DepositTransaction }> = ({ item }) => {
       'Network fee': networkFee,
       'Asset type': 'Crypto',
       Sender: item.externalSenderAddress,
-      Date: dayjs(item.createdAt).format('MMM DD, YYYY [at] HH:MM'),
+      Date: dayjs(item.createdAt).format('MMM DD, YYYY [at] HH:mm'),
     }),
     [item.createdAt, item.externalSenderAddress, networkFee],
   );

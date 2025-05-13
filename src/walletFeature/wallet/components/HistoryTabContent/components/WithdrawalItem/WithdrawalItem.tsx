@@ -52,7 +52,7 @@ export const WithdrawalItem: FC<{ item: WithdrawalTransaction }> = ({
       'Network Fee': networkFee,
       'Asset type': 'Crypto',
       Receiver: item.externalDestinationAddress,
-      Date: dayjs(item.createdAt).format('MMM DD, YYYY [at] HH:MM'),
+      Date: dayjs(item.createdAt).format('MMM DD, YYYY [at] HH:mm'),
     }),
     [
       item.createdAt,

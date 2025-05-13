@@ -44,7 +44,7 @@ export const TransferItem: FC<{ item: TransferTransaction }> = ({ item }) => {
       'Transaction type': capitalizeFirstLetter(item.transactionType),
       'Processing fee': processingFee,
       Receiver: item.receiverUser.username,
-      Date: dayjs(item.createdAt).format('MMM DD, YYYY [at] HH:MM'),
+      Date: dayjs(item.createdAt).format('MMM DD, YYYY [at] HH:mm'),
     }),
     [
       item.createdAt,
