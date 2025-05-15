@@ -171,7 +171,6 @@ export function AccountValue() {
             disabled={
               (id === AccountValueButtonsId.Withdraw &&
                 !unifiedBalance?.totalBalanceUsd) ||
-              id === AccountValueButtonsId.Swap ||
               id === AccountValueButtonsId.Buy
             }
             onPress={() => onPressHandler(id)}
@@ -182,7 +181,6 @@ export function AccountValue() {
               color={
                 (id === AccountValueButtonsId.Withdraw &&
                   !unifiedBalance?.totalBalanceUsd) ||
-                id === AccountValueButtonsId.Swap ||
                 id === AccountValueButtonsId.Buy
                   ? colors.inputItemColor
                   : colors.white
@@ -192,7 +190,6 @@ export function AccountValue() {
               color={
                 (id === AccountValueButtonsId.Withdraw &&
                   !unifiedBalance?.totalBalanceUsd) ||
-                id === AccountValueButtonsId.Swap ||
                 id === AccountValueButtonsId.Buy
                   ? colors.inputItemColor
                   : colors.white

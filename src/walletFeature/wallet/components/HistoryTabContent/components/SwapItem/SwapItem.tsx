@@ -1,5 +1,8 @@
 import { FC, useCallback, useMemo } from 'react';
-import { SwapTransaction } from '@app/walletFeature/wallet/redux/types';
+import {
+  CryptoAssetTransaction,
+  SwapTransaction,
+} from '@app/walletFeature/wallet/redux/types';
 import {
   AppIcon,
   AppText,
@@ -7,7 +10,10 @@ import {
   AppView,
 } from '@app/walletFeature/wallet/common/components';
 import { useAppTheme } from '@app/walletFeature/wallet/common/theme';
-import { capitalizeFirstLetter } from '@app/walletFeature/wallet/common/utils/common';
+import {
+  capitalizeFirstLetter,
+  getStatusColor,
+} from '@app/walletFeature/wallet/common/utils/common';
 import {
   formatNumber,
   getDecimals,
@@ -16,55 +22,123 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { WalletParamList } from '@app/walletFeature/wallet/navigation/types';
 import dayjs from 'dayjs';
 import { WalletRoute } from '@app/walletFeature/wallet/navigation/constants';
-import { TransactionDetailsHeader } from '@app/walletFeature/wallet/components/HistoryTabContent/components/TransactionDetailsHeader/TransactionDetailsHeader';
+import { AppImage } from '@app/walletFeature/wallet/common/components/AppImage/AppImage';
 
 export type SwatItemProps = {
   item: SwapTransaction;
+  amount: number;
+  asset: CryptoAssetTransaction;
 };
-// todo finish when swap will be implemented
-export const SwapItemCoin: FC<SwatItemProps> = ({ item }) => {
+
+export const SwapItemCoin: FC<Omit<SwatItemProps, 'item'>> = ({
+  amount,
+  asset,
+}) => {
   const { colors } = useAppTheme();
 
   return (
     <AppView flexDirection="row" alignItems="center" gap={5}>
-      <AppView
-        height={12}
-        width={12}
-        borderRadius={12}
-        backgroundColor={colors.buttonPrimary}
-      />
-      <AppText textStyle="medium_14_20">USDC</AppText>
+      {asset.image ? (
+        <AppImage height={12} width={12} borderRadius={12} uri={asset.image} />
+      ) : (
+        <AppView
+          height={12}
+          width={12}
+          borderRadius={12}
+          backgroundColor={colors.buttonPrimary}
+        />
+      )}
+
+      <AppText textStyle="medium_14_20">{asset.symbol}</AppText>
       <AppText color={colors.inputLabelColor} textStyle="regular_14_20">
-        {formatNumber(
-          4353.3453,
-          'currency',
-          0,
-          getDecimals(item.cryptoAsset.decimals),
-        )}
+        {formatNumber(amount, undefined, 2, getDecimals(asset.decimals))}
       </AppText>
     </AppView>
   );
 };
 
-export const SwapItem: FC<SwatItemProps> = ({ item }) => {
+const SwapTransactionHeader: FC<{ item: SwapTransaction }> = ({ item }) => {
+  const { colors } = useAppTheme();
+  return (
+    <AppView alignItems="center" marginBottom={25}>
+      <AppView flexDirection="row" alignItems="center">
+        {item.cryptoAsset.image ? (
+          <AppImage height={24} width={24} uri={item.cryptoAsset.image} />
+        ) : (
+          <AppView
+            height={24}
+            width={24}
+            borderRadius={24}
+            backgroundColor={colors.buttonPrimary}
+          />
+        )}
+        <AppText marginLeft={10} textStyle="medium_26_32">
+          {item.cryptoAsset.symbol}{' '}
+          {formatNumber(
+            item.amount,
+            undefined,
+            2,
+            getDecimals(item.cryptoAsset.decimals),
+          )}
+        </AppText>
+      </AppView>
+      <AppView flexDirection="row" marginVertical={10}>
+        <AppIcon
+          marginRight={10}
+          name="Switch"
+          color={colors.inputLabelColor}
+        />
+        <AppText color={colors.inputLabelColor}>Exchange to</AppText>
+      </AppView>
+      <AppView flexDirection="row" alignItems="center">
+        {item.toCryptoAsset.image ? (
+          <AppImage height={24} width={24} uri={item.toCryptoAsset.image} />
+        ) : (
+          <AppView
+            height={24}
+            width={24}
+            borderRadius={24}
+            backgroundColor={colors.buttonPrimary}
+          />
+        )}
+        <AppText marginLeft={10} textStyle="medium_26_32">
+          {item.toCryptoAsset.symbol}{' '}
+          {formatNumber(
+            item.amount,
+            undefined,
+            2,
+            getDecimals(item.toCryptoAsset.decimals),
+          )}
+        </AppText>
+      </AppView>
+    </AppView>
+  );
+};
+
+export const SwapItem: FC<Pick<SwatItemProps, 'item'>> = ({ item }) => {
   const { colors } = useAppTheme();
 
   const { navigate } = useNavigation<NavigationProp<WalletParamList>>();
 
   const renderedRows = useMemo(
     () => ({
-      'Transaction type': capitalizeFirstLetter(item.transactionType),
-      'Asset type': 'Crypto',
-      Receiver: 'item.externalDestinationAddress',
+      'Transaction type': 'Exchange',
+      Status: (
+        <AppText
+          color={getStatusColor(item.status, colors)}
+          textStyle="medium_14_20">
+          {capitalizeFirstLetter(item.status)}
+        </AppText>
+      ),
       Date: dayjs(item.createdAt).format('MMM DD, YYYY [at] HH:mm'),
     }),
-    [item.createdAt, item.transactionType],
+    [colors, item.createdAt, item.status],
   );
 
   const onPress = useCallback(() => {
     navigate(WalletRoute.TransactionDetails, {
-      header: <TransactionDetailsHeader item={item} />,
-      title: `Withdraw ${item.cryptoAsset.symbol}`,
+      header: <SwapTransactionHeader item={item} />,
+      title: `Exchange ${item.cryptoAsset.symbol}`,
       rows: renderedRows,
     });
   }, [item, navigate, renderedRows]);
@@ -84,12 +158,14 @@ export const SwapItem: FC<SwatItemProps> = ({ item }) => {
       borderColor={colors.inputBorderColor}>
       <AppIcon marginRight={10} name="Switch" color={colors.inputLabelColor} />
       <AppView justifyContent="space-between" flex={1}>
-        <SwapItemCoin item={item} />
-        <SwapItemCoin item={item} />
+        <SwapItemCoin amount={item.amount} asset={item.cryptoAsset} />
+        <SwapItemCoin amount={item.toAmount} asset={item.toCryptoAsset} />
       </AppView>
       <AppView marginLeft={10} justifyContent="center" alignItems="flex-end">
-        <AppText color={colors.successToastIcon} textStyle="medium_14_20">
-          Success
+        <AppText
+          color={getStatusColor(item.status, colors)}
+          textStyle="medium_14_20">
+          {capitalizeFirstLetter(item.status)}
         </AppText>
       </AppView>
     </AppTouchable>

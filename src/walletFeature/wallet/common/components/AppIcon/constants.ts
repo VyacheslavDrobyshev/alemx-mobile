@@ -20,6 +20,7 @@ import Copy from './icons/Copy';
 import Search from './icons/Search';
 import TransferTop from './icons/TransferTop';
 import Bell from './icons/Bell';
+import ChevronBottom from './icons/ChevronBottom';
 
 export const appIcons = {
   Message,
@@ -44,4 +45,5 @@ export const appIcons = {
   Search,
   TransferTop,
   Bell,
+  ChevronBottom,
 } as const;

@@ -43,12 +43,18 @@ export const TransferItem: FC<{ item: TransferTransaction }> = ({ item }) => {
     () => ({
       'Transaction type': capitalizeFirstLetter(item.transactionType),
       'Processing fee': processingFee,
-      Receiver: item.receiverUser.username,
+      [isReceiver ? 'Sender' : 'Receiver']: isReceiver
+        ? item.senderUser.username || item.senderUser.email
+        : item.receiverUser.username || item.receiverUser.email,
       Date: dayjs(item.createdAt).format('MMM DD, YYYY [at] HH:mm'),
     }),
     [
+      isReceiver,
       item.createdAt,
+      item.receiverUser.email,
       item.receiverUser.username,
+      item.senderUser.email,
+      item.senderUser.username,
       item.transactionType,
       processingFee,
     ],
@@ -131,8 +137,12 @@ export const TransferItem: FC<{ item: TransferTransaction }> = ({ item }) => {
           ellipsizeMode="middle"
           numberOfLines={1}
           textStyle="regular_12_18">
-          <AppText color={colors.inputLabelColor}>To</AppText>{' '}
-          {item.receiverUser.username || item.receiverUser.email}
+          <AppText color={colors.inputLabelColor}>
+            {isReceiver ? 'From' : 'To'}
+          </AppText>{' '}
+          {isReceiver
+            ? item.senderUser.username || item.senderUser.email
+            : item.receiverUser.username || item.receiverUser.email}
         </AppText>
       </AppView>
       <AppView width="45%" alignItems="flex-end">

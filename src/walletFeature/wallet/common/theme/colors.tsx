@@ -30,6 +30,9 @@ export const lightThemeColors = {
   negativeStatus: '#E3423F',
   positiveStatus: '#00AB6D',
   pendingStatus: '#D2A63D',
+
+  attentionBackground: '#331D2D',
+  attentionBorder: '#E3423F',
 } as const;
 
 export const darkThemeColors = {
@@ -64,4 +67,7 @@ export const darkThemeColors = {
   negativeStatus: '#E3423F',
   positiveStatus: '#00AB6D',
   pendingStatus: '#D2A63D',
+
+  attentionBackground: '#331D2D',
+  attentionBorder: '#E3423F',
 } as const;

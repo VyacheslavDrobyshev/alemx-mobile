@@ -142,7 +142,7 @@ export const HistoryTabContent: FC<
         case 3:
           void dispatch(
             getTransactionsThunk({
-              transaction_type: TransactionType.Base,
+              transaction_type: TransactionType.Swap,
               cursor: undefined,
               limit: paginationLimit,
             }),
@@ -199,7 +199,7 @@ export const HistoryTabContent: FC<
         placeholder="exchanges"
         renderItem={renderSwapItem}
         assetSymbol={assetSymbol}
-        transactionType={TransactionType.Base}
+        transactionType={TransactionType.Swap}
       />
     </AppTab>
   );

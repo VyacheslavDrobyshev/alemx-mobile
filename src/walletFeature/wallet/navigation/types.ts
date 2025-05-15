@@ -1,5 +1,6 @@
 import {
   AppUserWalletsDto,
+  AssetsData,
   UnifiedBalanceByNetworkDto,
   UserData,
 } from '@app/walletFeature/wallet/redux/types';
@@ -29,5 +30,8 @@ export type WalletParamList = {
   };
   [WalletRoute.NetworkLogger]: undefined;
   [WalletRoute.Swap]: undefined;
-  [WalletRoute.SwapAssets]: undefined;
+  [WalletRoute.SwapAssets]: {
+    onChooseToken: (item: AssetsData | UnifiedBalanceByNetworkDto) => void;
+    type: 'current' | 'target';
+  };
 };

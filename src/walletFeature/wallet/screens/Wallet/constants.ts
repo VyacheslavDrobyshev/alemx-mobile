@@ -12,7 +12,7 @@ export enum LevelFee {
 }
 
 export enum TransactionType {
-  Base = 'base',
+  Swap = 'swap',
   Transfer = 'transfer',
   Deposit = 'deposit',
   Withdrawal = 'withdrawal',
@@ -32,3 +32,12 @@ export const walletSettings = [
     subTitle: 'Assets will show which networks they are divided into.',
   },
 ];
+
+export enum SwapStatuses {
+  Submitted = 'submitted',
+  Pending = 'pending',
+  Processing = 'processing',
+  Completed = 'completed',
+  Failed = 'failed',
+  Cancelled = 'cancelled',
+}

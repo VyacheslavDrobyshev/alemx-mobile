@@ -28,7 +28,7 @@ export const TransactionDetailsHeader: FC<{
         return userInfo?.id === (item as TransferTransaction).receiverUser.id
           ? Number(item.amount) - Number(commission)
           : -Number(item.amount);
-      case TransactionType.Base:
+      case TransactionType.Swap:
         return item.amount;
       default:
         const _: never = item.transactionType;

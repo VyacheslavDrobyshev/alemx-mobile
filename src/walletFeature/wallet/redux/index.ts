@@ -39,7 +39,7 @@ const initialPersistState: AppUserWalletsState = {
   },
   isUsersLoading: false,
   transactionsByType: {
-    [TransactionType.Base]: {
+    [TransactionType.Swap]: {
       data: [],
       next_cursor: undefined,
     },

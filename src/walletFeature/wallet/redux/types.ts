@@ -1,5 +1,6 @@
 import {
   LevelFee,
+  SwapStatuses,
   TransactionType,
   WalletSettingsId,
 } from '@app/walletFeature/wallet/screens/Wallet/constants';
@@ -209,7 +210,7 @@ export type UnionTransaction =
 export type TransferTransaction = {
   externalId: string;
   transactionType: TransactionType;
-  status: string;
+  status: SwapStatuses;
   id: number;
   createdAt: string;
   cryptoAssetId: number;
@@ -265,13 +266,35 @@ export type TransferTransaction = {
   }[];
 };
 export type SwapTransaction = {
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+  externalId: string;
+  cryptoAssetId: number;
+  transactionHash: string;
+  status: SwapStatuses;
+  senderUser: null;
+  receiverUser: null;
+  externalSenderAddress: null;
+  externalDestinationAddress: null;
+  toCryptoAssetId: number;
+  toCryptoAsset: CryptoAssetTransaction;
+  toAmount: number;
+  toAmountUsd: number;
   transactionType: TransactionType;
   cryptoAsset: CryptoAssetTransaction;
-  createdAt: string;
   amount: number;
   amountUsd: number;
   networkFee: string;
   networkFeeUsd: string;
+  user: {
+    id: number;
+    createdAt: string;
+    updatedAt: string;
+    username: string;
+    email: string;
+    vaultAccountId: number;
+  };
   commissionTotalAmount: string;
   commissions: {
     id: number;
@@ -290,7 +313,6 @@ export type SwapTransaction = {
       commissionPercentage: number;
     };
   }[];
-  //   todo add more props
 };
 export type DepositTransaction = {
   transactionType: TransactionType;
@@ -301,7 +323,7 @@ export type DepositTransaction = {
   networkFee: string;
   networkFeeUsd: string;
   externalId: string;
-  status: string;
+  status: SwapStatuses;
   id: number;
   cryptoAssetId: 121;
   transactionHash: string;
@@ -340,7 +362,7 @@ export type DepositTransaction = {
 export type WithdrawalTransaction = {
   externalId: string;
   transactionType: TransactionType;
-  status: string;
+  status: SwapStatuses;
   createdAt: string;
   userId: number;
   externalDestinationAddress: string;
